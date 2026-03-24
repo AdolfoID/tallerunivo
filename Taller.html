@@ -1,722 +1,1750 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>POO Lab: Clases y Objetos</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POO Lab — UNIVO | Clases y Objetos</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --univo-blue: #003C7E;
+    --univo-blue-mid: #0057B8;
+    --univo-blue-light: #1A6FCC;
+    --univo-gold: #F5A623;
+    --univo-gold-dark: #D4891A;
+    --bg: #0D1117;
+    --bg2: #161B22;
+    --bg3: #21262D;
+    --bg4: #2D333B;
+    --text: #E6EDF3;
+    --text-muted: #8B949E;
+    --border: #30363D;
+    --green: #3FB950;
+    --teal: #58A6FF;
+    --purple: #BC8CFF;
+    --orange: #FF9A00;
+    --red: #FF6B6B;
+    --yellow: #E3B341;
+    --pink: #F778BA;
+    --vscode-bg: #1E1E1E;
+    --vscode-sidebar: #252526;
+    --vscode-tab: #2D2D2D;
+    --vscode-tab-active: #1E1E1E;
+    --vscode-line-num: #858585;
+    --vscode-border: #3C3C3C;
+    --vscode-keyword: #569CD6;
+    --vscode-class: #4EC9B0;
+    --vscode-fn: #DCDCAA;
+    --vscode-string: #CE9178;
+    --vscode-num: #B5CEA8;
+    --vscode-comment: #6A9955;
+    --vscode-param: #9CDCFE;
+    --vscode-this: #569CD6;
+    --vscode-op: #D4D4D4;
+    --vscode-punc: #D4D4D4;
+    --radius: 12px;
+    --shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
 
-        body {
-            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
-            padding: 2rem 1rem;
-        }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .poo-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 2rem;
-            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.2);
-            overflow: hidden;
-        }
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-        /* Header principal */
-        .header {
-            background: linear-gradient(135deg, #1e3c5c 0%, #2a4f6e 100%);
-            padding: 2rem;
-            color: white;
-            text-align: center;
-        }
+  /* ===== HEADER ===== */
+  .header {
+    background: linear-gradient(135deg, var(--univo-blue) 0%, #001F4A 60%, #000E2A 100%);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 2px solid var(--univo-gold);
+  }
 
-        .header h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(0,87,184,0.35) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 80% at 10% 20%, rgba(245,166,35,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
 
-        .header p {
-            opacity: 0.9;
-            max-width: 700px;
-            margin: 0 auto;
-        }
+  .header-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 2.5rem;
+    position: relative;
+    z-index: 1;
+  }
 
-        /* Navegación principal */
-        .main-nav {
-            display: flex;
-            background: #f8fafc;
-            border-bottom: 2px solid #e2e8f0;
-            padding: 0 1rem;
-            gap: 0.25rem;
-            flex-wrap: wrap;
-        }
+  /* UNIVO Logo SVG (generated) */
+  .univo-logo {
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 18px rgba(245,166,35,0.4));
+  }
 
-        .nav-item {
-            padding: 1rem 1.8rem;
-            background: transparent;
-            border: none;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #475569;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-            border-radius: 2rem 2rem 0 0;
-        }
+  .header-text { }
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(245,166,35,0.15);
+    border: 1px solid rgba(245,166,35,0.4);
+    color: var(--univo-gold);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin-bottom: 0.7rem;
+  }
 
-        .nav-item.active {
-            background: white;
-            color: #1e3c5c;
-            border-bottom: 3px solid #1e3c5c;
-        }
+  .header-title {
+    font-size: clamp(1.6rem, 3vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: #fff;
+    margin-bottom: 0.4rem;
+  }
 
-        /* Paneles de contenido */
-        .panel {
-            display: none;
-            padding: 2rem;
-            animation: fadeIn 0.3s ease;
-        }
+  .header-title span {
+    background: linear-gradient(90deg, var(--univo-gold), #FFD57E);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
-        .panel.active {
-            display: block;
-        }
+  .header-sub {
+    color: rgba(230,237,243,0.7);
+    font-size: 0.95rem;
+    font-weight: 400;
+  }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px);}
-            to { opacity: 1; transform: translateY(0);}
-        }
+  .header-chips {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.8rem;
+  }
 
-        /* Tarjetas y componentes */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
+  .chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(230,237,243,0.8);
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
 
-        .concept-card {
-            background: #fefce8;
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            border: 1px solid #fde68a;
-            transition: transform 0.2s;
-        }
+  /* ===== NAV ===== */
+  .nav-bar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2.5rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    max-width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
 
-        .concept-card:hover {
-            transform: translateY(-4px);
-        }
+  .nav-bar::-webkit-scrollbar { display: none; }
 
-        .code-block {
-            background: #0f172a;
-            color: #e2e8f0;
-            padding: 1.2rem;
-            border-radius: 1rem;
-            font-family: 'Fira Code', 'Cascadia Code', monospace;
-            font-size: 0.85rem;
-            overflow-x: auto;
-            margin: 1rem 0;
-        }
+  .nav-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 1rem 1.6rem;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+    flex-shrink: 0;
+  }
 
-        .activity-box {
-            background: #f1f5f9;
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-left: 5px solid #1e3c5c;
-        }
+  .nav-btn:hover { color: var(--text); }
 
-        .role-badge {
-            display: inline-block;
-            background: #e2e3e5;
-            padding: 0.3rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
+  .nav-btn.active {
+    color: var(--univo-gold);
+    border-bottom-color: var(--univo-gold);
+  }
 
-        .btn {
-            background: #1e3c5c;
-            color: white;
-            border: none;
-            padding: 0.6rem 1.5rem;
-            border-radius: 2rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: inherit;
-            transition: all 0.2s;
-            margin-top: 0.8rem;
-            margin-right: 0.5rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
+  .nav-icon { font-size: 1rem; }
 
-        .btn-secondary {
-            background: #64748b;
-        }
+  /* ===== PANEL ===== */
+  .panel { display: none; animation: fadeUp 0.35s ease; }
+  .panel.active { display: block; }
 
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #1e3c5c;
-            color: #1e3c5c;
-        }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-        .btn-outline:hover {
-            background: #1e3c5c;
-            color: white;
-        }
+  .panel-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2.5rem 2.5rem 3rem;
+  }
 
-        .live-demo {
-            background: #ffffff;
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            border: 1px solid #cbd5e1;
-            margin: 1rem 0;
-        }
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
-        input, select, textarea {
-            padding: 0.6rem 1rem;
-            border-radius: 2rem;
-            border: 1px solid #cbd5e1;
-            font-family: inherit;
-            margin: 0.3rem 0.5rem 0.3rem 0;
-            width: auto;
-        }
+  .section-sub {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+  }
 
-        .team-section {
-            background: linear-gradient(115deg, #fef9e6, #ffffff);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            margin: 1rem 0;
-        }
+  /* ===== CARDS ===== */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
 
-        footer {
-            background: #eef2f5;
-            text-align: center;
-            padding: 1.2rem;
-            font-size: 0.8rem;
-            color: #475569;
-            border-top: 1px solid #cbd5e1;
-        }
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
 
-        @media (max-width: 700px) {
-            .nav-item { padding: 0.7rem 1rem; font-size: 0.85rem; }
-            .panel { padding: 1.2rem; }
-        }
-    </style>
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--univo-blue-mid), var(--univo-gold));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .card:hover {
+    border-color: rgba(0,87,184,0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,60,126,0.3);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .card h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--teal);
+  }
+
+  .card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ===== VS CODE EDITOR ===== */
+  .vscode-wrapper {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--vscode-border);
+    box-shadow: var(--shadow);
+    margin: 1.25rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+  }
+
+  .vscode-titlebar {
+    background: #323233;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #1A1A1A;
+    user-select: none;
+  }
+
+  .vscode-dots { display: flex; gap: 6px; }
+  .vscode-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+  }
+  .dot-red { background: #FF5F56; }
+  .dot-yellow { background: #FFBD2E; }
+  .dot-green { background: #27C93F; }
+
+  .vscode-filename {
+    margin-left: 8px;
+    color: #CCCCCC;
+    font-size: 0.78rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .vscode-ext-badge {
+    background: var(--univo-blue-mid);
+    color: white;
+    font-size: 0.65rem;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+
+  .vscode-tabs {
+    background: var(--vscode-sidebar);
+    display: flex;
+    border-bottom: 1px solid #1A1A1A;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .vscode-tab {
+    padding: 8px 18px;
+    font-size: 0.78rem;
+    color: #8E8E8E;
+    border-right: 1px solid #1A1A1A;
+    white-space: nowrap;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s;
+  }
+
+  .vscode-tab.active {
+    background: var(--vscode-bg);
+    color: #FFFFFF;
+    border-top: 1px solid var(--univo-blue-mid);
+    margin-top: -1px;
+  }
+
+  .vscode-body {
+    background: var(--vscode-bg);
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .vscode-gutter {
+    background: var(--vscode-bg);
+    padding: 14px 0;
+    min-width: 48px;
+    text-align: right;
+    user-select: none;
+    border-right: 1px solid #2A2A2A;
+  }
+
+  .line-num {
+    display: block;
+    color: var(--vscode-line-num);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    padding: 0 12px 0 8px;
+  }
+
+  .vscode-code {
+    padding: 14px 20px;
+    overflow-x: auto;
+    flex: 1;
+    line-height: 1.7;
+  }
+
+  .vscode-code pre { margin: 0; white-space: pre; }
+
+  /* Syntax tokens */
+  .kw { color: var(--vscode-keyword); font-weight: 500; }
+  .cls { color: var(--vscode-class); }
+  .fn { color: var(--vscode-fn); }
+  .str { color: var(--vscode-string); }
+  .num { color: var(--vscode-num); }
+  .cmt { color: var(--vscode-comment); font-style: italic; }
+  .prm { color: var(--vscode-param); }
+  .op { color: var(--vscode-op); }
+  .thi { color: var(--vscode-keyword); }
+
+  .vscode-statusbar {
+    background: var(--univo-blue);
+    padding: 3px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .statusbar-left, .statusbar-right {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  /* ===== ACTIVITY BOX ===== */
+  .activity-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--univo-gold);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .activity-box h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--univo-gold);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .activity-box ul {
+    margin: 0.6rem 0 0.6rem 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.8;
+  }
+
+  .activity-box li { margin-bottom: 2px; }
+
+  code {
+    background: rgba(88,166,255,0.12);
+    color: var(--teal);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82em;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  /* ===== BUTTONS ===== */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    margin-top: 0.6rem;
+    margin-right: 0.5rem;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--univo-blue-mid), var(--univo-blue));
+    color: white;
+    box-shadow: 0 4px 14px rgba(0,87,184,0.35);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,87,184,0.5);
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, var(--univo-gold), var(--univo-gold-dark));
+    color: #000;
+    box-shadow: 0 4px 14px rgba(245,166,35,0.3);
+  }
+
+  .btn-gold:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(245,166,35,0.45);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--teal);
+    border: 1px solid rgba(88,166,255,0.3);
+  }
+
+  .btn-ghost:hover {
+    background: rgba(88,166,255,0.1);
+    border-color: var(--teal);
+  }
+
+  .btn-green {
+    background: linear-gradient(135deg, #238636, #2EA043);
+    color: white;
+  }
+
+  .btn-green:hover { transform: translateY(-1px); }
+
+  /* ===== LIVE DEMO ===== */
+  .live-demo {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .live-demo h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .demo-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0.75rem 0;
+    align-items: center;
+  }
+
+  .demo-input {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: border-color 0.2s;
+    width: 160px;
+  }
+
+  .demo-input:focus {
+    outline: none;
+    border-color: var(--univo-blue-mid);
+  }
+
+  .demo-input::placeholder { color: var(--text-muted); }
+
+  .demo-output {
+    background: #0A0E14;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--green);
+    line-height: 1.7;
+    margin-top: 0.75rem;
+    min-height: 60px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* ===== ROLE CARDS ===== */
+  .role-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.4rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    transition: all 0.2s;
+  }
+
+  .role-card:hover { border-color: var(--univo-blue-mid); }
+
+  .role-num {
+    background: linear-gradient(135deg, var(--univo-blue-mid), var(--univo-blue));
+    color: white;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .role-num.gold { background: linear-gradient(135deg, var(--univo-gold), var(--univo-gold-dark)); color: #000; }
+  .role-num.green { background: linear-gradient(135deg, #238636, #2EA043); }
+  .role-num.purple { background: linear-gradient(135deg, #7B3FE4, #A855F7); }
+
+  .role-info h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+  .role-info p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.5; }
+
+  /* ===== COLLAPSE SECTION ===== */
+  .collapse-toggle {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    text-align: left;
+    transition: all 0.2s;
+    margin-bottom: 0;
+  }
+
+  .collapse-toggle:hover { background: var(--bg4); border-color: var(--univo-blue-mid); }
+  .collapse-arrow { margin-left: auto; transition: transform 0.3s; }
+  .collapse-toggle.open .collapse-arrow { transform: rotate(180deg); }
+
+  .collapse-content {
+    display: none;
+    margin-top: 8px;
+  }
+
+  .collapse-content.open { display: block; animation: fadeUp 0.25s ease; }
+
+  /* ===== TEXTAREA EDITOR ===== */
+  .code-editor-area {
+    background: var(--vscode-bg);
+    border: 1px solid var(--vscode-border);
+    border-radius: 0 0 var(--radius) var(--radius);
+    padding: 14px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: #D4D4D4;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    line-height: 1.7;
+    outline: none;
+    transition: border-color 0.2s;
+    tab-size: 2;
+  }
+
+  .code-editor-area:focus { border-color: var(--univo-blue-mid); }
+
+  .editor-header-bar {
+    background: var(--vscode-sidebar);
+    border: 1px solid var(--vscode-border);
+    border-bottom: none;
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .editor-lang {
+    background: rgba(86,156,214,0.2);
+    color: var(--vscode-keyword);
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  /* ===== RUBRICA ===== */
+  .rubrica-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+  }
+
+  .rubrica-item:last-child { border-bottom: none; }
+
+  .check-icon {
+    width: 20px; height: 20px;
+    background: linear-gradient(135deg, var(--green), #27A843);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem;
+    flex-shrink: 0;
+  }
+
+  /* ===== OPTION CARDS ===== */
+  .option-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.3rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .option-card:hover, .option-card.selected {
+    border-color: var(--univo-blue-mid);
+    background: rgba(0,87,184,0.08);
+  }
+
+  .option-card.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 10px; right: 12px;
+    background: var(--univo-blue-mid);
+    color: white;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+
+  .option-card h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 0.4rem;
+  }
+
+  .option-card p { font-size: 0.82rem; color: var(--text-muted); }
+
+  /* ===== TERMINAL OUTPUT ===== */
+  .terminal {
+    background: #0C0C0C;
+    border-radius: 0 0 var(--radius) var(--radius);
+    border: 1px solid #333;
+    border-top: none;
+    padding: 12px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: #CCC;
+    min-height: 80px;
+    max-height: 220px;
+    overflow-y: auto;
+    line-height: 1.65;
+  }
+
+  .terminal-header {
+    background: #1C1C1C;
+    border: 1px solid #333;
+    border-bottom: 1px solid #222;
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding: 7px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: #888;
+  }
+
+  .terminal .t-prompt { color: var(--green); }
+  .terminal .t-success { color: var(--green); }
+  .terminal .t-error { color: var(--red); }
+  .terminal .t-info { color: var(--teal); }
+  .terminal .t-warn { color: var(--yellow); }
+
+  /* ===== DESAFIO GRID ===== */
+  .desafio-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .desafio-grid { grid-template-columns: 1fr; }
+    .header-grid { grid-template-columns: 1fr; text-align: center; }
+    .univo-logo { margin: 0 auto; }
+  }
+
+  @media (max-width: 600px) {
+    .panel-inner { padding: 1.25rem 1rem; }
+    .nav-btn { padding: 0.75rem 1rem; font-size: 0.8rem; }
+    .nav-bar { padding: 0 0.5rem; }
+    .header-grid { padding: 1.5rem 1.25rem; }
+    .demo-controls { flex-direction: column; }
+    .demo-input { width: 100%; }
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+  }
+
+  .footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .footer-logo-mini {
+    width: 46px; height: 46px;
+    filter: opacity(0.75);
+  }
+
+  .footer-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .footer-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .footer-devs {
+    text-align: right;
+  }
+
+  .footer-devs-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--univo-gold);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .dev-list {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .dev-badge {
+    background: rgba(0,87,184,0.2);
+    border: 1px solid rgba(0,87,184,0.4);
+    color: var(--teal);
+    font-size: 0.78rem;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-weight: 600;
+  }
+
+  .dev-badge.empty {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.1);
+    color: var(--text-muted);
+    border-style: dashed;
+    font-style: italic;
+  }
+
+  .footer-copy {
+    width: 100%;
+    text-align: center;
+    font-size: 0.73rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 2rem 0;
+  }
+
+  /* ===== PROGRESS ===== */
+  .progress-bar-wrap {
+    background: var(--bg3);
+    border-radius: 50px;
+    height: 6px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    border-radius: 50px;
+    background: linear-gradient(90deg, var(--univo-blue-mid), var(--univo-gold));
+    transition: width 0.5s ease;
+  }
+</style>
 </head>
 <body>
-<div class="poo-container">
-    <div class="header">
-        <h1>🧬 Programación Orientada a Objetos</h1>
-        <p>Clases · Objetos · Métodos · Proyectos colaborativos</p>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-grid">
+    <!-- UNIVO Logo Image -->
+    <img src="https://www.univo.edu.sv/wp-content/uploads/2022/01/LOGOESCUDO.png" alt="UNIVO Logo" class="univo-logo" style="object-fit: contain;">
+
+    <div class="header-text">
+      <div class="header-badge">🎓 Universidad de Oriente · UNIVO</div>
+      <h1 class="header-title">
+        Programación <span>Orientada a Objetos</span>
+      </h1>
+      <p class="header-sub">Laboratorio interactivo de Clases, Objetos y Métodos en JavaScript</p>
+      <div class="header-chips">
+        <span class="chip">📅 24 de Marzo, 2026</span>
+        <span class="chip">⏳ 2 Horas de Laboratorio</span>
+        <span class="chip">💻 JavaScript ES6+</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== OBJETIVOS ===== -->
+<section style="background: var(--bg2); padding: 2.5rem 2.5rem 1.5rem; border-bottom: 1px solid var(--border);">
+  <div style="max-width: 1400px; margin: 0 auto;">
+    <h2 class="section-title" style="font-size: 1.4rem; justify-content: center; margin-bottom: 1.5rem;">🎯 Competencias a Desarrollar</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+      <div style="background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--univo-gold); border-radius: 8px; padding: 1.2rem; display: flex; gap: 12px; align-items: flex-start;">
+        <span style="font-size: 1.6rem; line-height: 1;">🏛️</span>
+        <div>
+          <h4 style="color: var(--text); font-size: 0.95rem; font-weight: 700; margin-bottom: 6px;">Comprender los Pilares de POO</h4>
+          <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">Dominar los conceptos de clases, objetos, atributos y métodos para estructurar problemas reales en software.</p>
+        </div>
+      </div>
+      <div style="background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--teal); border-radius: 8px; padding: 1.2rem; display: flex; gap: 12px; align-items: flex-start;">
+        <span style="font-size: 1.6rem; line-height: 1;">⚙️</span>
+        <div>
+          <h4 style="color: var(--text); font-size: 0.95rem; font-weight: 700; margin-bottom: 6px;">Implementar Clases Funcionales</h4>
+          <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">Escribir clases operativas en JavaScript ES6+ con constructores y métodos interactivos que modifiquen el estado.</p>
+        </div>
+      </div>
+      <div style="background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 8px; padding: 1.2rem; display: flex; gap: 12px; align-items: flex-start;">
+        <span style="font-size: 1.6rem; line-height: 1;">🤝</span>
+        <div>
+          <h4 style="color: var(--text); font-size: 0.95rem; font-weight: 700; margin-bottom: 6px;">Colaborar en Equipos de Desarrollo</h4>
+          <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">Distribuir roles técnicos para diseñar y programar colaborativamente soluciones orientadas a objetos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NAV ===== -->
+<nav class="nav-bar">
+  <button class="nav-btn active" data-panel="teoria">
+    <span class="nav-icon">📖</span> Conceptos Esenciales
+  </button>
+  <button class="nav-btn" data-panel="equipo">
+    <span class="nav-icon">🤝</span> Construcción en Equipo
+  </button>
+  <button class="nav-btn" data-panel="proyecto">
+    <span class="nav-icon">🚀</span> Crea tu Proyecto
+  </button>
+  <button class="nav-btn" data-panel="desafio">
+    <span class="nav-icon">⚡</span> Desafío Final
+  </button>
+</nav>
+
+<!-- =============================== -->
+<!-- PANEL 1: CONCEPTOS              -->
+<!-- =============================== -->
+<div class="panel active" id="teoria">
+  <div class="panel-inner">
+    <h2 class="section-title">📌 Fundamentos que debes dominar</h2>
+    <p class="section-sub">Antes de programar, revisa estos conceptos. En clase los aplicarás construyendo soluciones reales con tu equipo.</p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <span class="card-icon">🏷️</span>
+        <h3>Clase</h3>
+        <p>Una <strong>clase</strong> es una plantilla o molde que define atributos y comportamientos comunes a un grupo de objetos.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎯</span>
+        <h3>Objeto</h3>
+        <p>Un <strong>objeto</strong> es una instancia concreta de una clase, con sus propios valores de atributos.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚙️</span>
+        <h3>Atributos</h3>
+        <p>Son los <strong>datos</strong> que describen el estado de un objeto (nombre, edad, saldo, etc.).</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔧</span>
+        <h3>Métodos</h3>
+        <p>Son las <strong>acciones</strong> que puede realizar un objeto (saludar, calcular, mostrar información).</p>
+      </div>
     </div>
 
-    <div class="main-nav">
-        <button class="nav-item active" data-panel="teoria">📖 Conceptos Esenciales</button>
-        <button class="nav-item" data-panel="equipo">🤝 Construcción en Equipo</button>
-        <button class="nav-item" data-panel="proyecto">🚀 Crea tu Proyecto</button>
-        <button class="nav-item" data-panel="desafio">⚡ Desafío Final</button>
-    </div>
-
-    <!-- PANEL 1: CONCEPTOS (preparación previa - Flipped) -->
-    <div class="panel active" id="teoria">
-        <h2>📌 Fundamentos que debes dominar</h2>
-        <p>Antes de programar, revisa estos conceptos. En clase los aplicarás construyendo soluciones reales con tu equipo.</p>
-        
-        <div class="cards-grid">
-            <div class="concept-card">
-                <h3>🏷️ Clase</h3>
-                <p>Una <strong>clase</strong> es una plantilla o molde que define atributos y comportamientos.</p>
-                <div class="code-block">
-// Ejemplo de clase (JavaScript)
-class Mascota {
-    constructor(nombre, especie) {
-        this.nombre = nombre;
-        this.especie = especie;
-        this.energia = 100;
-    }
-    saludar() {
-        return `¡Hola! soy ${this.nombre}`;
-    }
-}
-                </div>
-            </div>
-            <div class="concept-card">
-                <h3>🎯 Objeto</h3>
-                <p>Un <strong>objeto</strong> es una instancia concreta de una clase.</p>
-                <div class="code-block">
-// Creando objetos (instancias)
-let perro = new Mascota("Max", "Perro");
-let gato = new Mascota("Luna", "Gato");
-console.log(perro.saludar()); // ¡Hola! soy Max
-                </div>
-            </div>
-            <div class="concept-card">
-                <h3>⚙️ Atributos y Métodos</h3>
-                <p><strong>Atributos:</strong> datos que describen al objeto.<br>
-                <strong>Métodos:</strong> acciones que puede realizar.</p>
-                <div class="code-block">
-// Atributos: nombre, especie, energia
-// Métodos: saludar(), jugar(), dormir()
-                </div>
-            </div>
+    <!-- VS Code Editor: Mascota -->
+    <div class="vscode-wrapper">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots">
+          <div class="vscode-dot dot-red"></div>
+          <div class="vscode-dot dot-yellow"></div>
+          <div class="vscode-dot dot-green"></div>
         </div>
-
-        <div class="activity-box">
-            <h3>🎬 Prepárate para la sesión</h3>
-            <p>📹 <strong>Material previo:</strong> Revisa los ejemplos y responde mentalmente:</p>
-            <ul style="margin-top: 10px; margin-left: 1.5rem;">
-                <li>¿Qué atributos tendría una clase <code>Estudiante</code>?</li>
-                <li>¿Qué métodos podrías agregar a una clase <code>CuentaBancaria</code>?</li>
-                <li>Trae ideas para construir un mini sistema con clases.</li>
-            </ul>
-            <button id="verEjemploBtn" class="btn btn-outline">🔍 Ver ejemplo de clase</button>
-            <div id="ejemploExtra" style="display: none; margin-top: 1rem;">
-                <div class="code-block">
-// Clase Estudiante con métodos básicos
-class Estudiante {
-    constructor(nombre, edad, carrera) {
-        this.nombre = nombre;
-        this.edad = edad;
-        this.carrera = carrera;
-        this.calificaciones = [];
-    }
-    agregarNota(nota) {
-        if(nota >= 0 && nota <= 20) {
-            this.calificaciones.push(nota);
-            return "Nota agregada";
-        }
-        return "Nota inválida";
-    }
-    obtenerPromedio() {
-        if(this.calificaciones.length === 0) return 0;
-        let suma = this.calificaciones.reduce((a,b) => a + b, 0);
-        return (suma / this.calificaciones.length).toFixed(2);
-    }
-    mostrarInfo() {
-        return `${this.nombre} (${this.edad} años) - ${this.carrera} - Promedio: ${this.obtenerPromedio()}`;
-    }
-}
-                </div>
-            </div>
+        <div class="vscode-filename">
+          <span class="vscode-ext-badge">JS</span>
+          mascota.js — POO Lab UNIVO
         </div>
-    </div>
-
-    <!-- PANEL 2: CONSTRUCCIÓN EN EQUIPO (Aprendizaje Cooperativo) -->
-    <div class="panel" id="equipo">
-        <h2>🤝 Construyendo juntos: Sistema de Gestión</h2>
-        <p>Cada equipo organizará sus roles para diseñar una clase funcional. La colaboración es clave.</p>
-
-        <div class="team-section">
-            <h3>📋 Roles del equipo (4 personas)</h3>
-            <div class="cards-grid">
-                <div class="concept-card" style="background:#ecfdf5;">
-                    <span class="role-badge">🎨 Rol 1</span>
-                    <h4>Analista de Atributos</h4>
-                    <p>Define qué datos necesita la clase (tipo de datos, valores iniciales, validaciones).</p>
-                </div>
-                <div class="concept-card" style="background:#ecfdf5;">
-                    <span class="role-badge">💻 Rol 2</span>
-                    <h4>Constructor de Métodos</h4>
-                    <p>Escribe las funciones y comportamientos (calcular, transformar, mostrar).</p>
-                </div>
-                <div class="concept-card" style="background:#ecfdf5;">
-                    <span class="role-badge">🧪 Rol 3</span>
-                    <h4>Probador / Depurador</h4>
-                    <p>Crea instancias, prueba los métodos y verifica que funcionen correctamente.</p>
-                </div>
-                <div class="concept-card" style="background:#ecfdf5;">
-                    <span class="role-badge">🎤 Rol 4</span>
-                    <h4>Relator / Presentador</h4>
-                    <p>Documenta el código y prepara la exposición del proyecto.</p>
-                </div>
-            </div>
+      </div>
+      <div class="vscode-tabs">
+        <div class="vscode-tab active">📄 mascota.js</div>
+      </div>
+      <div class="vscode-body">
+        <div class="vscode-gutter">
+          <span class="line-num">1</span><span class="line-num">2</span><span class="line-num">3</span>
+          <span class="line-num">4</span><span class="line-num">5</span><span class="line-num">6</span>
+          <span class="line-num">7</span><span class="line-num">8</span><span class="line-num">9</span>
+          <span class="line-num">10</span><span class="line-num">11</span><span class="line-num">12</span>
+          <span class="line-num">13</span><span class="line-num">14</span><span class="line-num">15</span>
+          <span class="line-num">16</span>
         </div>
+        <div class="vscode-code">
+<pre><span class="cmt">// 🐾 Ejemplo básico: Clase y sus componentes</span>
+<span class="kw">class</span> <span class="cls">Mascota</span> {
+  <span class="fn">constructor</span>(<span class="prm">nombre</span>, <span class="prm">especie</span>) {
+    <span class="thi">this</span>.nombre   = <span class="prm">nombre</span>;    <span class="cmt">// atributo</span>
+    <span class="thi">this</span>.especie  = <span class="prm">especie</span>;   <span class="cmt">// atributo</span>
+    <span class="thi">this</span>.energia  = <span class="num">100</span>;       <span class="cmt">// atributo con valor inicial</span>
+  }
 
-        <div class="activity-box">
-            <h3>🎯 Misión del equipo: Clase "Producto"</h3>
-            <p>Construyan una clase <strong>Producto</strong> con los siguientes requisitos:</p>
-            <ul style="margin: 0.8rem 0 0.8rem 1.5rem;">
-                <li>Atributos: nombre, precio, stock, descuento (porcentaje)</li>
-                <li>Método <code>precioFinal()</code> que devuelva precio con descuento aplicado</li>
-                <li>Método <code>vender(cantidad)</code> que reduzca el stock y muestre mensaje</li>
-                <li>Método <code>mostrarInfo()</code> que retorne toda la información</li>
-            </ul>
-            <button id="mostrarSolucionEquipo" class="btn btn-outline">✨ Ver ejemplo de solución</button>
-            <div id="solucionEquipo" style="display: none; margin-top: 1rem;">
-                <div class="code-block">
-// Clase Producto - Solución colaborativa
-class Producto {
-    constructor(nombre, precio, stock, descuento = 0) {
-        this.nombre = nombre;
-        this.precio = precio;
-        this.stock = stock;
-        this.descuento = descuento; // porcentaje 0-100
-    }
-    
-    precioFinal() {
-        let descuentoAplicado = this.precio * (this.descuento / 100);
-        return this.precio - descuentoAplicado;
-    }
-    
-    vender(cantidad) {
-        if(cantidad <= this.stock) {
-            this.stock -= cantidad;
-            return `✅ Venta exitosa. Stock restante: ${this.stock}`;
-        } else {
-            return `❌ Stock insuficiente. Solo quedan ${this.stock} unidades.`;
-        }
-    }
-    
-    mostrarInfo() {
-        return `📦 ${this.nombre} | Precio: S/ ${this.precio} | Oferta: ${this.descuento}% | Final: S/ ${this.precioFinal().toFixed(2)} | Stock: ${this.stock}`;
-    }
+  <span class="fn">saludar</span>() {                            <span class="cmt">// método</span>
+    <span class="kw">return</span> <span class="str">`¡Hola! soy <span class="op">${</span><span class="thi">this</span>.nombre<span class="op">}</span>`</span>;
+  }
 }
 
-// Prueba de concepto
-const laptop = new Producto("Laptop Gamer", 2500, 5, 15);
-console.log(laptop.mostrarInfo());
-console.log(laptop.vender(2));
-                </div>
-            </div>
+<span class="cmt">// Creando objetos (instancias)</span>
+<span class="kw">let</span> <span class="prm">perro</span> = <span class="kw">new</span> <span class="cls">Mascota</span>(<span class="str">"Max"</span>, <span class="str">"Perro"</span>);
+<span class="fn">console</span>.log(<span class="prm">perro</span>.<span class="fn">saludar</span>()); <span class="cmt">// ¡Hola! soy Max</span></pre>
         </div>
-
-        <div class="live-demo">
-            <h3>🔧 Prueba tu clase en vivo</h3>
-            <p>Simula la creación de productos y ventas:</p>
-            <input type="text" id="prodNombre" placeholder="Nombre del producto" value="Teclado Mecánico">
-            <input type="number" id="prodPrecio" placeholder="Precio" value="350">
-            <input type="number" id="prodStock" placeholder="Stock" value="10">
-            <input type="number" id="prodDescuento" placeholder="Descuento %" value="0">
-            <button id="crearProductoDemo" class="btn">➕ Crear Producto</button>
-            <div id="demoProductoResultado" class="code-block" style="margin-top: 1rem; background:#1e293b;">
-                Esperando creación de producto...
-            </div>
-        </div>
+      </div>
+      <div class="vscode-statusbar">
+        <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
+        <div class="statusbar-right"><span>JavaScript</span><span>UTF-8</span><span>Ln 16, Col 1</span></div>
+      </div>
     </div>
 
-    <!-- PANEL 3: PROYECTO (Aprendizaje Basado en Proyectos) -->
-    <div class="panel" id="proyecto">
-        <h2>🚀 Proyecto: Sistema del Mundo Real con POO</h2>
-        <p>Tu equipo elegirá uno de estos proyectos para construir una solución funcional usando clases y objetos.</p>
-
-        <div class="cards-grid">
-            <div class="concept-card" style="background:#eef2ff;">
-                <h3>📱 Opción 1: Gestor de Tareas</h3>
-                <p>Clase <code>Tarea</code> con atributos: título, descripción, prioridad, completada. Métodos: marcarCompletada(), mostrarDetalles().</p>
-            </div>
-            <div class="concept-card" style="background:#eef2ff;">
-                <h3>🎮 Opción 2: Personaje de Videojuego</h3>
-                <p>Clase <code>Personaje</code> con vida, fuerza, nivel. Métodos: atacar(), subirNivel(), curar().</p>
-            </div>
-            <div class="concept-card" style="background:#eef2ff;">
-                <h3>🏦 Opción 3: Cuenta Bancaria</h3>
-                <p>Clase <code>Cuenta</code> con saldo, titular, número de cuenta. Métodos: depositar(), retirar(), mostrarSaldo().</p>
-            </div>
-            <div class="concept-card" style="background:#eef2ff;">
-                <h3>📚 Opción 4: Biblioteca Digital</h3>
-                <p>Clase <code>Libro</code> con título, autor, disponible. Métodos: prestar(), devolver(), info().</p>
-            </div>
-        </div>
-
-        <div class="activity-box">
-            <h3>📋 Entregables del proyecto</h3>
-            <ul>
-                <li>✅ Código de la clase con sus atributos y métodos (pseudocódigo o JavaScript)</li>
-                <li>✅ Al menos 3 objetos creados con diferentes datos</li>
-                <li>✅ Ejecución de métodos que demuestren funcionalidad</li>
-                <li>✅ Breve presentación explicando decisiones de diseño</li>
-            </ul>
-            <button id="ejemploProyectoBtn" class="btn btn-outline">🎮 Ver ejemplo (Personaje)</button>
-            <div id="ejemploProyecto" style="display: none; margin-top: 1rem;">
-                <div class="code-block">
-// Clase Personaje para videojuego
-class Personaje {
-    constructor(nombre, vida, fuerza) {
-        this.nombre = nombre;
-        this.vida = vida;
-        this.fuerza = fuerza;
-        this.nivel = 1;
-    }
-    
-    atacar(enemigo) {
-        let daño = this.fuerza * this.nivel;
-        enemigo.vida -= daño;
-        return `${this.nombre} ataca causando ${daño} de daño. ${enemigo.nombre} tiene ${enemigo.vida} de vida restante.`;
-    }
-    
-    subirNivel() {
-        this.nivel++;
-        this.fuerza += 5;
-        return `${this.nombre} subió al nivel ${this.nivel}! Fuerza: ${this.fuerza}`;
-    }
-    
-    curar() {
-        this.vida += 20;
-        return `${this.nombre} se cura. Vida actual: ${this.vida}`;
-    }
-    
-    estado() {
-        return `⚔️ ${this.nombre} | Nivel ${this.nivel} | ❤️ Vida: ${this.vida} | 💪 Fuerza: ${this.fuerza}`;
-    }
-}
-
-// Creando personajes
-let guerrero = new Personaje("Thorin", 120, 25);
-let mago = new Personaje("Elara", 80, 18);
-console.log(guerrero.estado());
-console.log(guerrero.atacar(mago));
-                </div>
-            </div>
-        </div>
-
-        <div class="live-demo">
-            <h3>⚡ Constructor Rápido de Proyectos</h3>
-            <p>Define tu propia clase en el editor y pruébala:</p>
-            <textarea id="codigoPersonalizado" rows="6" style="width:100%; border-radius:1rem; padding:0.8rem; font-family:monospace; background:#f8fafc; border:1px solid #cbd5e1;">class MiClase {
-    constructor(nombre, valor) {
-        this.nombre = nombre;
-        this.valor = valor;
-    }
-    mostrar() {
-        return `${this.nombre}: ${this.valor}`;
-    }
-}
-let prueba = new MiClase("Demo", 100);
-console.log(prueba.mostrar());</textarea>
-            <button id="ejecutarCodigoBtn" class="btn">▶️ Ejecutar Código</button>
-            <div id="resultadoEjecucion" class="code-block" style="background:#0f172a; margin-top:1rem;">
-                Resultado aparecerá aquí...
-            </div>
-        </div>
+    <!-- Activity Box -->
+    <div class="activity-box">
+      <h3>🎬 Prepárate para la sesión</h3>
+      <p>Revisa los ejemplos y responde mentalmente:</p>
+      <ul>
+        <li>¿Qué atributos tendría una clase <code>Estudiante</code>?</li>
+        <li>¿Qué métodos podrías agregar a una clase <code>CuentaBancaria</code>?</li>
+        <li>Trae ideas para construir un mini sistema con clases.</li>
+      </ul>
     </div>
 
-    <!-- PANEL 4: DESAFÍO FINAL (Integración de metodologías) -->
-    <div class="panel" id="desafio">
-        <h2>⚡ Desafío Final: Sistema de Biblioteca Colaborativa</h2>
-        <p>En equipos de 3-4 personas, deberán construir un sistema completo usando herencia y métodos avanzados.</p>
-
-        <div class="team-section">
-            <h3>📌 Requerimientos del Desafío</h3>
-            <ul style="margin: 1rem 0 1rem 1.8rem;">
-                <li>Crear una clase base <strong>MaterialBiblioteca</strong> con atributos: id, titulo, año</li>
-                <li>Crear dos clases hijas: <strong>Libro</strong> (autor, genero) y <strong>Revista</strong> (numeroEdicion, mes)</li>
-                <li>Incluir método <strong>prestar()</strong> y <strong>devolver()</strong> que modifiquen estado de disponibilidad</li>
-                <li>Crear al menos 5 objetos y mostrar un reporte con todos los materiales</li>
-                <li>Cada equipo asignará roles y presentará su solución</li>
-            </ul>
+    <!-- Collapsible: Estudiante -->
+    <button class="collapse-toggle" id="toggleEstudiante">
+      🔍 Ver ejemplo completo — Clase Estudiante
+      <span class="collapse-arrow">▼</span>
+    </button>
+    <div class="collapse-content" id="colEstudiante">
+      <div class="vscode-wrapper">
+        <div class="vscode-titlebar">
+          <div class="vscode-dots">
+            <div class="vscode-dot dot-red"></div>
+            <div class="vscode-dot dot-yellow"></div>
+            <div class="vscode-dot dot-green"></div>
+          </div>
+          <div class="vscode-filename">
+            <span class="vscode-ext-badge">JS</span>
+            estudiante.js — POO Lab UNIVO
+          </div>
         </div>
+        <div class="vscode-tabs"><div class="vscode-tab active">📄 estudiante.js</div></div>
+        <div class="vscode-body">
+          <div class="vscode-gutter">
+            <span class="line-num">1</span><span class="line-num">2</span><span class="line-num">3</span>
+            <span class="line-num">4</span><span class="line-num">5</span><span class="line-num">6</span>
+            <span class="line-num">7</span><span class="line-num">8</span><span class="line-num">9</span>
+            <span class="line-num">10</span><span class="line-num">11</span><span class="line-num">12</span>
+            <span class="line-num">13</span><span class="line-num">14</span><span class="line-num">15</span>
+            <span class="line-num">16</span><span class="line-num">17</span><span class="line-num">18</span>
+            <span class="line-num">19</span><span class="line-num">20</span><span class="line-num">21</span>
+          </div>
+          <div class="vscode-code">
+<pre><span class="kw">class</span> <span class="cls">Estudiante</span> {
+  <span class="fn">constructor</span>(<span class="prm">nombre</span>, <span class="prm">edad</span>, <span class="prm">carrera</span>) {
+    <span class="thi">this</span>.nombre        = <span class="prm">nombre</span>;
+    <span class="thi">this</span>.edad          = <span class="prm">edad</span>;
+    <span class="thi">this</span>.carrera       = <span class="prm">carrera</span>;
+    <span class="thi">this</span>.calificaciones = [];
+  }
 
-        <div class="activity-box">
-            <h3>🎲 Generador de Ideas para tu equipo</h3>
-            <button id="generarIdeaBtn" class="btn btn-outline">💡 Generar sugerencia de clase base</button>
-            <div id="ideaGenerada" class="code-block" style="margin-top: 1rem; background:#0b2b2f;">
-                // Haz clic en el botón para obtener una base de código
-            </div>
-        </div>
+  <span class="fn">agregarNota</span>(<span class="prm">nota</span>) {
+    <span class="kw">if</span> (<span class="prm">nota</span> >= <span class="num">0</span> && <span class="prm">nota</span> <= <span class="num">10</span>) {
+      <span class="thi">this</span>.calificaciones.<span class="fn">push</span>(<span class="prm">nota</span>);
+      <span class="kw">return</span> <span class="str">"✅ Nota agregada"</span>;
+    }
+    <span class="kw">return</span> <span class="str">"❌ Nota inválida (0–10)"</span>;
+  }
 
-        <div class="cards-grid">
-            <div class="concept-card" style="background:#f1f5f9;">
-                <h3>📊 Rúbrica de evaluación</h3>
-                <p>✔️ Código funcional con clases y herencia<br>
-                ✔️ Trabajo colaborativo con roles definidos<br>
-                ✔️ Creatividad en la implementación<br>
-                ✔️ Presentación clara de resultados</p>
-            </div>
-            <div class="concept-card" style="background:#f1f5f9;">
-                <h3>🏆 Premio al mejor proyecto</h3>
-                <p>El equipo con la solución más completa y bien documentada compartirá su código con la clase y recibirá reconocimiento.</p>
-            </div>
+  <span class="fn">obtenerPromedio</span>() {
+    <span class="kw">if</span> (<span class="thi">this</span>.calificaciones.length === <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">const</span> <span class="prm">sum</span> = <span class="thi">this</span>.calificaciones.<span class="fn">reduce</span>((<span class="prm">a</span>, <span class="prm">b</span>) => <span class="prm">a</span> + <span class="prm">b</span>, <span class="num">0</span>);
+    <span class="kw">return</span> (<span class="prm">sum</span> / <span class="thi">this</span>.calificaciones.length).<span class="fn">toFixed</span>(<span class="num">2</span>);
+  }
+
+  <span class="fn">mostrarInfo</span>() {
+    <span class="kw">return</span> <span class="str">`<span class="op">${</span><span class="thi">this</span>.nombre<span class="op">}</span> (<span class="op">${</span><span class="thi">this</span>.edad<span class="op">}</span> años) — <span class="op">${</span><span class="thi">this</span>.carrera<span class="op">}</span> — Promedio: <span class="op">${</span><span class="thi">this</span>.<span class="fn">obtenerPromedio</span>()<span class="op">}</span>`</span>;
+  }
+}</pre>
+          </div>
         </div>
+        <div class="vscode-statusbar">
+          <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
+          <div class="statusbar-right"><span>JavaScript</span><span>UTF-8</span></div>
+        </div>
+      </div>
     </div>
-
-    <footer>
-        💡 Programación Orientada a Objetos | Aprende haciendo, colabora creando, construye soluciones reales
-    </footer>
+  </div>
 </div>
 
+<!-- =============================== -->
+<!-- PANEL 2: EQUIPO                 -->
+<!-- =============================== -->
+<div class="panel" id="equipo">
+  <div class="panel-inner">
+    <h2 class="section-title">🤝 Construyendo juntos: Sistema de Gestión</h2>
+    <p class="section-sub">Cada equipo organizará sus roles para diseñar una clase funcional. La colaboración es clave.</p>
+
+    <div class="cards-grid" style="grid-template-columns: repeat(auto-fit,minmax(240px,1fr))">
+      <div class="role-card">
+        <div class="role-num">1</div>
+        <div class="role-info">
+          <h4>🎨 Analista de Atributos</h4>
+          <p>Define qué datos necesita la clase: tipos, valores iniciales, validaciones.</p>
+        </div>
+      </div>
+      <div class="role-card">
+        <div class="role-num gold">2</div>
+        <div class="role-info">
+          <h4>💻 Constructor de Métodos</h4>
+          <p>Escribe las funciones y comportamientos (calcular, transformar, mostrar).</p>
+        </div>
+      </div>
+      <div class="role-card">
+        <div class="role-num green">3</div>
+        <div class="role-info">
+          <h4>🧪 Probador / Depurador</h4>
+          <p>Crea instancias, prueba métodos y verifica que funcionen correctamente.</p>
+        </div>
+      </div>
+      <div class="role-card">
+        <div class="role-num purple">4</div>
+        <div class="role-info">
+          <h4>🎤 Relator / Presentador</h4>
+          <p>Documenta el código y prepara la exposición del proyecto.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <h3>🎯 Misión del equipo: Clase "Producto"</h3>
+      <p>Construyan una clase <strong>Producto</strong> con los siguientes requisitos:</p>
+      <ul>
+        <li>Atributos: <code>nombre</code>, <code>precio</code>, <code>stock</code>, <code>descuento</code> (porcentaje)</li>
+        <li>Método <code>precioFinal()</code> que devuelva el precio con descuento aplicado</li>
+        <li>Método <code>vender(cantidad)</code> que reduzca el stock con mensaje</li>
+        <li>Método <code>mostrarInfo()</code> con toda la información del producto</li>
+      </ul>
+    </div>
+
+    <!-- Collapse: Solución Equipo -->
+    <button class="collapse-toggle" id="toggleSolucion">
+      ✨ Ver ejemplo de solución — Clase Producto
+      <span class="collapse-arrow">▼</span>
+    </button>
+    <div class="collapse-content" id="colSolucion">
+      <div class="vscode-wrapper">
+        <div class="vscode-titlebar">
+          <div class="vscode-dots">
+            <div class="vscode-dot dot-red"></div>
+            <div class="vscode-dot dot-yellow"></div>
+            <div class="vscode-dot dot-green"></div>
+          </div>
+          <div class="vscode-filename">
+            <span class="vscode-ext-badge">JS</span>
+            producto.js — Solución Colaborativa
+          </div>
+        </div>
+        <div class="vscode-tabs"><div class="vscode-tab active">📄 producto.js</div></div>
+        <div class="vscode-body">
+          <div class="vscode-gutter">
+            <span class="line-num">1</span><span class="line-num">2</span><span class="line-num">3</span>
+            <span class="line-num">4</span><span class="line-num">5</span><span class="line-num">6</span>
+            <span class="line-num">7</span><span class="line-num">8</span><span class="line-num">9</span>
+            <span class="line-num">10</span><span class="line-num">11</span><span class="line-num">12</span>
+            <span class="line-num">13</span><span class="line-num">14</span><span class="line-num">15</span>
+            <span class="line-num">16</span><span class="line-num">17</span><span class="line-num">18</span>
+            <span class="line-num">19</span><span class="line-num">20</span><span class="line-num">21</span>
+            <span class="line-num">22</span><span class="line-num">23</span><span class="line-num">24</span>
+            <span class="line-num">25</span>
+          </div>
+          <div class="vscode-code">
+<pre><span class="kw">class</span> <span class="cls">Producto</span> {
+  <span class="fn">constructor</span>(<span class="prm">nombre</span>, <span class="prm">precio</span>, <span class="prm">stock</span>, <span class="prm">descuento</span> = <span class="num">0</span>) {
+    <span class="thi">this</span>.nombre    = <span class="prm">nombre</span>;
+    <span class="thi">this</span>.precio    = <span class="prm">precio</span>;
+    <span class="thi">this</span>.stock     = <span class="prm">stock</span>;
+    <span class="thi">this</span>.descuento = <span class="prm">descuento</span>; <span class="cmt">// porcentaje 0–100</span>
+  }
+
+  <span class="fn">precioFinal</span>() {
+    <span class="kw">const</span> <span class="prm">ahorro</span> = <span class="thi">this</span>.precio * (<span class="thi">this</span>.descuento / <span class="num">100</span>);
+    <span class="kw">return</span> <span class="thi">this</span>.precio - <span class="prm">ahorro</span>;
+  }
+
+  <span class="fn">vender</span>(<span class="prm">cantidad</span>) {
+    <span class="kw">if</span> (<span class="prm">cantidad</span> <= <span class="thi">this</span>.stock) {
+      <span class="thi">this</span>.stock -= <span class="prm">cantidad</span>;
+      <span class="kw">return</span> <span class="str">`✅ Venta OK. Stock restante: <span class="op">${</span><span class="thi">this</span>.stock<span class="op">}</span>`</span>;
+    }
+    <span class="kw">return</span> <span class="str">`❌ Stock insuficiente. Solo quedan <span class="op">${</span><span class="thi">this</span>.stock<span class="op">}</span>`</span>;
+  }
+
+  <span class="fn">mostrarInfo</span>() {
+    <span class="kw">return</span> <span class="str">`📦 <span class="op">${</span><span class="thi">this</span>.nombre<span class="op">}</span> | S/ <span class="op">${</span><span class="thi">this</span>.precio<span class="op">}</span> | -<span class="op">${</span><span class="thi">this</span>.descuento<span class="op">}</span>% | Final: S/ <span class="op">${</span><span class="thi">this</span>.<span class="fn">precioFinal</span>().<span class="fn">toFixed</span>(<span class="num">2</span>)<span class="op">}</span> | Stock: <span class="op">${</span><span class="thi">this</span>.stock<span class="op">}</span>`</span>;
+  }
+}</pre>
+          </div>
+        </div>
+        <div class="vscode-statusbar">
+          <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
+          <div class="statusbar-right"><span>JavaScript</span><span>UTF-8</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- LIVE DEMO -->
+    <div class="live-demo">
+      <h3>⚡ Prueba tu clase en tiempo real</h3>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:0.75rem;">Ingresa los datos del producto y prueba la clase interactivamente.</p>
+      
+      <div style="background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 8px; padding: 12px; margin-bottom: 1rem;">
+        <h4 style="color: var(--teal); font-size: 0.9rem; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">💡 ¿Qué es un Formulario (Form)?</h4>
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Un <strong>formulario (form)</strong> es una sección en HTML que permite al usuario ingresar datos mediante controles interactivos (como los campos de texto y botones de abajo), los cuales luego se procesan con JavaScript para crear un objeto o enviarse a un servidor.</p>
+      </div>
+      <div class="demo-controls">
+        <input class="demo-input" type="text" id="prodNombre" placeholder="Nombre" value="Teclado Mecánico">
+        <input class="demo-input" type="number" id="prodPrecio" placeholder="Precio S/" value="350" style="width:110px">
+        <input class="demo-input" type="number" id="prodStock" placeholder="Stock" value="10" style="width:90px">
+        <input class="demo-input" type="number" id="prodDescuento" placeholder="% Desc" value="15" style="width:90px">
+        <button class="btn btn-primary" id="crearProducto">➕ Crear Producto</button>
+        <button class="btn btn-green" id="venderProducto" disabled>🛒 Vender 2 unidades</button>
+      </div>
+      <div class="terminal-header">
+        <span style="color:var(--green)">●</span> Terminal de salida — JavaScript Console
+      </div>
+      <div class="terminal" id="terminalEquipo">
+        <span class="t-info">// Crea un producto para comenzar...</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- =============================== -->
+<!-- PANEL 3: PROYECTO               -->
+<!-- =============================== -->
+<div class="panel" id="proyecto">
+  <div class="panel-inner">
+    <h2 class="section-title">🚀 Proyecto: Sistema del Mundo Real</h2>
+    <p class="section-sub">Tu equipo elegirá uno de estos proyectos para construir una solución funcional usando clases y objetos.</p>
+
+    <div class="cards-grid">
+      <div class="option-card" data-project="tareas">
+        <h3>📱 Opción 1: Gestor de Tareas</h3>
+        <p>Clase <code>Tarea</code> — título, descripción, prioridad, completada. Métodos: <code>completar()</code>, <code>detalles()</code>.</p>
+      </div>
+      <div class="option-card" data-project="juego">
+        <h3>🎮 Opción 2: Personaje de Videojuego</h3>
+        <p>Clase <code>Personaje</code> — vida, fuerza, nivel. Métodos: <code>atacar()</code>, <code>subirNivel()</code>, <code>curar()</code>.</p>
+      </div>
+      <div class="option-card" data-project="banco">
+        <h3>🏦 Opción 3: Cuenta Bancaria</h3>
+        <p>Clase <code>Cuenta</code> — saldo, titular, número. Métodos: <code>depositar()</code>, <code>retirar()</code>, <code>saldo()</code>.</p>
+      </div>
+      <div class="option-card" data-project="biblioteca">
+        <h3>📚 Opción 4: Biblioteca Digital</h3>
+        <p>Clase <code>Libro</code> — título, autor, disponible. Métodos: <code>prestar()</code>, <code>devolver()</code>, <code>info()</code>.</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <h3>📋 Entregables del proyecto</h3>
+      <div class="rubrica-item"><div class="check-icon">✓</div><span>Código de la clase con sus atributos y métodos (pseudocódigo o JS)</span></div>
+      <div class="rubrica-item"><div class="check-icon">✓</div><span>Al menos 3 objetos creados con diferentes datos</span></div>
+      <div class="rubrica-item"><div class="check-icon">✓</div><span>Ejecución de métodos que demuestren funcionalidad real</span></div>
+      <div class="rubrica-item"><div class="check-icon">✓</div><span>Breve presentación explicando decisiones de diseño</span></div>
+    </div>
+
+    <!-- Collapse: Personaje -->
+    <button class="collapse-toggle" id="togglePersonaje">
+      🎮 Ver ejemplo completo — Clase Personaje
+      <span class="collapse-arrow">▼</span>
+    </button>
+    <div class="collapse-content" id="colPersonaje">
+      <div class="vscode-wrapper">
+        <div class="vscode-titlebar">
+          <div class="vscode-dots">
+            <div class="vscode-dot dot-red"></div>
+            <div class="vscode-dot dot-yellow"></div>
+            <div class="vscode-dot dot-green"></div>
+          </div>
+          <div class="vscode-filename">
+            <span class="vscode-ext-badge">JS</span>
+            personaje.js — Ejemplo Proyecto Opción 2
+          </div>
+        </div>
+        <div class="vscode-tabs"><div class="vscode-tab active">📄 personaje.js</div></div>
+        <div class="vscode-body">
+          <div class="vscode-gutter">
+            <span class="line-num">1</span><span class="line-num">2</span><span class="line-num">3</span>
+            <span class="line-num">4</span><span class="line-num">5</span><span class="line-num">6</span>
+            <span class="line-num">7</span><span class="line-num">8</span><span class="line-num">9</span>
+            <span class="line-num">10</span><span class="line-num">11</span><span class="line-num">12</span>
+            <span class="line-num">13</span><span class="line-num">14</span><span class="line-num">15</span>
+            <span class="line-num">16</span><span class="line-num">17</span><span class="line-num">18</span>
+            <span class="line-num">19</span><span class="line-num">20</span><span class="line-num">21</span>
+            <span class="line-num">22</span><span class="line-num">23</span>
+          </div>
+          <div class="vscode-code">
+<pre><span class="kw">class</span> <span class="cls">Personaje</span> {
+  <span class="fn">constructor</span>(<span class="prm">nombre</span>, <span class="prm">vida</span>, <span class="prm">fuerza</span>) {
+    <span class="thi">this</span>.nombre = <span class="prm">nombre</span>;
+    <span class="thi">this</span>.vida   = <span class="prm">vida</span>;
+    <span class="thi">this</span>.fuerza = <span class="prm">fuerza</span>;
+    <span class="thi">this</span>.nivel  = <span class="num">1</span>;
+  }
+
+  <span class="fn">atacar</span>(<span class="prm">enemigo</span>) {
+    <span class="kw">const</span> <span class="prm">daño</span> = <span class="thi">this</span>.fuerza * <span class="thi">this</span>.nivel;
+    <span class="prm">enemigo</span>.vida -= <span class="prm">daño</span>;
+    <span class="kw">return</span> <span class="str">`⚔️ <span class="op">${</span><span class="thi">this</span>.nombre<span class="op">}</span> causa <span class="op">${</span><span class="prm">daño</span><span class="op">}</span> de daño. <span class="op">${</span><span class="prm">enemigo</span>.nombre<span class="op">}</span> queda con <span class="op">${</span><span class="prm">enemigo</span>.vida<span class="op">}</span> HP`</span>;
+  }
+
+  <span class="fn">subirNivel</span>() {
+    <span class="thi">this</span>.nivel++;
+    <span class="thi">this</span>.fuerza += <span class="num">5</span>;
+    <span class="kw">return</span> <span class="str">`🆙 <span class="op">${</span><span class="thi">this</span>.nombre<span class="op">}</span> → Nivel <span class="op">${</span><span class="thi">this</span>.nivel<span class="op">}</span> | Fuerza: <span class="op">${</span><span class="thi">this</span>.fuerza<span class="op">}</span>`</span>;
+  }
+
+  <span class="fn">curar</span>() {
+    <span class="thi">this</span>.vida += <span class="num">20</span>;
+    <span class="kw">return</span> <span class="str">`💚 <span class="op">${</span><span class="thi">this</span>.nombre<span class="op">}</span> se cura → HP: <span class="op">${</span><span class="thi">this</span>.vida<span class="op">}</span>`</span>;
+  }
+
+  <span class="fn">estado</span>() {
+    <span class="kw">return</span> <span class="str">`⚔️ <span class="op">${</span><span class="thi">this</span>.nombre<span class="op">}</span> | Nv.<span class="op">${</span><span class="thi">this</span>.nivel<span class="op">}</span> | ❤️ <span class="op">${</span><span class="thi">this</span>.vida<span class="op">}</span> HP | 💪 <span class="op">${</span><span class="thi">this</span>.fuerza<span class="op">}</span> ATK`</span>;
+  }
+}</pre>
+          </div>
+        </div>
+        <div class="vscode-statusbar">
+          <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
+          <div class="statusbar-right"><span>JavaScript</span><span>UTF-8</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Editor interactivo -->
+    <div class="live-demo">
+      <h3>🧑‍💻 Editor de código propio</h3>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:0.6rem;">Escribe tu propia clase y ejecútala directamente en el navegador.</p>
+      <div class="editor-header-bar">
+        <div style="display:flex;align-items:center;gap:8px;color:#CCC;font-family:'JetBrains Mono',monospace;font-size:0.78rem;">
+          <span class="vscode-ext-badge">JS</span> mi-clase.js
+        </div>
+        <div style="display:flex;gap:6px">
+          <div class="vscode-dot dot-red"></div>
+          <div class="vscode-dot dot-yellow"></div>
+          <div class="vscode-dot dot-green"></div>
+        </div>
+      </div>
+      <textarea class="code-editor-area" id="codigoPropio">class MiClase {
+  constructor(nombre, valor) {
+    this.nombre = nombre;
+    this.valor  = valor;
+  }
+  mostrar() {
+    return `${this.nombre}: ${this.valor}`;
+  }
+}
+
+let obj = new MiClase("Demo UNIVO", 100);
+console.log(obj.mostrar());</textarea>
+      <button class="btn btn-green" id="ejecutarCodigo" style="margin-top:0.5rem">▶ Ejecutar Código</button>
+      <button class="btn btn-ghost" id="limpiarEditor" style="margin-top:0.5rem">🗑 Limpiar</button>
+      <div class="terminal-header" style="margin-top:0.75rem">
+        <span style="color:var(--green)">●</span> Salida — Console
+      </div>
+      <div class="terminal" id="terminalProyecto">
+        <span class="t-info">// Escribe tu clase y presiona ▶ Ejecutar...</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== -->
+<!-- PANEL 4: DESAFIO                -->
+<!-- =============================== -->
+<div class="panel" id="desafio">
+  <div class="panel-inner">
+    <h2 class="section-title">⚡ Desafío Final: Sistema de Biblioteca</h2>
+    <p class="section-sub">En equipos de 3–4 personas, construirán un sistema completo usando herencia y métodos avanzados.</p>
+
+    <div class="desafio-grid">
+      <div>
+        <div class="activity-box" style="border-left-color:var(--univo-blue-mid)">
+          <h3 style="color:var(--teal)">📌 Requerimientos del Desafío</h3>
+          <ul>
+            <li>Crear clase base <strong>MaterialBiblioteca</strong> con: <code>id</code>, <code>titulo</code>, <code>año</code></li>
+            <li>Clase hija <strong>Libro</strong> → agrega: <code>autor</code>, <code>genero</code></li>
+            <li>Clase hija <strong>Revista</strong> → agrega: <code>edicion</code>, <code>mes</code></li>
+            <li>Métodos <code>prestar()</code> y <code>devolver()</code> en la clase base</li>
+            <li>Mínimo 5 objetos y un reporte general del sistema</li>
+            <li>Cada equipo asigna roles y presenta la solución</li>
+          </ul>
+        </div>
+
+        <!-- Generar idea -->
+        <button class="btn btn-gold" id="generarIdea">💡 Generar código base con herencia</button>
+        <div id="colIdeaWrap">
+          <div class="collapse-content open" id="colIdea" style="display:none">
+            <div class="vscode-wrapper" style="margin-top:0.75rem">
+              <div class="vscode-titlebar">
+                <div class="vscode-dots">
+                  <div class="vscode-dot dot-red"></div>
+                  <div class="vscode-dot dot-yellow"></div>
+                  <div class="vscode-dot dot-green"></div>
+                </div>
+                <div class="vscode-filename">
+                  <span class="vscode-ext-badge">JS</span>
+                  biblioteca.js — Desafío Final
+                </div>
+              </div>
+              <div class="vscode-tabs"><div class="vscode-tab active">📄 biblioteca.js</div></div>
+              <div class="vscode-body">
+                <div class="vscode-gutter" id="gutterIdea"></div>
+                <div class="vscode-code" id="codeIdea">
+<pre><span class="kw">class</span> <span class="cls">MaterialBiblioteca</span> {
+  <span class="fn">constructor</span>(<span class="prm">id</span>, <span class="prm">titulo</span>, <span class="prm">año</span>) {
+    <span class="thi">this</span>.id         = <span class="prm">id</span>;
+    <span class="thi">this</span>.titulo     = <span class="prm">titulo</span>;
+    <span class="thi">this</span>.año        = <span class="prm">año</span>;
+    <span class="thi">this</span>.disponible = <span class="kw">true</span>;
+  }
+  <span class="fn">prestar</span>() {
+    <span class="kw">if</span> (<span class="thi">this</span>.disponible) {
+      <span class="thi">this</span>.disponible = <span class="kw">false</span>;
+      <span class="kw">return</span> <span class="str">`📖 "<span class="op">${</span><span class="thi">this</span>.titulo<span class="op">}</span>" prestado.`</span>;
+    }
+    <span class="kw">return</span> <span class="str">`❌ "<span class="op">${</span><span class="thi">this</span>.titulo<span class="op">}</span>" no disponible.`</span>;
+  }
+  <span class="fn">devolver</span>() {
+    <span class="thi">this</span>.disponible = <span class="kw">true</span>;
+    <span class="kw">return</span> <span class="str">`📚 "<span class="op">${</span><span class="thi">this</span>.titulo<span class="op">}</span>" devuelto.`</span>;
+  }
+  <span class="fn">info</span>() {
+    <span class="kw">return</span> <span class="str">`[<span class="op">${</span><span class="thi">this</span>.id<span class="op">}</span>] <span class="op">${</span><span class="thi">this</span>.titulo<span class="op">}</span> (<span class="op">${</span><span class="thi">this</span>.año<span class="op">}</span>) — <span class="op">${</span><span class="thi">this</span>.disponible ? <span class="str">"Disponible"</span> : <span class="str">"Prestado"</span><span class="op">}</span>`</span>;
+  }
+}
+
+<span class="cmt">// ── Clase hija: Libro ──────────────────────────</span>
+<span class="kw">class</span> <span class="cls">Libro</span> <span class="kw">extends</span> <span class="cls">MaterialBiblioteca</span> {
+  <span class="fn">constructor</span>(<span class="prm">id</span>, <span class="prm">titulo</span>, <span class="prm">año</span>, <span class="prm">autor</span>, <span class="prm">genero</span>) {
+    <span class="kw">super</span>(<span class="prm">id</span>, <span class="prm">titulo</span>, <span class="prm">año</span>);
+    <span class="thi">this</span>.autor  = <span class="prm">autor</span>;
+    <span class="thi">this</span>.genero = <span class="prm">genero</span>;
+  }
+  <span class="fn">infoCompleta</span>() {
+    <span class="kw">return</span> <span class="str">`📘 <span class="op">${</span><span class="kw">super</span>.<span class="fn">info</span>()<span class="op">}</span> | Autor: <span class="op">${</span><span class="thi">this</span>.autor<span class="op">}</span> | Género: <span class="op">${</span><span class="thi">this</span>.genero<span class="op">}</span>`</span>;
+  }
+}
+
+<span class="cmt">// ── Clase hija: Revista ────────────────────────</span>
+<span class="kw">class</span> <span class="cls">Revista</span> <span class="kw">extends</span> <span class="cls">MaterialBiblioteca</span> {
+  <span class="fn">constructor</span>(<span class="prm">id</span>, <span class="prm">titulo</span>, <span class="prm">año</span>, <span class="prm">edicion</span>, <span class="prm">mes</span>) {
+    <span class="kw">super</span>(<span class="prm">id</span>, <span class="prm">titulo</span>, <span class="prm">año</span>);
+    <span class="thi">this</span>.edicion = <span class="prm">edicion</span>;
+    <span class="thi">this</span>.mes     = <span class="prm">mes</span>;
+  }
+  <span class="fn">infoCompleta</span>() {
+    <span class="kw">return</span> <span class="str">`📰 <span class="op">${</span><span class="kw">super</span>.<span class="fn">info</span>()<span class="op">}</span> | Ed. <span class="op">${</span><span class="thi">this</span>.edicion<span class="op">}</span> | Mes: <span class="op">${</span><span class="thi">this</span>.mes<span class="op">}</span>`</span>;
+  }
+}
+
+<span class="cmt">// ── Prueba ─────────────────────────────────────</span>
+<span class="kw">const</span> <span class="prm">lib1</span> = <span class="kw">new</span> <span class="cls">Libro</span>(<span class="num">101</span>, <span class="str">"Cien años de soledad"</span>, <span class="num">1967</span>, <span class="str">"García Márquez"</span>, <span class="str">"Realismo mágico"</span>);
+<span class="fn">console</span>.log(<span class="prm">lib1</span>.<span class="fn">infoCompleta</span>());
+<span class="fn">console</span>.log(<span class="prm">lib1</span>.<span class="fn">prestar</span>());
+<span class="fn">console</span>.log(<span class="prm">lib1</span>.<span class="fn">info</span>());</pre>
+                </div>
+              </div>
+              <div class="vscode-statusbar">
+                <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
+                <div class="statusbar-right"><span>JavaScript ES6+</span><span>UTF-8</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div>
+        <div class="card" style="margin-bottom:1.25rem">
+          <span class="card-icon">📊</span>
+          <h3>Rúbrica de Evaluación</h3>
+          <div class="rubrica-item"><div class="check-icon">✓</div><span>Código funcional con clases y herencia</span></div>
+          <div class="rubrica-item"><div class="check-icon">✓</div><span>Trabajo colaborativo con roles definidos</span></div>
+          <div class="rubrica-item"><div class="check-icon">✓</div><span>Creatividad en la implementación</span></div>
+          <div class="rubrica-item"><div class="check-icon">✓</div><span>Presentación clara de resultados</span></div>
+          <div class="progress-bar-wrap" style="margin-top:1rem">
+            <div class="progress-bar" style="width:0%" id="progBar"></div>
+          </div>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin-top:6px">Progreso del equipo: <span id="progPct">0%</span></p>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">🏆</span>
+          <h3 style="color:var(--univo-gold)">Premio al Mejor Proyecto</h3>
+          <p>El equipo con la solución más completa y documentada compartirá su código con toda la clase y recibirá reconocimiento especial.</p>
+          <button class="btn btn-gold" style="margin-top:0.75rem;font-size:0.8rem" id="marcarListo">✅ Marcar como listo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="https://www.univo.edu.sv/wp-content/uploads/2022/01/LOGOESCUDO.png" alt="UNIVO Logo" class="footer-logo-mini" style="object-fit: contain;">
+      <div>
+        <div class="footer-title">Universidad de Oriente — UNIVO</div>
+        <div class="footer-subtitle">Laboratorio POO · Programación Orientada a Objetos</div>
+      </div>
+    </div>
+
+    <div class="footer-devs">
+      <div class="footer-devs-label">💻 Desarrollado por los Maestrantes</div>
+      <div class="dev-list">
+        <span class="dev-badge">Adolfo Herrera</span>
+        <span class="dev-badge">Gabriela Ramirez</span>
+        <span class="dev-badge">Kevin Diaz</span>
+      </div>
+    </div>
+
+    <div class="footer-copy">
+      © 2025 Universidad de Oriente UNIVO · San Miguel, El Salvador · Todos los derechos reservados
+      <br>Programación Orientada a Objetos — Aprende haciendo, colabora creando, construye soluciones reales.
+    </div>
+  </div>
+</footer>
+
 <script>
-    // Navegación entre paneles
-    const navItems = document.querySelectorAll('.nav-item');
-    const panels = document.querySelectorAll('.panel');
+/* ===== NAVEGACIÓN ===== */
+const navBtns = document.querySelectorAll('.nav-btn');
+const panels  = document.querySelectorAll('.panel');
 
-    function activatePanel(panelId) {
-        panels.forEach(panel => panel.classList.remove('active'));
-        navItems.forEach(item => item.classList.remove('active'));
-        document.getElementById(panelId).classList.add('active');
-        const activeNav = Array.from(navItems).find(item => item.dataset.panel === panelId);
-        if(activeNav) activeNav.classList.add('active');
-    }
+navBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    navBtns.forEach(b => b.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.panel).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
 
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const panelId = item.dataset.panel;
-            activatePanel(panelId);
-        });
-    });
-
-    // Botón ejemplo extra en teoría
-    const verEjemploBtn = document.getElementById('verEjemploBtn');
-    const ejemploExtra = document.getElementById('ejemploExtra');
-    if(verEjemploBtn) {
-        verEjemploBtn.addEventListener('click', () => {
-            if(ejemploExtra.style.display === 'none') {
-                ejemploExtra.style.display = 'block';
-                verEjemploBtn.textContent = '🔍 Ocultar ejemplo';
-            } else {
-                ejemploExtra.style.display = 'none';
-                verEjemploBtn.textContent = '🔍 Ver ejemplo de clase';
-            }
-        });
-    }
-
-    // Botón solución equipo
-    const mostrarSolucionEquipo = document.getElementById('mostrarSolucionEquipo');
-    const solucionEquipo = document.getElementById('solucionEquipo');
-    if(mostrarSolucionEquipo) {
-        mostrarSolucionEquipo.addEventListener('click', () => {
-            if(solucionEquipo.style.display === 'none') {
-                solucionEquipo.style.display = 'block';
-                mostrarSolucionEquipo.textContent = '✨ Ocultar solución';
-            } else {
-                solucionEquipo.style.display = 'none';
-                mostrarSolucionEquipo.textContent = '✨ Ver ejemplo de solución';
-            }
-        });
-    }
-
-    // Demo producto en vivo
-    class ProductoDemo {
-        constructor(nombre, precio, stock, descuento) {
-            this.nombre = nombre;
-            this.precio = precio;
-            this.stock = stock;
-            this.descuento = descuento || 0;
-        }
-        precioFinal() {
-            return this.precio - (this.precio * this.descuento / 100);
-        }
-        mostrarInfo() {
-            return `📦 ${this.nombre} | Precio: S/ ${this.precio} | Desc: ${this.descuento}% | Final: S/ ${this.precioFinal().toFixed(2)} | Stock: ${this.stock}`;
-        }
-    }
-
-    const crearProductoDemo = document.getElementById('crearProductoDemo');
-    const demoResultado = document.getElementById('demoProductoResultado');
-    if(crearProductoDemo && demoResultado) {
-        crearProductoDemo.addEventListener('click', () => {
-            const nombre = document.getElementById('prodNombre')?.value || "Producto";
-            const precio = parseFloat(document.getElementById('prodPrecio')?.value) || 0;
-            const stock = parseInt(document.getElementById('prodStock')?.value) || 0;
-            const descuento = parseFloat(document.getElementById('prodDescuento')?.value) || 0;
-            const producto = new ProductoDemo(nombre, precio, stock, descuento);
-            demoResultado.innerHTML = `✅ Producto creado:<br>${producto.mostrarInfo()}<br><br>💡 Puedes usar métodos como .precioFinal() = S/ ${producto.precioFinal().toFixed(2)}`;
-        });
-    }
-
-    // Ejemplo proyecto
-    const ejemploProyectoBtn = document.getElementById('ejemploProyectoBtn');
-    const ejemploProyecto = document.getElementById('ejemploProyecto');
-    if(ejemploProyectoBtn) {
-        ejemploProyectoBtn.addEventListener('click', () => {
-            if(ejemploProyecto.style.display === 'none') {
-                ejemploProyecto.style.display = 'block';
-                ejemploProyectoBtn.textContent = '🎮 Ocultar ejemplo';
-            } else {
-                ejemploProyecto.style.display = 'none';
-                ejemploProyectoBtn.textContent = '🎮 Ver ejemplo (Personaje)';
-            }
-        });
-    }
-
-    // Ejecutar código personalizado
-    const ejecutarCodigoBtn = document.getElementById('ejecutarCodigoBtn');
-    const resultadoEjecucion = document.getElementById('resultadoEjecucion');
-    if(ejecutarCodigoBtn && resultadoEjecucion) {
-        ejecutarCodigoBtn.addEventListener('click', () => {
-            const codigo = document.getElementById('codigoPersonalizado')?.value || "";
-            try {
-                let output = "";
-                const originalLog = console.log;
-                console.log = function(...args) {
-                    output += args.join(" ") + "\n";
-                    originalLog.apply(console, args);
-                };
-                eval(codigo);
-                console.log = originalLog;
-                resultadoEjecucion.innerHTML = output ? `📤 Resultado:\n${output}` : "✅ Código ejecutado sin errores (sin salida en consola)";
-            } catch(e) {
-                resultadoEjecucion.innerHTML = `❌ Error: ${e.message}`;
-            }
-        });
-    }
-
-    // Generar idea desafío
-    const generarIdeaBtn = document.getElementById('generarIdeaBtn');
-    const ideaGenerada = document.getElementById('ideaGenerada');
-    if(generarIdeaBtn && ideaGenerada) {
-        generarIdeaBtn.addEventListener('click', () => {
-            ideaGenerada.innerHTML = `// Clase base sugerida para el desafío
-class MaterialBiblioteca {
-    constructor(id, titulo, año) {
-        this.id = id;
-        this.titulo = titulo;
-        this.año = año;
-        this.disponible = true;
-    }
-    prestar() {
-        if(this.disponible) {
-            this.disponible = false;
-            return \`📖 "\${this.titulo}" ha sido prestado.\`;
-        }
-        return \`❌ "\${this.titulo}" no está disponible.\`;
-    }
-    devolver() {
-        this.disponible = true;
-        return \`📚 "\${this.titulo}" ha sido devuelto.\`;
-    }
-    info() {
-        return \`[\${this.id}] \${this.titulo} (\${this.año}) - \${this.disponible ? "Disponible" : "Prestado"}\`;
-    }
+/* ===== COLLAPSE TOGGLES ===== */
+function setupCollapse(btnId, contentId) {
+  const btn     = document.getElementById(btnId);
+  const content = document.getElementById(contentId);
+  if (!btn || !content) return;
+  btn.addEventListener('click', () => {
+    const isOpen = content.classList.contains('open');
+    content.classList.toggle('open', !isOpen);
+    content.style.display = isOpen ? 'none' : 'block';
+    btn.classList.toggle('open', !isOpen);
+  });
+  content.style.display = 'none';
 }
 
-// Clase hija: Libro
-class Libro extends MaterialBiblioteca {
-    constructor(id, titulo, año, autor, genero) {
-        super(id, titulo, año);
-        this.autor = autor;
-        this.genero = genero;
+setupCollapse('toggleEstudiante', 'colEstudiante');
+setupCollapse('toggleSolucion',   'colSolucion');
+setupCollapse('togglePersonaje',  'colPersonaje');
+
+/* ===== OPTION CARDS ===== */
+document.querySelectorAll('.option-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+  });
+});
+
+/* ===== DEMO PRODUCTO (Panel 2) ===== */
+class ProductoDemo {
+  constructor(nombre, precio, stock, descuento = 0) {
+    this.nombre    = nombre;
+    this.precio    = parseFloat(precio) || 0;
+    this.stock     = parseInt(stock) || 0;
+    this.descuento = parseFloat(descuento) || 0;
+  }
+  precioFinal() {
+    return this.precio - (this.precio * this.descuento / 100);
+  }
+  vender(cantidad) {
+    if (cantidad <= this.stock) {
+      this.stock -= cantidad;
+      return `✅ Venta exitosa. Stock restante: ${this.stock}`;
     }
-    infoCompleta() {
-        return \`📘 \${super.info()} | Autor: \${this.autor} | Género: \${this.genero}\`;
-    }
+    return `❌ Stock insuficiente. Solo quedan ${this.stock} unidades.`;
+  }
+  mostrarInfo() {
+    return `📦 ${this.nombre} | Precio: S/ ${this.precio} | Desc: ${this.descuento}% | Final: S/ ${this.precioFinal().toFixed(2)} | Stock: ${this.stock}`;
+  }
 }
 
-// Ejemplo de uso
-let libro1 = new Libro(101, "Cien años de soledad", 1967, "García Márquez", "Realismo mágico");
-console.log(libro1.infoCompleta());
-console.log(libro1.prestar());
-console.log(libro1.info());`;
-        });
-    }
+let productoActual = null;
+const term2 = document.getElementById('terminalEquipo');
 
-    // Inicializar estados
-    ejemploExtra.style.display = 'none';
-    solucionEquipo.style.display = 'none';
-    ejemploProyecto.style.display = 'none';
-    if(ideaGenerada) ideaGenerada.innerHTML = '// Haz clic en "Generar sugerencia" para obtener una base de código con herencia';
+function termLog2(msg, cls = '') {
+  term2.innerHTML += `<span class="${cls}">${msg}</span>\n`;
+  term2.scrollTop = term2.scrollHeight;
+}
+
+document.getElementById('crearProducto').addEventListener('click', () => {
+  const n = document.getElementById('prodNombre').value || 'Producto';
+  const p = document.getElementById('prodPrecio').value;
+  const s = document.getElementById('prodStock').value;
+  const d = document.getElementById('prodDescuento').value;
+  productoActual = new ProductoDemo(n, p, s, d);
+  term2.innerHTML = '';
+  termLog2(`> new Producto("${n}", ${p}, ${s}, ${d})`, 't-prompt');
+  termLog2(productoActual.mostrarInfo(), 't-success');
+  termLog2(`> .precioFinal() → S/ ${productoActual.precioFinal().toFixed(2)}`, 't-info');
+  document.getElementById('venderProducto').disabled = false;
+});
+
+document.getElementById('venderProducto').addEventListener('click', () => {
+  if (!productoActual) return;
+  const resultado = productoActual.vender(2);
+  termLog2(`> .vender(2)`, 't-prompt');
+  termLog2(resultado, resultado.startsWith('✅') ? 't-success' : 't-error');
+  termLog2(productoActual.mostrarInfo(), 't-info');
+});
+
+/* ===== EDITOR CÓDIGO (Panel 3) ===== */
+const termP = document.getElementById('terminalProyecto');
+
+function termLogP(msg, cls = '') {
+  termP.innerHTML += `<span class="${cls}">${msg}</span>\n`;
+  termP.scrollTop = termP.scrollHeight;
+}
+
+document.getElementById('ejecutarCodigo').addEventListener('click', () => {
+  const code = document.getElementById('codigoPropio').value;
+  termP.innerHTML = '';
+  termLogP('▶ Ejecutando...', 't-info');
+  const logs = [];
+  const origLog = console.log;
+  console.log = (...args) => { logs.push(args.join(' ')); origLog(...args); };
+  try {
+    eval(code);
+    console.log = origLog;
+    if (logs.length === 0) {
+      termLogP('✅ Código ejecutado sin errores (sin salida).', 't-success');
+    } else {
+      logs.forEach(l => termLogP(l, 't-success'));
+    }
+  } catch(e) {
+    console.log = origLog;
+    termLogP(`❌ Error: ${e.message}`, 't-error');
+  }
+});
+
+document.getElementById('limpiarEditor').addEventListener('click', () => {
+  document.getElementById('codigoPropio').value = '';
+  termP.innerHTML = '<span class="t-info">// Editor limpio. Escribe tu clase...</span>';
+});
+
+/* ===== GENERAR IDEA DESAFÍO (Panel 4) ===== */
+const btnIdea  = document.getElementById('generarIdea');
+const colIdea  = document.getElementById('colIdea');
+let ideaVisible = false;
+
+btnIdea.addEventListener('click', () => {
+  ideaVisible = !ideaVisible;
+  colIdea.style.display = ideaVisible ? 'block' : 'none';
+  btnIdea.textContent = ideaVisible ? '🙈 Ocultar código base' : '💡 Generar código base con herencia';
+});
+
+/* ===== PROGRESS (Panel 4) ===== */
+let progreso = 0;
+document.getElementById('marcarListo').addEventListener('click', () => {
+  if (progreso < 100) {
+    progreso = Math.min(100, progreso + 25);
+    document.getElementById('progBar').style.width = progreso + '%';
+    document.getElementById('progPct').textContent = progreso + '%';
+    if (progreso === 100) {
+      document.getElementById('marcarListo').textContent = '🏆 ¡Proyecto Completado!';
+      document.getElementById('marcarListo').style.background = 'linear-gradient(135deg,#238636,#2EA043)';
+      document.getElementById('marcarListo').style.color = 'white';
+    }
+  }
+});
+
+/* ===== TAB SIZE para textarea ===== */
+document.getElementById('codigoPropio').addEventListener('keydown', e => {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const el = e.target;
+    const start = el.selectionStart;
+    const end   = el.selectionEnd;
+    el.value = el.value.substring(0, start) + '  ' + el.value.substring(end);
+    el.selectionStart = el.selectionEnd = start + 2;
+  }
+});
 </script>
 </body>
 </html>
