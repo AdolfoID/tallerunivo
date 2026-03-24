@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>POO Lab: Aprendizaje Activo con Clases y Objetos</title>
+    <title>POO Lab: Clases y Objetos</title>
     <style>
         * {
             margin: 0;
@@ -12,34 +12,30 @@
         }
 
         body {
-            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Poppins', sans-serif;
-            background: linear-gradient(145deg, #f6f9fc 0%, #eef2f5 100%);
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
             padding: 2rem 1rem;
-            color: #1a2c3e;
         }
 
-        /* contenedor principal estilo tarjeta de aprendizaje */
-        .learning-container {
+        .poo-container {
             max-width: 1300px;
             margin: 0 auto;
             background: white;
-            border-radius: 2.5rem;
-            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.25);
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.2);
             overflow: hidden;
-            transition: all 0.2s ease;
         }
 
-        /* header con metodologías */
-        .hero {
-            background: linear-gradient(135deg, #0B2B40 0%, #1C4E6F 100%);
-            padding: 2rem 2rem 1.8rem 2rem;
+        /* Header principal */
+        .header {
+            background: linear-gradient(135deg, #1e3c5c 0%, #2a4f6e 100%);
+            padding: 2rem;
             color: white;
             text-align: center;
         }
 
-        .hero h1 {
-            font-size: 2.2rem;
-            letter-spacing: -0.5px;
+        .header h1 {
+            font-size: 2rem;
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
@@ -48,486 +44,679 @@
             flex-wrap: wrap;
         }
 
-        .badge-methods {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 1rem;
+        .header p {
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
-        .method {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(4px);
-            padding: 0.4rem 1rem;
-            border-radius: 60px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        /* tabs o secciones estilo pestañas interactivas */
-        .nav-tabs {
+        /* Navegación principal */
+        .main-nav {
             display: flex;
-            background: #f1f5f9;
-            border-bottom: 2px solid #cbd5e1;
+            background: #f8fafc;
+            border-bottom: 2px solid #e2e8f0;
             padding: 0 1rem;
-            gap: 0.5rem;
+            gap: 0.25rem;
             flex-wrap: wrap;
         }
 
-        .tab-btn {
+        .nav-item {
+            padding: 1rem 1.8rem;
             background: transparent;
             border: none;
             font-size: 1rem;
             font-weight: 600;
-            padding: 1rem 1.6rem;
+            color: #475569;
             cursor: pointer;
-            transition: 0.2s;
-            color: #2c3e50;
-            border-radius: 30px 30px 0 0;
+            transition: all 0.2s;
             font-family: inherit;
+            border-radius: 2rem 2rem 0 0;
         }
 
-        .tab-btn.active {
+        .nav-item.active {
             background: white;
-            color: #1C4E6F;
-            border-bottom: 3px solid #1C4E6F;
+            color: #1e3c5c;
+            border-bottom: 3px solid #1e3c5c;
         }
 
-        .tab-pane {
+        /* Paneles de contenido */
+        .panel {
             display: none;
             padding: 2rem;
             animation: fadeIn 0.3s ease;
         }
 
-        .tab-pane.active {
+        .panel.active {
             display: block;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px);}
+            from { opacity: 0; transform: translateY(10px);}
             to { opacity: 1; transform: translateY(0);}
         }
 
-        /* componentes de aprendizaje cooperativo */
-        .coop-grid {
+        /* Tarjetas y componentes */
+        .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.8rem;
-            margin: 2rem 0;
-        }
-
-        .role-card {
-            background: #fef9e6;
-            border-left: 6px solid #e67e22;
-            padding: 1.4rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 5px 12px rgba(0,0,0,0.05);
-        }
-
-        .role-card h3 {
-            color: #b45f1b;
-            margin-bottom: 0.75rem;
-        }
-
-        .challenge-box {
-            background: #eef2ff;
-            border-radius: 1.8rem;
-            padding: 1.5rem;
+            gap: 1.5rem;
             margin: 1.5rem 0;
         }
 
+        .concept-card {
+            background: #fefce8;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid #fde68a;
+            transition: transform 0.2s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1.2rem;
+            border-radius: 1rem;
+            font-family: 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .activity-box {
+            background: #f1f5f9;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 5px solid #1e3c5c;
+        }
+
+        .role-badge {
+            display: inline-block;
+            background: #e2e3e5;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
         .btn {
-            background: #1C4E6F;
+            background: #1e3c5c;
             color: white;
             border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 3rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 2rem;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
             font-family: inherit;
+            transition: all 0.2s;
             margin-top: 0.8rem;
+            margin-right: 0.5rem;
             display: inline-flex;
             align-items: center;
             gap: 8px;
         }
 
+        .btn-secondary {
+            background: #64748b;
+        }
+
         .btn-outline {
             background: transparent;
-            border: 2px solid #1C4E6F;
-            color: #1C4E6F;
+            border: 2px solid #1e3c5c;
+            color: #1e3c5c;
         }
 
         .btn-outline:hover {
-            background: #1C4E6F;
+            background: #1e3c5c;
             color: white;
         }
 
-        .code-editor {
-            background: #0f172a;
-            color: #e2e8f0;
-            padding: 1rem;
-            border-radius: 1.2rem;
-            font-family: 'Fira Code', 'Cascadia Code', monospace;
-            font-size: 0.9rem;
-            overflow-x: auto;
-            margin: 1rem 0;
-        }
-
-        .interactive-demo {
-            background: #f8fafc;
+        .live-demo {
+            background: #ffffff;
             border-radius: 1.5rem;
             padding: 1.5rem;
             border: 1px solid #cbd5e1;
-            margin-top: 1rem;
+            margin: 1rem 0;
         }
 
-        input, select {
+        input, select, textarea {
             padding: 0.6rem 1rem;
             border-radius: 2rem;
             border: 1px solid #cbd5e1;
             font-family: inherit;
             margin: 0.3rem 0.5rem 0.3rem 0;
+            width: auto;
         }
 
-        .project-card {
-            background: linear-gradient(115deg, #fff7ed, #fff);
+        .team-section {
+            background: linear-gradient(115deg, #fef9e6, #ffffff);
             border-radius: 1.5rem;
-            padding: 1.2rem;
-            margin-bottom: 1rem;
-            border: 1px solid #ffedd5;
+            padding: 1.5rem;
+            margin: 1rem 0;
         }
 
         footer {
-            background: #e9edf2;
+            background: #eef2f5;
             text-align: center;
             padding: 1.2rem;
             font-size: 0.8rem;
-            color: #2c3e50;
+            color: #475569;
+            border-top: 1px solid #cbd5e1;
         }
 
         @media (max-width: 700px) {
-            .tab-btn { padding: 0.7rem 1rem; font-size: 0.8rem; }
-            .tab-pane { padding: 1.2rem; }
+            .nav-item { padding: 0.7rem 1rem; font-size: 0.85rem; }
+            .panel { padding: 1.2rem; }
         }
     </style>
 </head>
 <body>
-<div class="learning-container">
-    <div class="hero">
-        <h1>🧩 POO: Programación Orientada a Objetos</h1>
-        <p>Clase dinámica con metodologías activas: Flipped Classroom · Aprendizaje Basado en Proyectos · Aprendizaje Cooperativo</p>
-        <div class="badge-methods">
-            <span class="method">🎬 FLIPPED: Prepárate en casa</span>
-            <span class="method">🤝 COOPERATIVO: Roles en equipo</span>
-            <span class="method">🚀 PROYECTO: Simulador de objetos</span>
-        </div>
+<div class="poo-container">
+    <div class="header">
+        <h1>🧬 Programación Orientada a Objetos</h1>
+        <p>Clases · Objetos · Métodos · Proyectos colaborativos</p>
     </div>
 
-    <div class="nav-tabs">
-        <button class="tab-btn active" data-tab="flipped">📘 1. FLIPPED (Previo)</button>
-        <button class="tab-btn" data-tab="coop">👥 2. COOPERATIVO - Roles</button>
-        <button class="tab-btn" data-tab="project">💻 3. PROYECTO - Crea tu Objeto</button>
-        <button class="tab-btn" data-tab="challenge">⚡ 4. RETO COLABORATIVO</button>
+    <div class="main-nav">
+        <button class="nav-item active" data-panel="teoria">📖 Conceptos Esenciales</button>
+        <button class="nav-item" data-panel="equipo">🤝 Construcción en Equipo</button>
+        <button class="nav-item" data-panel="proyecto">🚀 Crea tu Proyecto</button>
+        <button class="nav-item" data-panel="desafio">⚡ Desafío Final</button>
     </div>
 
-    <!-- PANEL FLIPPED CLASSROOM: teoría en casa, práctica en clase -->
-    <div class="tab-pane active" id="flipped">
-        <h2>🎬 Flipped Classroom: Aprende antes de programar</h2>
-        <p><strong>Antes de la sesión interactiva</strong>, revisa estos conceptos clave en casa. En clase aplicaremos construyendo objetos.</p>
-        <div class="coop-grid">
-            <div class="role-card" style="background:#e8f0fe;">
-                <h3>🧠 Clases y Objetos</h3>
-                <p>Una <strong>clase</strong> es una plantilla. Un <strong>objeto</strong> es una instancia con atributos y métodos.</p>
-                <div class="code-editor" style="background:#1e293b;">
-// Clase en pseudocódigo / JS
-class Estudiante {
-    constructor(nombre, edad) {
+    <!-- PANEL 1: CONCEPTOS (preparación previa - Flipped) -->
+    <div class="panel active" id="teoria">
+        <h2>📌 Fundamentos que debes dominar</h2>
+        <p>Antes de programar, revisa estos conceptos. En clase los aplicarás construyendo soluciones reales con tu equipo.</p>
+        
+        <div class="cards-grid">
+            <div class="concept-card">
+                <h3>🏷️ Clase</h3>
+                <p>Una <strong>clase</strong> es una plantilla o molde que define atributos y comportamientos.</p>
+                <div class="code-block">
+// Ejemplo de clase (JavaScript)
+class Mascota {
+    constructor(nombre, especie) {
         this.nombre = nombre;
-        this.edad = edad;
+        this.especie = especie;
+        this.energia = 100;
     }
     saludar() {
-        return "Hola, soy " + this.nombre;
+        return `¡Hola! soy ${this.nombre}`;
     }
 }
                 </div>
             </div>
-            <div class="role-card" style="background:#e8f0fe;">
+            <div class="concept-card">
+                <h3>🎯 Objeto</h3>
+                <p>Un <strong>objeto</strong> es una instancia concreta de una clase.</p>
+                <div class="code-block">
+// Creando objetos (instancias)
+let perro = new Mascota("Max", "Perro");
+let gato = new Mascota("Luna", "Gato");
+console.log(perro.saludar()); // ¡Hola! soy Max
+                </div>
+            </div>
+            <div class="concept-card">
                 <h3>⚙️ Atributos y Métodos</h3>
-                <p><strong>Atributos</strong>: características (nombre, nota). <strong>Métodos</strong>: acciones (calcularPromedio, mostrarInfo).</p>
-                <p>🎯 Principios: Abstracción, Encapsulamiento, Herencia, Polimorfismo.</p>
+                <p><strong>Atributos:</strong> datos que describen al objeto.<br>
+                <strong>Métodos:</strong> acciones que puede realizar.</p>
+                <div class="code-block">
+// Atributos: nombre, especie, energia
+// Métodos: saludar(), jugar(), dormir()
+                </div>
             </div>
         </div>
-        <div class="challenge-box">
-            <p>✅ <strong>Checklist flipped</strong>: Mira el video corto (simulado), lee el resumen y prepárate para <strong>codificar en equipo</strong>.</p>
-            <div style="background:#d9f0ec; border-radius: 1rem; padding: 0.8rem; margin-top: 10px;">
-                📌 <strong>Mini cuestionario mental</strong>: ¿Qué diferencia una clase de un objeto? ¿Puedes identificar 3 atributos de un "Coche"? 
-            </div>
-        </div>
-    </div>
 
-    <!-- PANEL COOPERATIVO: roles en equipo para resolver desafío -->
-    <div class="tab-pane" id="coop">
-        <h2>🤝 Aprendizaje Cooperativo: Método “Roles POO”</h2>
-        <p>Cada equipo de 4 personas tendrá roles específicos. Deberán diseñar una clase <strong>"ProductoDigital"</strong> que incluya atributos y métodos.</p>
-        <div class="coop-grid">
-            <div class="role-card">
-                <h3>👩‍💻 Programador/a</h3>
-                <p>Escribe la sintaxis de la clase, atributos y métodos. Asegura que compile en pseudocódigo o JavaScript.</p>
-            </div>
-            <div class="role-card">
-                <h3>📋 Diseñador/a de Atributos</h3>
-                <p>Define qué datos necesita la clase (nombre, precio, stock, categoría) y sus tipos (string, number, boolean).</p>
-            </div>
-            <div class="role-card">
-                <h3>🧪 Tester / Depurador</h3>
-                <p>Crea casos de prueba: instancias de objetos y verifica métodos como aplicarDescuento(), mostrarDetalles().</p>
-            </div>
-            <div class="role-card">
-                <h3>🎤 Presentador/a</h3>
-                <p>Expone la solución al resto, explica las decisiones de diseño y muestra el código funcionando.</p>
-            </div>
-        </div>
-        <div class="interactive-demo">
-            <p><strong>🎯 Tarea cooperativa (15 min)</strong>: Construyan la clase <code>ProductoDigital</code> con:</p>
-            <ul>
-                <li>Atributos: nombre, precio, descuento (0-100), stock</li>
-                <li>Método: calcularPrecioFinal() que devuelva precio - descuento%</li>
-                <li>Método: vender(cantidad) que reduzca stock</li>
+        <div class="activity-box">
+            <h3>🎬 Prepárate para la sesión</h3>
+            <p>📹 <strong>Material previo:</strong> Revisa los ejemplos y responde mentalmente:</p>
+            <ul style="margin-top: 10px; margin-left: 1.5rem;">
+                <li>¿Qué atributos tendría una clase <code>Estudiante</code>?</li>
+                <li>¿Qué métodos podrías agregar a una clase <code>CuentaBancaria</code>?</li>
+                <li>Trae ideas para construir un mini sistema con clases.</li>
             </ul>
-            <button class="btn btn-outline" id="showExampleCoop">✨ Ver ejemplo de solución cooperativa</button>
-            <div id="coopExampleResult" class="code-editor" style="margin-top: 12px; display:none;">
-                // Clase ProductoDigital (JavaScript orientado a objetos)
-class ProductoDigital {
-  constructor(nombre, precio, descuento, stock) {
-    this.nombre = nombre;
-    this.precio = precio;
-    this.descuento = descuento;
-    this.stock = stock;
-  }
-  calcularPrecioFinal() {
-    return this.precio - (this.precio * this.descuento / 100);
-  }
-  vender(cantidad) {
-    if (cantidad <= this.stock) {
-      this.stock -= cantidad;
-      return `Venta exitosa. Stock restante: ${this.stock}`;
-    }
-    return "Stock insuficiente";
-  }
-}
-const libroPOO = new ProductoDigital("POO desde cero", 25, 15, 10);
-console.log(libroPOO.calcularPrecioFinal());  // 21.25
-            </div>
-        </div>
-    </div>
-
-    <!-- PROYECTO: ABP - crear un simulador interactivo -->
-    <div class="tab-pane" id="project">
-        <h2>🚀 Aprendizaje Basado en Proyectos: “Mi Simulador de Objetos”</h2>
-        <p>Tu equipo debe construir un prototipo funcional que modele un <strong>sistema del mundo real</strong> usando POO.</p>
-        <div class="project-card">
-            <h3>🎮 Ideas de proyecto (elige uno):</h3>
-            <ul>
-                <li>📱 Gestor de tareas con clase Tarea (prioridad, completada, etiquetas)</li>
-                <li>🎮 Personaje de videojuego con atributos (vida, fuerza, nivel) y métodos (atacar, subirNivel)</li>
-                <li>🏦 Cuenta bancaria con métodos depositar, retirar, mostrar saldo</li>
-                <li>📚 Biblioteca con clase Libro y métodos prestar, devolver</li>
-            </ul>
-        </div>
-        <div class="interactive-demo">
-            <h3>🔧 Editor en Vivo: Construye tu propia clase 🧪</h3>
-            <p>Prueba a crear instancias y ver resultados dinámicos:</p>
-            <div>
-                <label>📌 Nombre del objeto: </label>
-                <input type="text" id="objName" placeholder="ej: MotoDeportiva" value="MiSuperObjeto">
-                <label>🔢 Atributo extra (valor): </label>
-                <input type="number" id="objValue" placeholder="100" value="42">
-                <button class="btn" id="createObjectBtn">➕ Crear Instancia</button>
-            </div>
-            <div id="liveObjectDisplay" class="code-editor" style="background:#1e2a3a; margin-top: 1rem;">
-                🟢 Crea una instancia y aquí se mostrarán sus propiedades y métodos.
-            </div>
-            <p><small>💡 Inspírate: La clase genérica demostrativa incluye atributo 'nombre' y 'valor', método 'mostrarInfo()' y 'aumentar()'.</small></p>
-        </div>
-    </div>
-
-    <!-- RETO COLABORATIVO: integración de metodologías -->
-    <div class="tab-pane" id="challenge">
-        <h2>⚡ Mega Reto: Code & Share (Cooperativo + Proyecto)</h2>
-        <p>En equipos rotativos, mejoren una clase <strong>“EstudiantePOO”</strong> que calcule promedio y genere reporte. Utilicen roles cooperativos y apliquen herencia.</p>
-        <div class="challenge-box">
-            <p>📌 <strong>Entregable final:</strong> Pseudocódigo / JS de la clase + al menos 3 objetos creados. Debe incluir encapsulamiento (getters/setters) y método toString.</p>
-            <button id="challengeBtn" class="btn">🎲 Generar sugerencia de clase base</button>
-            <div id="challengeSuggestion" class="code-editor" style="margin-top: 1rem; background: #0b2b2f;">
-// Clase base sugerida: Estudiante
+            <button id="verEjemploBtn" class="btn btn-outline">🔍 Ver ejemplo de clase</button>
+            <div id="ejemploExtra" style="display: none; margin-top: 1rem;">
+                <div class="code-block">
+// Clase Estudiante con métodos básicos
 class Estudiante {
-  #nombre;
-  #notas;
-  constructor(nombre, notas = []) {
-    this.#nombre = nombre;
-    this.#notas = notas;
-  }
-  agregarNota(nota) { this.#notas.push(nota); }
-  getPromedio() {
-    if (this.#notas.length === 0) return 0;
-    return this.#notas.reduce((a,b)=>a+b,0)/this.#notas.length;
-  }
-  toString() {
-    return `${this.#nombre} - Promedio: ${this.getPromedio().toFixed(2)}`;
-  }
+    constructor(nombre, edad, carrera) {
+        this.nombre = nombre;
+        this.edad = edad;
+        this.carrera = carrera;
+        this.calificaciones = [];
+    }
+    agregarNota(nota) {
+        if(nota >= 0 && nota <= 20) {
+            this.calificaciones.push(nota);
+            return "Nota agregada";
+        }
+        return "Nota inválida";
+    }
+    obtenerPromedio() {
+        if(this.calificaciones.length === 0) return 0;
+        let suma = this.calificaciones.reduce((a,b) => a + b, 0);
+        return (suma / this.calificaciones.length).toFixed(2);
+    }
+    mostrarInfo() {
+        return `${this.nombre} (${this.edad} años) - ${this.carrera} - Promedio: ${this.obtenerPromedio()}`;
+    }
 }
-// Herencia: EstudianteInternacional
-            </div>
-        </div>
-        <div class="coop-grid">
-            <div class="role-card" style="background:#eef2ff;">
-                <h3>📢 Rúbrica de evaluación cooperativa</h3>
-                <p>✔️ Participación activa de cada rol ✔️ Código funcional con clases ✔️ Presentación breve ✔️ Reflexión sobre aprendizajes</p>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- PANEL 2: CONSTRUCCIÓN EN EQUIPO (Aprendizaje Cooperativo) -->
+    <div class="panel" id="equipo">
+        <h2>🤝 Construyendo juntos: Sistema de Gestión</h2>
+        <p>Cada equipo organizará sus roles para diseñar una clase funcional. La colaboración es clave.</p>
+
+        <div class="team-section">
+            <h3>📋 Roles del equipo (4 personas)</h3>
+            <div class="cards-grid">
+                <div class="concept-card" style="background:#ecfdf5;">
+                    <span class="role-badge">🎨 Rol 1</span>
+                    <h4>Analista de Atributos</h4>
+                    <p>Define qué datos necesita la clase (tipo de datos, valores iniciales, validaciones).</p>
+                </div>
+                <div class="concept-card" style="background:#ecfdf5;">
+                    <span class="role-badge">💻 Rol 2</span>
+                    <h4>Constructor de Métodos</h4>
+                    <p>Escribe las funciones y comportamientos (calcular, transformar, mostrar).</p>
+                </div>
+                <div class="concept-card" style="background:#ecfdf5;">
+                    <span class="role-badge">🧪 Rol 3</span>
+                    <h4>Probador / Depurador</h4>
+                    <p>Crea instancias, prueba los métodos y verifica que funcionen correctamente.</p>
+                </div>
+                <div class="concept-card" style="background:#ecfdf5;">
+                    <span class="role-badge">🎤 Rol 4</span>
+                    <h4>Relator / Presentador</h4>
+                    <p>Documenta el código y prepara la exposición del proyecto.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="activity-box">
+            <h3>🎯 Misión del equipo: Clase "Producto"</h3>
+            <p>Construyan una clase <strong>Producto</strong> con los siguientes requisitos:</p>
+            <ul style="margin: 0.8rem 0 0.8rem 1.5rem;">
+                <li>Atributos: nombre, precio, stock, descuento (porcentaje)</li>
+                <li>Método <code>precioFinal()</code> que devuelva precio con descuento aplicado</li>
+                <li>Método <code>vender(cantidad)</code> que reduzca el stock y muestre mensaje</li>
+                <li>Método <code>mostrarInfo()</code> que retorne toda la información</li>
+            </ul>
+            <button id="mostrarSolucionEquipo" class="btn btn-outline">✨ Ver ejemplo de solución</button>
+            <div id="solucionEquipo" style="display: none; margin-top: 1rem;">
+                <div class="code-block">
+// Clase Producto - Solución colaborativa
+class Producto {
+    constructor(nombre, precio, stock, descuento = 0) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.stock = stock;
+        this.descuento = descuento; // porcentaje 0-100
+    }
+    
+    precioFinal() {
+        let descuentoAplicado = this.precio * (this.descuento / 100);
+        return this.precio - descuentoAplicado;
+    }
+    
+    vender(cantidad) {
+        if(cantidad <= this.stock) {
+            this.stock -= cantidad;
+            return `✅ Venta exitosa. Stock restante: ${this.stock}`;
+        } else {
+            return `❌ Stock insuficiente. Solo quedan ${this.stock} unidades.`;
+        }
+    }
+    
+    mostrarInfo() {
+        return `📦 ${this.nombre} | Precio: S/ ${this.precio} | Oferta: ${this.descuento}% | Final: S/ ${this.precioFinal().toFixed(2)} | Stock: ${this.stock}`;
+    }
+}
+
+// Prueba de concepto
+const laptop = new Producto("Laptop Gamer", 2500, 5, 15);
+console.log(laptop.mostrarInfo());
+console.log(laptop.vender(2));
+                </div>
+            </div>
+        </div>
+
+        <div class="live-demo">
+            <h3>🔧 Prueba tu clase en vivo</h3>
+            <p>Simula la creación de productos y ventas:</p>
+            <input type="text" id="prodNombre" placeholder="Nombre del producto" value="Teclado Mecánico">
+            <input type="number" id="prodPrecio" placeholder="Precio" value="350">
+            <input type="number" id="prodStock" placeholder="Stock" value="10">
+            <input type="number" id="prodDescuento" placeholder="Descuento %" value="0">
+            <button id="crearProductoDemo" class="btn">➕ Crear Producto</button>
+            <div id="demoProductoResultado" class="code-block" style="margin-top: 1rem; background:#1e293b;">
+                Esperando creación de producto...
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL 3: PROYECTO (Aprendizaje Basado en Proyectos) -->
+    <div class="panel" id="proyecto">
+        <h2>🚀 Proyecto: Sistema del Mundo Real con POO</h2>
+        <p>Tu equipo elegirá uno de estos proyectos para construir una solución funcional usando clases y objetos.</p>
+
+        <div class="cards-grid">
+            <div class="concept-card" style="background:#eef2ff;">
+                <h3>📱 Opción 1: Gestor de Tareas</h3>
+                <p>Clase <code>Tarea</code> con atributos: título, descripción, prioridad, completada. Métodos: marcarCompletada(), mostrarDetalles().</p>
+            </div>
+            <div class="concept-card" style="background:#eef2ff;">
+                <h3>🎮 Opción 2: Personaje de Videojuego</h3>
+                <p>Clase <code>Personaje</code> con vida, fuerza, nivel. Métodos: atacar(), subirNivel(), curar().</p>
+            </div>
+            <div class="concept-card" style="background:#eef2ff;">
+                <h3>🏦 Opción 3: Cuenta Bancaria</h3>
+                <p>Clase <code>Cuenta</code> con saldo, titular, número de cuenta. Métodos: depositar(), retirar(), mostrarSaldo().</p>
+            </div>
+            <div class="concept-card" style="background:#eef2ff;">
+                <h3>📚 Opción 4: Biblioteca Digital</h3>
+                <p>Clase <code>Libro</code> con título, autor, disponible. Métodos: prestar(), devolver(), info().</p>
+            </div>
+        </div>
+
+        <div class="activity-box">
+            <h3>📋 Entregables del proyecto</h3>
+            <ul>
+                <li>✅ Código de la clase con sus atributos y métodos (pseudocódigo o JavaScript)</li>
+                <li>✅ Al menos 3 objetos creados con diferentes datos</li>
+                <li>✅ Ejecución de métodos que demuestren funcionalidad</li>
+                <li>✅ Breve presentación explicando decisiones de diseño</li>
+            </ul>
+            <button id="ejemploProyectoBtn" class="btn btn-outline">🎮 Ver ejemplo (Personaje)</button>
+            <div id="ejemploProyecto" style="display: none; margin-top: 1rem;">
+                <div class="code-block">
+// Clase Personaje para videojuego
+class Personaje {
+    constructor(nombre, vida, fuerza) {
+        this.nombre = nombre;
+        this.vida = vida;
+        this.fuerza = fuerza;
+        this.nivel = 1;
+    }
+    
+    atacar(enemigo) {
+        let daño = this.fuerza * this.nivel;
+        enemigo.vida -= daño;
+        return `${this.nombre} ataca causando ${daño} de daño. ${enemigo.nombre} tiene ${enemigo.vida} de vida restante.`;
+    }
+    
+    subirNivel() {
+        this.nivel++;
+        this.fuerza += 5;
+        return `${this.nombre} subió al nivel ${this.nivel}! Fuerza: ${this.fuerza}`;
+    }
+    
+    curar() {
+        this.vida += 20;
+        return `${this.nombre} se cura. Vida actual: ${this.vida}`;
+    }
+    
+    estado() {
+        return `⚔️ ${this.nombre} | Nivel ${this.nivel} | ❤️ Vida: ${this.vida} | 💪 Fuerza: ${this.fuerza}`;
+    }
+}
+
+// Creando personajes
+let guerrero = new Personaje("Thorin", 120, 25);
+let mago = new Personaje("Elara", 80, 18);
+console.log(guerrero.estado());
+console.log(guerrero.atacar(mago));
+                </div>
+            </div>
+        </div>
+
+        <div class="live-demo">
+            <h3>⚡ Constructor Rápido de Proyectos</h3>
+            <p>Define tu propia clase en el editor y pruébala:</p>
+            <textarea id="codigoPersonalizado" rows="6" style="width:100%; border-radius:1rem; padding:0.8rem; font-family:monospace; background:#f8fafc; border:1px solid #cbd5e1;">class MiClase {
+    constructor(nombre, valor) {
+        this.nombre = nombre;
+        this.valor = valor;
+    }
+    mostrar() {
+        return `${this.nombre}: ${this.valor}`;
+    }
+}
+let prueba = new MiClase("Demo", 100);
+console.log(prueba.mostrar());</textarea>
+            <button id="ejecutarCodigoBtn" class="btn">▶️ Ejecutar Código</button>
+            <div id="resultadoEjecucion" class="code-block" style="background:#0f172a; margin-top:1rem;">
+                Resultado aparecerá aquí...
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL 4: DESAFÍO FINAL (Integración de metodologías) -->
+    <div class="panel" id="desafio">
+        <h2>⚡ Desafío Final: Sistema de Biblioteca Colaborativa</h2>
+        <p>En equipos de 3-4 personas, deberán construir un sistema completo usando herencia y métodos avanzados.</p>
+
+        <div class="team-section">
+            <h3>📌 Requerimientos del Desafío</h3>
+            <ul style="margin: 1rem 0 1rem 1.8rem;">
+                <li>Crear una clase base <strong>MaterialBiblioteca</strong> con atributos: id, titulo, año</li>
+                <li>Crear dos clases hijas: <strong>Libro</strong> (autor, genero) y <strong>Revista</strong> (numeroEdicion, mes)</li>
+                <li>Incluir método <strong>prestar()</strong> y <strong>devolver()</strong> que modifiquen estado de disponibilidad</li>
+                <li>Crear al menos 5 objetos y mostrar un reporte con todos los materiales</li>
+                <li>Cada equipo asignará roles y presentará su solución</li>
+            </ul>
+        </div>
+
+        <div class="activity-box">
+            <h3>🎲 Generador de Ideas para tu equipo</h3>
+            <button id="generarIdeaBtn" class="btn btn-outline">💡 Generar sugerencia de clase base</button>
+            <div id="ideaGenerada" class="code-block" style="margin-top: 1rem; background:#0b2b2f;">
+                // Haz clic en el botón para obtener una base de código
+            </div>
+        </div>
+
+        <div class="cards-grid">
+            <div class="concept-card" style="background:#f1f5f9;">
+                <h3>📊 Rúbrica de evaluación</h3>
+                <p>✔️ Código funcional con clases y herencia<br>
+                ✔️ Trabajo colaborativo con roles definidos<br>
+                ✔️ Creatividad en la implementación<br>
+                ✔️ Presentación clara de resultados</p>
+            </div>
+            <div class="concept-card" style="background:#f1f5f9;">
+                <h3>🏆 Premio al mejor proyecto</h3>
+                <p>El equipo con la solución más completa y bien documentada compartirá su código con la clase y recibirá reconocimiento.</p>
+            </div>
+        </div>
+    </div>
+
     <footer>
-        🌟 Metodologías combinadas: Flipped (preparación individual) + Aprendizaje Cooperativo (roles) + Proyecto (simulador funcional) | ¡Programa en equipo!
+        💡 Programación Orientada a Objetos | Aprende haciendo, colabora creando, construye soluciones reales
     </footer>
 </div>
 
 <script>
-    // -------- TABS INTERACTIVAS ----------
-    const tabs = document.querySelectorAll('.tab-btn');
-    const panes = document.querySelectorAll('.tab-pane');
-    function activateTab(tabId) {
-        panes.forEach(pane => pane.classList.remove('active'));
-        tabs.forEach(btn => btn.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        const activeBtn = Array.from(tabs).find(btn => btn.dataset.tab === tabId);
-        if(activeBtn) activeBtn.classList.add('active');
+    // Navegación entre paneles
+    const navItems = document.querySelectorAll('.nav-item');
+    const panels = document.querySelectorAll('.panel');
+
+    function activatePanel(panelId) {
+        panels.forEach(panel => panel.classList.remove('active'));
+        navItems.forEach(item => item.classList.remove('active'));
+        document.getElementById(panelId).classList.add('active');
+        const activeNav = Array.from(navItems).find(item => item.dataset.panel === panelId);
+        if(activeNav) activeNav.classList.add('active');
     }
-    tabs.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tabId = btn.dataset.tab;
-            activateTab(tabId);
+
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const panelId = item.dataset.panel;
+            activatePanel(panelId);
         });
     });
 
-    // -------- COOPERATIVO: mostrar ejemplo solución ----------
-    const showExampleBtn = document.getElementById('showExampleCoop');
-    const coopExampleDiv = document.getElementById('coopExampleResult');
-    if(showExampleBtn) {
-        showExampleBtn.addEventListener('click', () => {
-            if(coopExampleDiv.style.display === 'none' || !coopExampleDiv.style.display) {
-                coopExampleDiv.style.display = 'block';
-                showExampleBtn.textContent = '📘 Ocultar ejemplo';
+    // Botón ejemplo extra en teoría
+    const verEjemploBtn = document.getElementById('verEjemploBtn');
+    const ejemploExtra = document.getElementById('ejemploExtra');
+    if(verEjemploBtn) {
+        verEjemploBtn.addEventListener('click', () => {
+            if(ejemploExtra.style.display === 'none') {
+                ejemploExtra.style.display = 'block';
+                verEjemploBtn.textContent = '🔍 Ocultar ejemplo';
             } else {
-                coopExampleDiv.style.display = 'none';
-                showExampleBtn.textContent = '✨ Ver ejemplo de solución cooperativa';
+                ejemploExtra.style.display = 'none';
+                verEjemploBtn.textContent = '🔍 Ver ejemplo de clase';
             }
         });
     }
 
-    // -------- PROYECTO: DEMO INTERACTIVO POO (clase genérica para visualizar) ----------
-    // Definimos una clase DemoClass para que los estudiantes interactúen
-    class DemoObjeto {
-        constructor(nombre, valor) {
+    // Botón solución equipo
+    const mostrarSolucionEquipo = document.getElementById('mostrarSolucionEquipo');
+    const solucionEquipo = document.getElementById('solucionEquipo');
+    if(mostrarSolucionEquipo) {
+        mostrarSolucionEquipo.addEventListener('click', () => {
+            if(solucionEquipo.style.display === 'none') {
+                solucionEquipo.style.display = 'block';
+                mostrarSolucionEquipo.textContent = '✨ Ocultar solución';
+            } else {
+                solucionEquipo.style.display = 'none';
+                mostrarSolucionEquipo.textContent = '✨ Ver ejemplo de solución';
+            }
+        });
+    }
+
+    // Demo producto en vivo
+    class ProductoDemo {
+        constructor(nombre, precio, stock, descuento) {
             this.nombre = nombre;
-            this.valor = valor;
-            this.createdAt = new Date().toLocaleTimeString();
+            this.precio = precio;
+            this.stock = stock;
+            this.descuento = descuento || 0;
+        }
+        precioFinal() {
+            return this.precio - (this.precio * this.descuento / 100);
         }
         mostrarInfo() {
-            return `📦 Objeto: ${this.nombre} | Valor: ${this.valor} | Creado: ${this.createdAt}`;
-        }
-        aumentar(cantidad = 1) {
-            this.valor += cantidad;
-            return `✅ ${this.nombre} aumentó a ${this.valor}`;
+            return `📦 ${this.nombre} | Precio: S/ ${this.precio} | Desc: ${this.descuento}% | Final: S/ ${this.precioFinal().toFixed(2)} | Stock: ${this.stock}`;
         }
     }
 
-    const createBtn = document.getElementById('createObjectBtn');
-    const objNameInput = document.getElementById('objName');
-    const objValueInput = document.getElementById('objValue');
-    const liveDisplay = document.getElementById('liveObjectDisplay');
-    let currentDemoInstance = null;
-
-    function updateLiveDisplay() {
-        if (currentDemoInstance) {
-            liveDisplay.innerHTML = `<strong>🔷 INSTANCIA VIVA 🔷</strong><br>
-            🏷️ ${currentDemoInstance.mostrarInfo()}<br>
-            <button id="increaseValueBtn" class="btn-outline" style="margin-top:8px; padding:4px 12px;">⚡ Aumentar valor +1</button>
-            <button id="showMethodBtn" class="btn-outline" style="margin-top:8px; padding:4px 12px;">🔍 Llamar a mostrarInfo()</button>
-            `;
-            const incBtn = document.getElementById('increaseValueBtn');
-            const showBtn = document.getElementById('showMethodBtn');
-            if(incBtn) {
-                incBtn.onclick = () => {
-                    const msg = currentDemoInstance.aumentar(1);
-                    updateLiveDisplay(); // refrescar
-                    alert(msg);
-                };
-            }
-            if(showBtn) {
-                showBtn.onclick = () => {
-                    alert(currentDemoInstance.mostrarInfo());
-                };
-            }
-        } else {
-            liveDisplay.innerHTML = `🟢 Crea una instancia y aquí se mostrarán sus propiedades y métodos.`;
-        }
-    }
-
-    if(createBtn) {
-        createBtn.addEventListener('click', () => {
-            const nombre = objNameInput.value.trim() || "ObjetoGenérico";
-            const valor = parseFloat(objValueInput.value);
-            if(isNaN(valor)) {
-                alert("Ingresa un valor numérico válido para el atributo");
-                return;
-            }
-            currentDemoInstance = new DemoObjeto(nombre, valor);
-            updateLiveDisplay();
+    const crearProductoDemo = document.getElementById('crearProductoDemo');
+    const demoResultado = document.getElementById('demoProductoResultado');
+    if(crearProductoDemo && demoResultado) {
+        crearProductoDemo.addEventListener('click', () => {
+            const nombre = document.getElementById('prodNombre')?.value || "Producto";
+            const precio = parseFloat(document.getElementById('prodPrecio')?.value) || 0;
+            const stock = parseInt(document.getElementById('prodStock')?.value) || 0;
+            const descuento = parseFloat(document.getElementById('prodDescuento')?.value) || 0;
+            const producto = new ProductoDemo(nombre, precio, stock, descuento);
+            demoResultado.innerHTML = `✅ Producto creado:<br>${producto.mostrarInfo()}<br><br>💡 Puedes usar métodos como .precioFinal() = S/ ${producto.precioFinal().toFixed(2)}`;
         });
     }
 
-    // Reto cooperativo: botón generar sugerencia
-    const challengeBtn = document.getElementById('challengeBtn');
-    const challengeSuggestionDiv = document.getElementById('challengeSuggestion');
-    if(challengeBtn && challengeSuggestionDiv) {
-        challengeBtn.addEventListener('click', () => {
-            challengeSuggestionDiv.innerHTML = `// 🧠 CLASE CON ENCAPSULAMIENTO (sugerencia mejorada)
-class EstudianteAvanzado {
-  #nombre;
-  #edad;
-  #calificaciones;
-  constructor(nombre, edad) {
-    this.#nombre = nombre;
-    this.#edad = edad;
-    this.#calificaciones = [];
-  }
-  agregarCalificacion(nota) {
-    if(nota >= 0 && nota <= 20) this.#calificaciones.push(nota);
-    else console.warn("Nota inválida");
-  }
-  get promedio() {
-    if(this.#calificaciones.length === 0) return 0;
-    return this.#calificaciones.reduce((a,b)=>a+b,0)/this.#calificaciones.length;
-  }
-  get infoCompleta() {
-    return \`\${this.#nombre}, \${this.#edad} años | Promedio: \${this.promedio.toFixed(2)}\`;
-  }
+    // Ejemplo proyecto
+    const ejemploProyectoBtn = document.getElementById('ejemploProyectoBtn');
+    const ejemploProyecto = document.getElementById('ejemploProyecto');
+    if(ejemploProyectoBtn) {
+        ejemploProyectoBtn.addEventListener('click', () => {
+            if(ejemploProyecto.style.display === 'none') {
+                ejemploProyecto.style.display = 'block';
+                ejemploProyectoBtn.textContent = '🎮 Ocultar ejemplo';
+            } else {
+                ejemploProyecto.style.display = 'none';
+                ejemploProyectoBtn.textContent = '🎮 Ver ejemplo (Personaje)';
+            }
+        });
+    }
+
+    // Ejecutar código personalizado
+    const ejecutarCodigoBtn = document.getElementById('ejecutarCodigoBtn');
+    const resultadoEjecucion = document.getElementById('resultadoEjecucion');
+    if(ejecutarCodigoBtn && resultadoEjecucion) {
+        ejecutarCodigoBtn.addEventListener('click', () => {
+            const codigo = document.getElementById('codigoPersonalizado')?.value || "";
+            try {
+                let output = "";
+                const originalLog = console.log;
+                console.log = function(...args) {
+                    output += args.join(" ") + "\n";
+                    originalLog.apply(console, args);
+                };
+                eval(codigo);
+                console.log = originalLog;
+                resultadoEjecucion.innerHTML = output ? `📤 Resultado:\n${output}` : "✅ Código ejecutado sin errores (sin salida en consola)";
+            } catch(e) {
+                resultadoEjecucion.innerHTML = `❌ Error: ${e.message}`;
+            }
+        });
+    }
+
+    // Generar idea desafío
+    const generarIdeaBtn = document.getElementById('generarIdeaBtn');
+    const ideaGenerada = document.getElementById('ideaGenerada');
+    if(generarIdeaBtn && ideaGenerada) {
+        generarIdeaBtn.addEventListener('click', () => {
+            ideaGenerada.innerHTML = `// Clase base sugerida para el desafío
+class MaterialBiblioteca {
+    constructor(id, titulo, año) {
+        this.id = id;
+        this.titulo = titulo;
+        this.año = año;
+        this.disponible = true;
+    }
+    prestar() {
+        if(this.disponible) {
+            this.disponible = false;
+            return \`📖 "\${this.titulo}" ha sido prestado.\`;
+        }
+        return \`❌ "\${this.titulo}" no está disponible.\`;
+    }
+    devolver() {
+        this.disponible = true;
+        return \`📚 "\${this.titulo}" ha sido devuelto.\`;
+    }
+    info() {
+        return \`[\${this.id}] \${this.titulo} (\${this.año}) - \${this.disponible ? "Disponible" : "Prestado"}\`;
+    }
 }
-// RETO: Crear 2 estudiantes y mostrar info cooperativa 💪
-const estudianteA = new EstudianteAvanzado("María", 20);
-estudianteA.agregarCalificacion(18);
-estudianteA.agregarCalificacion(15);
-console.log(estudianteA.infoCompleta);`;
+
+// Clase hija: Libro
+class Libro extends MaterialBiblioteca {
+    constructor(id, titulo, año, autor, genero) {
+        super(id, titulo, año);
+        this.autor = autor;
+        this.genero = genero;
+    }
+    infoCompleta() {
+        return \`📘 \${super.info()} | Autor: \${this.autor} | Género: \${this.genero}\`;
+    }
+}
+
+// Ejemplo de uso
+let libro1 = new Libro(101, "Cien años de soledad", 1967, "García Márquez", "Realismo mágico");
+console.log(libro1.infoCompleta());
+console.log(libro1.prestar());
+console.log(libro1.info());`;
         });
     }
 
-    // inicializar mostrar ejemplo coop oculto al principio
-    if(coopExampleDiv) coopExampleDiv.style.display = 'none';
-    // Mensaje de bienvenida dinámica para fomentar interacción
-    console.log("Clase POO Activa: Flipped + Cooperativo + ABP integrados");
+    // Inicializar estados
+    ejemploExtra.style.display = 'none';
+    solucionEquipo.style.display = 'none';
+    ejemploProyecto.style.display = 'none';
+    if(ideaGenerada) ideaGenerada.innerHTML = '// Haz clic en "Generar sugerencia" para obtener una base de código con herencia';
 </script>
 </body>
 </html>
