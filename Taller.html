@@ -1,1037 +1,1259 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>POO Lab — UNIVO | Clases y Objetos</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --univo-blue: #003C7E;
-    --univo-blue-mid: #0057B8;
-    --univo-blue-light: #1A6FCC;
-    --univo-gold: #F5A623;
-    --univo-gold-dark: #D4891A;
-    --bg: #0D1117;
-    --bg2: #161B22;
-    --bg3: #21262D;
-    --bg4: #2D333B;
-    --text: #E6EDF3;
-    --text-muted: #8B949E;
-    --border: #30363D;
-    --green: #3FB950;
-    --teal: #58A6FF;
-    --purple: #BC8CFF;
-    --orange: #FF9A00;
-    --red: #FF6B6B;
-    --yellow: #E3B341;
-    --pink: #F778BA;
-    --vscode-bg: #1E1E1E;
-    --vscode-sidebar: #252526;
-    --vscode-tab: #2D2D2D;
-    --vscode-tab-active: #1E1E1E;
-    --vscode-line-num: #858585;
-    --vscode-border: #3C3C3C;
-    --vscode-keyword: #569CD6;
-    --vscode-class: #4EC9B0;
-    --vscode-fn: #DCDCAA;
-    --vscode-string: #CE9178;
-    --vscode-num: #B5CEA8;
-    --vscode-comment: #6A9955;
-    --vscode-param: #9CDCFE;
-    --vscode-this: #569CD6;
-    --vscode-op: #D4D4D4;
-    --vscode-punc: #D4D4D4;
-    --radius: 12px;
-    --shadow: 0 8px 32px rgba(0,0,0,0.5);
-  }
-
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Outfit', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ===== HEADER ===== */
-  .header {
-    background: linear-gradient(135deg, var(--univo-blue) 0%, #001F4A 60%, #000E2A 100%);
-    padding: 0;
-    position: relative;
-    overflow: hidden;
-    border-bottom: 2px solid var(--univo-gold);
-  }
-
-  .header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(0,87,184,0.35) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 80% at 10% 20%, rgba(245,166,35,0.12) 0%, transparent 60%);
-    pointer-events: none;
-  }
-
-  .header-grid {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 2rem;
-    align-items: center;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem 2.5rem;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* UNIVO Logo SVG (generated) */
-  .univo-logo {
-    width: 90px;
-    height: 90px;
-    flex-shrink: 0;
-    filter: drop-shadow(0 0 18px rgba(245,166,35,0.4));
-  }
-
-  .header-text { }
-  .header-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(245,166,35,0.15);
-    border: 1px solid rgba(245,166,35,0.4);
-    color: var(--univo-gold);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    border-radius: 50px;
-    margin-bottom: 0.7rem;
-  }
-
-  .header-title {
-    font-size: clamp(1.6rem, 3vw, 2.5rem);
-    font-weight: 800;
-    line-height: 1.15;
-    color: #fff;
-    margin-bottom: 0.4rem;
-  }
-
-  .header-title span {
-    background: linear-gradient(90deg, var(--univo-gold), #FFD57E);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .header-sub {
-    color: rgba(230,237,243,0.7);
-    font-size: 0.95rem;
-    font-weight: 400;
-  }
-
-  .header-chips {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-top: 0.8rem;
-  }
-
-  .chip {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: rgba(230,237,243,0.8);
-    font-size: 0.75rem;
-    padding: 4px 12px;
-    border-radius: 50px;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-  }
-
-  /* ===== NAV ===== */
-  .nav-bar {
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2.5rem;
-    display: flex;
-    gap: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-    max-width: 100%;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .nav-bar::-webkit-scrollbar { display: none; }
-
-  .nav-btn {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 1rem 1.6rem;
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    font-size: 0.88rem;
-    font-weight: 600;
-    font-family: 'Outfit', sans-serif;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-    border-bottom: 2px solid transparent;
-    flex-shrink: 0;
-  }
-
-  .nav-btn:hover { color: var(--text); }
-
-  .nav-btn.active {
-    color: var(--univo-gold);
-    border-bottom-color: var(--univo-gold);
-  }
-
-  .nav-icon { font-size: 1rem; }
-
-  /* ===== PANEL ===== */
-  .panel { display: none; animation: fadeUp 0.35s ease; }
-  .panel.active { display: block; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .panel-inner {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2.5rem 2.5rem 3rem;
-  }
-
-  .section-title {
-    font-size: 1.6rem;
-    font-weight: 800;
-    margin-bottom: 0.3rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .section-sub {
-    color: var(--text-muted);
-    margin-bottom: 2rem;
-    font-size: 0.95rem;
-  }
-
-  /* ===== CARDS ===== */
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.25rem;
-    margin-bottom: 2rem;
-  }
-
-  .card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--univo-blue-mid), var(--univo-gold));
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
-  .card:hover {
-    border-color: rgba(0,87,184,0.5);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(0,60,126,0.3);
-  }
-
-  .card:hover::before { opacity: 1; }
-
-  .card-icon {
-    font-size: 2rem;
-    margin-bottom: 0.75rem;
-    display: block;
-  }
-
-  .card h3 {
-    font-size: 1.05rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: var(--teal);
-  }
-
-  .card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
-
-  /* ===== VS CODE EDITOR ===== */
-  .vscode-wrapper {
-    border-radius: var(--radius);
-    overflow: hidden;
-    border: 1px solid var(--vscode-border);
-    box-shadow: var(--shadow);
-    margin: 1.25rem 0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.82rem;
-  }
-
-  .vscode-titlebar {
-    background: #323233;
-    padding: 8px 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid #1A1A1A;
-    user-select: none;
-  }
-
-  .vscode-dots { display: flex; gap: 6px; }
-  .vscode-dot {
-    width: 12px; height: 12px; border-radius: 50%;
-  }
-  .dot-red { background: #FF5F56; }
-  .dot-yellow { background: #FFBD2E; }
-  .dot-green { background: #27C93F; }
-
-  .vscode-filename {
-    margin-left: 8px;
-    color: #CCCCCC;
-    font-size: 0.78rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .vscode-ext-badge {
-    background: var(--univo-blue-mid);
-    color: white;
-    font-size: 0.65rem;
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-weight: 700;
-  }
-
-  .vscode-tabs {
-    background: var(--vscode-sidebar);
-    display: flex;
-    border-bottom: 1px solid #1A1A1A;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .vscode-tab {
-    padding: 8px 18px;
-    font-size: 0.78rem;
-    color: #8E8E8E;
-    border-right: 1px solid #1A1A1A;
-    white-space: nowrap;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: background 0.15s;
-  }
-
-  .vscode-tab.active {
-    background: var(--vscode-bg);
-    color: #FFFFFF;
-    border-top: 1px solid var(--univo-blue-mid);
-    margin-top: -1px;
-  }
-
-  .vscode-body {
-    background: var(--vscode-bg);
-    display: flex;
-    overflow-x: auto;
-  }
-
-  .vscode-gutter {
-    background: var(--vscode-bg);
-    padding: 14px 0;
-    min-width: 48px;
-    text-align: right;
-    user-select: none;
-    border-right: 1px solid #2A2A2A;
-  }
-
-  .line-num {
-    display: block;
-    color: var(--vscode-line-num);
-    font-size: 0.78rem;
-    line-height: 1.7;
-    padding: 0 12px 0 8px;
-  }
-
-  .vscode-code {
-    padding: 14px 20px;
-    overflow-x: auto;
-    flex: 1;
-    line-height: 1.7;
-  }
-
-  .vscode-code pre { margin: 0; white-space: pre; }
-
-  /* Syntax tokens */
-  .kw { color: var(--vscode-keyword); font-weight: 500; }
-  .cls { color: var(--vscode-class); }
-  .fn { color: var(--vscode-fn); }
-  .str { color: var(--vscode-string); }
-  .num { color: var(--vscode-num); }
-  .cmt { color: var(--vscode-comment); font-style: italic; }
-  .prm { color: var(--vscode-param); }
-  .op { color: var(--vscode-op); }
-  .thi { color: var(--vscode-keyword); }
-
-  .vscode-statusbar {
-    background: var(--univo-blue);
-    padding: 3px 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.85);
-  }
-
-  .statusbar-left, .statusbar-right {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-  }
-
-  /* ===== ACTIVITY BOX ===== */
-  .activity-box {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--univo-gold);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    margin: 1.5rem 0;
-  }
-
-  .activity-box h3 {
-    font-size: 1.05rem;
-    font-weight: 700;
-    margin-bottom: 0.6rem;
-    color: var(--univo-gold);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .activity-box ul {
-    margin: 0.6rem 0 0.6rem 1.5rem;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    line-height: 1.8;
-  }
-
-  .activity-box li { margin-bottom: 2px; }
-
-  code {
-    background: rgba(88,166,255,0.12);
-    color: var(--teal);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.82em;
-    padding: 2px 6px;
-    border-radius: 4px;
-  }
-
-  /* ===== BUTTONS ===== */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 20px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    font-family: 'Outfit', sans-serif;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s;
-    margin-top: 0.6rem;
-    margin-right: 0.5rem;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--univo-blue-mid), var(--univo-blue));
-    color: white;
-    box-shadow: 0 4px 14px rgba(0,87,184,0.35);
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(0,87,184,0.5);
-  }
-
-  .btn-gold {
-    background: linear-gradient(135deg, var(--univo-gold), var(--univo-gold-dark));
-    color: #000;
-    box-shadow: 0 4px 14px rgba(245,166,35,0.3);
-  }
-
-  .btn-gold:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(245,166,35,0.45);
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--teal);
-    border: 1px solid rgba(88,166,255,0.3);
-  }
-
-  .btn-ghost:hover {
-    background: rgba(88,166,255,0.1);
-    border-color: var(--teal);
-  }
-
-  .btn-green {
-    background: linear-gradient(135deg, #238636, #2EA043);
-    color: white;
-  }
-
-  .btn-green:hover { transform: translateY(-1px); }
-
-  /* ===== LIVE DEMO ===== */
-  .live-demo {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    margin: 1.5rem 0;
-  }
-
-  .live-demo h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--green);
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .demo-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    margin: 0.75rem 0;
-    align-items: center;
-  }
-
-  .demo-input {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.85rem;
-    padding: 8px 14px;
-    border-radius: 8px;
-    transition: border-color 0.2s;
-    width: 160px;
-  }
-
-  .demo-input:focus {
-    outline: none;
-    border-color: var(--univo-blue-mid);
-  }
-
-  .demo-input::placeholder { color: var(--text-muted); }
-
-  .demo-output {
-    background: #0A0E14;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 16px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--green);
-    line-height: 1.7;
-    margin-top: 0.75rem;
-    min-height: 60px;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-
-  /* ===== ROLE CARDS ===== */
-  .role-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.2rem 1.4rem;
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    transition: all 0.2s;
-  }
-
-  .role-card:hover { border-color: var(--univo-blue-mid); }
-
-  .role-num {
-    background: linear-gradient(135deg, var(--univo-blue-mid), var(--univo-blue));
-    color: white;
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800;
-    font-size: 0.9rem;
-    flex-shrink: 0;
-  }
-
-  .role-num.gold { background: linear-gradient(135deg, var(--univo-gold), var(--univo-gold-dark)); color: #000; }
-  .role-num.green { background: linear-gradient(135deg, #238636, #2EA043); }
-  .role-num.purple { background: linear-gradient(135deg, #7B3FE4, #A855F7); }
-
-  .role-info h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
-  .role-info p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.5; }
-
-  /* ===== COLLAPSE SECTION ===== */
-  .collapse-toggle {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 16px;
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    text-align: left;
-    transition: all 0.2s;
-    margin-bottom: 0;
-  }
-
-  .collapse-toggle:hover { background: var(--bg4); border-color: var(--univo-blue-mid); }
-  .collapse-arrow { margin-left: auto; transition: transform 0.3s; }
-  .collapse-toggle.open .collapse-arrow { transform: rotate(180deg); }
-
-  .collapse-content {
-    display: none;
-    margin-top: 8px;
-  }
-
-  .collapse-content.open { display: block; animation: fadeUp 0.25s ease; }
-
-  /* ===== TEXTAREA EDITOR ===== */
-  .code-editor-area {
-    background: var(--vscode-bg);
-    border: 1px solid var(--vscode-border);
-    border-radius: 0 0 var(--radius) var(--radius);
-    padding: 14px 20px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.82rem;
-    color: #D4D4D4;
-    width: 100%;
-    min-height: 200px;
-    resize: vertical;
-    line-height: 1.7;
-    outline: none;
-    transition: border-color 0.2s;
-    tab-size: 2;
-  }
-
-  .code-editor-area:focus { border-color: var(--univo-blue-mid); }
-
-  .editor-header-bar {
-    background: var(--vscode-sidebar);
-    border: 1px solid var(--vscode-border);
-    border-bottom: none;
-    border-radius: var(--radius) var(--radius) 0 0;
-    padding: 8px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  .editor-lang {
-    background: rgba(86,156,214,0.2);
-    color: var(--vscode-keyword);
-    font-size: 0.72rem;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-weight: 600;
-  }
-
-  /* ===== RUBRICA ===== */
-  .rubrica-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.88rem;
-  }
-
-  .rubrica-item:last-child { border-bottom: none; }
-
-  .check-icon {
-    width: 20px; height: 20px;
-    background: linear-gradient(135deg, var(--green), #27A843);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.65rem;
-    flex-shrink: 0;
-  }
-
-  /* ===== OPTION CARDS ===== */
-  .option-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.3rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-  }
-
-  .option-card:hover, .option-card.selected {
-    border-color: var(--univo-blue-mid);
-    background: rgba(0,87,184,0.08);
-  }
-
-  .option-card.selected::after {
-    content: '✓';
-    position: absolute;
-    top: 10px; right: 12px;
-    background: var(--univo-blue-mid);
-    color: white;
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.7rem;
-    font-weight: 700;
-  }
-
-  .option-card h3 {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--teal);
-    margin-bottom: 0.4rem;
-  }
-
-  .option-card p { font-size: 0.82rem; color: var(--text-muted); }
-
-  /* ===== TERMINAL OUTPUT ===== */
-  .terminal {
-    background: #0C0C0C;
-    border-radius: 0 0 var(--radius) var(--radius);
-    border: 1px solid #333;
-    border-top: none;
-    padding: 12px 16px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    color: #CCC;
-    min-height: 80px;
-    max-height: 220px;
-    overflow-y: auto;
-    line-height: 1.65;
-  }
-
-  .terminal-header {
-    background: #1C1C1C;
-    border: 1px solid #333;
-    border-bottom: 1px solid #222;
-    border-radius: var(--radius) var(--radius) 0 0;
-    padding: 7px 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.75rem;
-    color: #888;
-  }
-
-  .terminal .t-prompt { color: var(--green); }
-  .terminal .t-success { color: var(--green); }
-  .terminal .t-error { color: var(--red); }
-  .terminal .t-info { color: var(--teal); }
-  .terminal .t-warn { color: var(--yellow); }
-
-  /* ===== DESAFIO GRID ===== */
-  .desafio-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1.5rem;
-  }
-
-  @media (max-width: 900px) {
-    .desafio-grid { grid-template-columns: 1fr; }
-    .header-grid { grid-template-columns: 1fr; text-align: center; }
-    .univo-logo { margin: 0 auto; }
-  }
-
-  @media (max-width: 600px) {
-    .panel-inner { padding: 1.25rem 1rem; }
-    .nav-btn { padding: 0.75rem 1rem; font-size: 0.8rem; }
-    .nav-bar { padding: 0 0.5rem; }
-    .header-grid { padding: 1.5rem 1.25rem; }
-    .demo-controls { flex-direction: column; }
-    .demo-input { width: 100%; }
-  }
-
-  /* ===== FOOTER ===== */
-  .footer {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    padding: 2rem 2.5rem;
-  }
-
-  .footer-inner {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  .footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .footer-logo-mini {
-    width: 46px; height: 46px;
-    filter: opacity(0.75);
-  }
-
-  .footer-title {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  .footer-subtitle {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-  }
-
-  .footer-devs {
-    text-align: right;
-  }
-
-  .footer-devs-label {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--univo-gold);
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-
-  .dev-list {
-    display: flex;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-
-  .dev-badge {
-    background: rgba(0,87,184,0.2);
-    border: 1px solid rgba(0,87,184,0.4);
-    color: var(--teal);
-    font-size: 0.78rem;
-    padding: 4px 12px;
-    border-radius: 50px;
-    font-weight: 600;
-  }
-
-  .dev-badge.empty {
-    background: rgba(255,255,255,0.04);
-    border-color: rgba(255,255,255,0.1);
-    color: var(--text-muted);
-    border-style: dashed;
-    font-style: italic;
-  }
-
-  .footer-copy {
-    width: 100%;
-    text-align: center;
-    font-size: 0.73rem;
-    color: var(--text-muted);
-    margin-top: 0.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border);
-  }
-
-  /* ===== SCROLLBAR ===== */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg2); }
-  ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-
-  /* ===== DIVIDER ===== */
-  .divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-    margin: 2rem 0;
-  }
-
-  /* ===== PROGRESS ===== */
-  .progress-bar-wrap {
-    background: var(--bg3);
-    border-radius: 50px;
-    height: 6px;
-    margin-top: 8px;
-    overflow: hidden;
-  }
-
-  .progress-bar {
-    height: 100%;
-    border-radius: 50px;
-    background: linear-gradient(90deg, var(--univo-blue-mid), var(--univo-gold));
-    transition: width 0.5s ease;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POO Lab — UNIVO | Clases y Objetos</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --univo-blue: #003C7E;
+            --univo-blue-mid: #0057B8;
+            --univo-blue-light: #1A6FCC;
+            --univo-gold: #F5A623;
+            --univo-gold-dark: #D4891A;
+            --bg: #0D1117;
+            --bg2: #161B22;
+            --bg3: #21262D;
+            --bg4: #2D333B;
+            --text: #E6EDF3;
+            --text-muted: #8B949E;
+            --border: #30363D;
+            --green: #3FB950;
+            --teal: #58A6FF;
+            --purple: #BC8CFF;
+            --orange: #FF9A00;
+            --red: #FF6B6B;
+            --yellow: #E3B341;
+            --pink: #F778BA;
+            --vscode-bg: #1E1E1E;
+            --vscode-sidebar: #252526;
+            --vscode-tab: #2D2D2D;
+            --vscode-tab-active: #1E1E1E;
+            --vscode-line-num: #858585;
+            --vscode-border: #3C3C3C;
+            --vscode-keyword: #569CD6;
+            --vscode-class: #4EC9B0;
+            --vscode-fn: #DCDCAA;
+            --vscode-string: #CE9178;
+            --vscode-num: #B5CEA8;
+            --vscode-comment: #6A9955;
+            --vscode-param: #9CDCFE;
+            --vscode-this: #569CD6;
+            --vscode-op: #D4D4D4;
+            --vscode-punc: #D4D4D4;
+            --radius: 12px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, var(--univo-blue) 0%, #001F4A 60%, #000E2A 100%);
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid var(--univo-gold);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 70% 50%, rgba(0, 87, 184, 0.35) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 80% at 10% 20%, rgba(245, 166, 35, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .header-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* UNIVO Logo SVG (generated) */
+        .univo-logo {
+            width: 90px;
+            height: 90px;
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 18px rgba(245, 166, 35, 0.4));
+        }
+
+        .header-text {}
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(245, 166, 35, 0.15);
+            border: 1px solid rgba(245, 166, 35, 0.4);
+            color: var(--univo-gold);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 50px;
+            margin-bottom: 0.7rem;
+        }
+
+        .header-title {
+            font-size: clamp(1.6rem, 3vw, 2.5rem);
+            font-weight: 800;
+            line-height: 1.15;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+
+        .header-title span {
+            background: linear-gradient(90deg, var(--univo-gold), #FFD57E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-sub {
+            color: rgba(230, 237, 243, 0.7);
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        .header-chips {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+        }
+
+        .chip {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(230, 237, 243, 0.8);
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ===== NAV ===== */
+        .nav-bar {
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2.5rem;
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+            max-width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 1rem 1.6rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+            flex-shrink: 0;
+        }
+
+        .nav-btn:hover {
+            color: var(--text);
+        }
+
+        .nav-btn.active {
+            color: var(--univo-gold);
+            border-bottom-color: var(--univo-gold);
+        }
+
+        .nav-icon {
+            font-size: 1rem;
+        }
+
+        /* ===== PANEL ===== */
+        .panel {
+            display: none;
+            animation: fadeUp 0.35s ease;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .panel-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2.5rem 2.5rem 3rem;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-sub {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        /* ===== CARDS ===== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--univo-blue-mid), var(--univo-gold));
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .card:hover {
+            border-color: rgba(0, 87, 184, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 60, 126, 0.3);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--teal);
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ===== VS CODE EDITOR ===== */
+        .vscode-wrapper {
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--vscode-border);
+            box-shadow: var(--shadow);
+            margin: 1.25rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+        }
+
+        .vscode-titlebar {
+            background: #323233;
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #1A1A1A;
+            user-select: none;
+        }
+
+        .vscode-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .vscode-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red {
+            background: #FF5F56;
+        }
+
+        .dot-yellow {
+            background: #FFBD2E;
+        }
+
+        .dot-green {
+            background: #27C93F;
+        }
+
+        .vscode-filename {
+            margin-left: 8px;
+            color: #CCCCCC;
+            font-size: 0.78rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .vscode-ext-badge {
+            background: var(--univo-blue-mid);
+            color: white;
+            font-size: 0.65rem;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-weight: 700;
+        }
+
+        .vscode-tabs {
+            background: var(--vscode-sidebar);
+            display: flex;
+            border-bottom: 1px solid #1A1A1A;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .vscode-tab {
+            padding: 8px 18px;
+            font-size: 0.78rem;
+            color: #8E8E8E;
+            border-right: 1px solid #1A1A1A;
+            white-space: nowrap;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.15s;
+        }
+
+        .vscode-tab.active {
+            background: var(--vscode-bg);
+            color: #FFFFFF;
+            border-top: 1px solid var(--univo-blue-mid);
+            margin-top: -1px;
+        }
+
+        .vscode-body {
+            background: var(--vscode-bg);
+            display: flex;
+            overflow-x: auto;
+        }
+
+        .vscode-gutter {
+            background: var(--vscode-bg);
+            padding: 14px 0;
+            min-width: 48px;
+            text-align: right;
+            user-select: none;
+            border-right: 1px solid #2A2A2A;
+        }
+
+        .line-num {
+            display: block;
+            color: var(--vscode-line-num);
+            font-size: 0.78rem;
+            line-height: 1.7;
+            padding: 0 12px 0 8px;
+        }
+
+        .vscode-code {
+            padding: 14px 20px;
+            overflow-x: auto;
+            flex: 1;
+            line-height: 1.7;
+        }
+
+        .vscode-code pre {
+            margin: 0;
+            white-space: pre;
+        }
+
+        /* Syntax tokens */
+        .kw {
+            color: var(--vscode-keyword);
+            font-weight: 500;
+        }
+
+        .cls {
+            color: var(--vscode-class);
+        }
+
+        .fn {
+            color: var(--vscode-fn);
+        }
+
+        .str {
+            color: var(--vscode-string);
+        }
+
+        .num {
+            color: var(--vscode-num);
+        }
+
+        .cmt {
+            color: var(--vscode-comment);
+            font-style: italic;
+        }
+
+        .prm {
+            color: var(--vscode-param);
+        }
+
+        .op {
+            color: var(--vscode-op);
+        }
+
+        .thi {
+            color: var(--vscode-keyword);
+        }
+
+        .vscode-statusbar {
+            background: var(--univo-blue);
+            padding: 3px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .statusbar-left,
+        .statusbar-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        /* ===== ACTIVITY BOX ===== */
+        .activity-box {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--univo-gold);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .activity-box h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: var(--univo-gold);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .activity-box ul {
+            margin: 0.6rem 0 0.6rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .activity-box li {
+            margin-bottom: 2px;
+        }
+
+        code {
+            background: rgba(88, 166, 255, 0.12);
+            color: var(--teal);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82em;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            margin-top: 0.6rem;
+            margin-right: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--univo-blue-mid), var(--univo-blue));
+            color: white;
+            box-shadow: 0 4px 14px rgba(0, 87, 184, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0, 87, 184, 0.5);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--univo-gold), var(--univo-gold-dark));
+            color: #000;
+            box-shadow: 0 4px 14px rgba(245, 166, 35, 0.3);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(245, 166, 35, 0.45);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--teal);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(88, 166, 255, 0.1);
+            border-color: var(--teal);
+        }
+
+        .btn-green {
+            background: linear-gradient(135deg, #238636, #2EA043);
+            color: white;
+        }
+
+        .btn-green:hover {
+            transform: translateY(-1px);
+        }
+
+        /* ===== LIVE DEMO ===== */
+        .live-demo {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .live-demo h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 0.75rem 0;
+            align-items: center;
+        }
+
+        .demo-input {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            padding: 8px 14px;
+            border-radius: 8px;
+            transition: border-color 0.2s;
+            width: 160px;
+        }
+
+        .demo-input:focus {
+            outline: none;
+            border-color: var(--univo-blue-mid);
+        }
+
+        .demo-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .demo-output {
+            background: #0A0E14;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--green);
+            line-height: 1.7;
+            margin-top: 0.75rem;
+            min-height: 60px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* ===== ROLE CARDS ===== */
+        .role-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.2rem 1.4rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            transition: all 0.2s;
+        }
+
+        .role-card:hover {
+            border-color: var(--univo-blue-mid);
+        }
+
+        .role-num {
+            background: linear-gradient(135deg, var(--univo-blue-mid), var(--univo-blue));
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .role-num.gold {
+            background: linear-gradient(135deg, var(--univo-gold), var(--univo-gold-dark));
+            color: #000;
+        }
+
+        .role-num.green {
+            background: linear-gradient(135deg, #238636, #2EA043);
+        }
+
+        .role-num.purple {
+            background: linear-gradient(135deg, #7B3FE4, #A855F7);
+        }
+
+        .role-info h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .role-info p {
+            font-size: 0.83rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ===== COLLAPSE SECTION ===== */
+        .collapse-toggle {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 16px;
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            text-align: left;
+            transition: all 0.2s;
+            margin-bottom: 0;
+        }
+
+        .collapse-toggle:hover {
+            background: var(--bg4);
+            border-color: var(--univo-blue-mid);
+        }
+
+        .collapse-arrow {
+            margin-left: auto;
+            transition: transform 0.3s;
+        }
+
+        .collapse-toggle.open .collapse-arrow {
+            transform: rotate(180deg);
+        }
+
+        .collapse-content {
+            display: none;
+            margin-top: 8px;
+        }
+
+        .collapse-content.open {
+            display: block;
+            animation: fadeUp 0.25s ease;
+        }
+
+        /* ===== TEXTAREA EDITOR ===== */
+        .code-editor-area {
+            background: var(--vscode-bg);
+            border: 1px solid var(--vscode-border);
+            border-radius: 0 0 var(--radius) var(--radius);
+            padding: 14px 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            color: #D4D4D4;
+            width: 100%;
+            min-height: 200px;
+            resize: vertical;
+            line-height: 1.7;
+            outline: none;
+            transition: border-color 0.2s;
+            tab-size: 2;
+        }
+
+        .code-editor-area:focus {
+            border-color: var(--univo-blue-mid);
+        }
+
+        .editor-header-bar {
+            background: var(--vscode-sidebar);
+            border: 1px solid var(--vscode-border);
+            border-bottom: none;
+            border-radius: var(--radius) var(--radius) 0 0;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .editor-lang {
+            background: rgba(86, 156, 214, 0.2);
+            color: var(--vscode-keyword);
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* ===== RUBRICA ===== */
+        .rubrica-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.88rem;
+        }
+
+        .rubrica-item:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, var(--green), #27A843);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            flex-shrink: 0;
+        }
+
+        /* ===== OPTION CARDS ===== */
+        .option-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.3rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .option-card:hover,
+        .option-card.selected {
+            border-color: var(--univo-blue-mid);
+            background: rgba(0, 87, 184, 0.08);
+        }
+
+        .option-card.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: var(--univo-blue-mid);
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .option-card h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 0.4rem;
+        }
+
+        .option-card p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== TERMINAL OUTPUT ===== */
+        .terminal {
+            background: #0C0C0C;
+            border-radius: 0 0 var(--radius) var(--radius);
+            border: 1px solid #333;
+            border-top: none;
+            padding: 12px 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: #CCC;
+            min-height: 80px;
+            max-height: 220px;
+            overflow-y: auto;
+            line-height: 1.65;
+        }
+
+        .terminal-header {
+            background: #1C1C1C;
+            border: 1px solid #333;
+            border-bottom: 1px solid #222;
+            border-radius: var(--radius) var(--radius) 0 0;
+            padding: 7px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .terminal .t-prompt {
+            color: var(--green);
+        }
+
+        .terminal .t-success {
+            color: var(--green);
+        }
+
+        .terminal .t-error {
+            color: var(--red);
+        }
+
+        .terminal .t-info {
+            color: var(--teal);
+        }
+
+        .terminal .t-warn {
+            color: var(--yellow);
+        }
+
+        /* ===== DESAFIO GRID ===== */
+        .desafio-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .desafio-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .univo-logo {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .panel-inner {
+                padding: 1.25rem 1rem;
+            }
+
+            .nav-btn {
+                padding: 0.75rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .nav-bar {
+                padding: 0 0.5rem;
+            }
+
+            .header-grid {
+                padding: 1.5rem 1.25rem;
+            }
+
+            .demo-controls {
+                flex-direction: column;
+            }
+
+            .demo-input {
+                width: 100%;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+            padding: 2rem 2.5rem;
+        }
+
+        .footer-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .footer-logo-mini {
+            width: 46px;
+            height: 46px;
+            filter: opacity(0.75);
+        }
+
+        .footer-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .footer-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-devs {
+            text-align: right;
+        }
+
+        .footer-devs-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--univo-gold);
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .dev-list {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .dev-badge {
+            background: rgba(0, 87, 184, 0.2);
+            border: 1px solid rgba(0, 87, 184, 0.4);
+            color: var(--teal);
+            font-size: 0.78rem;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .dev-badge.empty {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            border-style: dashed;
+            font-style: italic;
+        }
+
+        .footer-copy {
+            width: 100%;
+            text-align: center;
+            font-size: 0.73rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg4);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* ===== DIVIDER ===== */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 2rem 0;
+        }
+
+        /* ===== PROGRESS ===== */
+        .progress-bar-wrap {
+            background: var(--bg3);
+            border-radius: 50px;
+            height: 6px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--univo-blue-mid), var(--univo-gold));
+            transition: width 0.5s ease;
+        }
+    </style>
 </head>
+
 <body>
 
-<!-- ===== HEADER ===== -->
-<header class="header">
-  <div class="header-grid">
-    <!-- UNIVO Logo Image -->
-    <img src="https://www.univo.edu.sv/wp-content/uploads/2022/01/LOGOESCUDO.png" alt="UNIVO Logo" class="univo-logo" style="object-fit: contain;">
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-grid">
+            <!-- UNIVO Logo Image -->
+            <img src="https://www.univo.edu.sv/wp-content/uploads/2022/01/LOGOESCUDO.png" alt="UNIVO Logo"
+                class="univo-logo" style="object-fit: contain;">
 
-    <div class="header-text">
-      <div class="header-badge">🎓 Universidad de Oriente · UNIVO</div>
-      <h1 class="header-title">
-        Programación <span>Orientada a Objetos</span>
-      </h1>
-      <p class="header-sub">Laboratorio interactivo de Clases, Objetos y Métodos en JavaScript</p>
-      <div class="header-chips">
-        <span class="chip">📅 24 de Marzo, 2026</span>
-        <span class="chip">⏳ 2 Horas de Laboratorio</span>
-        <span class="chip">💻 JavaScript ES6+</span>
-      </div>
+            <div class="header-text">
+                <div class="header-badge">🎓 Universidad de Oriente · UNIVO</div>
+                <h1 class="header-title">
+                    Programación <span>Orientada a Objetos</span>
+                </h1>
+                <p class="header-sub">Laboratorio interactivo de Clases, Objetos y Métodos en JavaScript</p>
+                <div class="header-chips">
+                    <span class="chip">📅 24 de Marzo, 2026</span>
+                    <span class="chip">⏳ 2 Horas de Laboratorio</span>
+                    <span class="chip">💻 JavaScript ES6+</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== OBJETIVOS ===== -->
+    <section style="background: var(--bg2); padding: 2.5rem 2.5rem 1.5rem; border-bottom: 1px solid var(--border);">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <h2 class="section-title" style="font-size: 1.4rem; justify-content: center; margin-bottom: 1.5rem;">🎯
+                Competencias a Desarrollar</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+                <div
+                    style="background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--univo-gold); border-radius: 8px; padding: 1.2rem; display: flex; gap: 12px; align-items: flex-start;">
+                    <span style="font-size: 1.6rem; line-height: 1;">🏛️</span>
+                    <div>
+                        <h4 style="color: var(--text); font-size: 0.95rem; font-weight: 700; margin-bottom: 6px;">
+                            Comprender los Pilares de POO</h4>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">Dominar los conceptos
+                            de clases, objetos, atributos y métodos para estructurar problemas reales en software.</p>
+                    </div>
+                </div>
+                <div
+                    style="background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--teal); border-radius: 8px; padding: 1.2rem; display: flex; gap: 12px; align-items: flex-start;">
+                    <span style="font-size: 1.6rem; line-height: 1;">⚙️</span>
+                    <div>
+                        <h4 style="color: var(--text); font-size: 0.95rem; font-weight: 700; margin-bottom: 6px;">
+                            Implementar Clases Funcionales</h4>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">Escribir clases
+                            operativas en JavaScript ES6+ con constructores y métodos interactivos que modifiquen el
+                            estado.</p>
+                    </div>
+                </div>
+                <div
+                    style="background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 8px; padding: 1.2rem; display: flex; gap: 12px; align-items: flex-start;">
+                    <span style="font-size: 1.6rem; line-height: 1;">🤝</span>
+                    <div>
+                        <h4 style="color: var(--text); font-size: 0.95rem; font-weight: 700; margin-bottom: 6px;">
+                            Colaborar en Equipos de Desarrollo</h4>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">Distribuir roles
+                            técnicos para diseñar y programar colaborativamente soluciones orientadas a objetos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Documentación para lectura en línea previo a la sesión -->
+    <div class="pre-session-docs"
+        style="background-color: #f8f9fa; padding: 10px; text-align: center; font-size: 14px; border-bottom: 1px solid #ddd;">
+        📚 <strong>Lectura sugerida:</strong>
+        <a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Classes" target="_blank"
+            style="color: #0056b3; text-decoration: none; font-weight: bold;">
+            Documentación para lectura en línea previo a la sesión
+        </a>
     </div>
-  </div>
-</header>
+    <!-- ===== NAV ===== -->
+    <nav class="nav-bar">
+        <button class="nav-btn active" data-panel="teoria">
+            <span class="nav-icon">📖</span> Conceptos Esenciales
+        </button>
+        <button class="nav-btn" data-panel="equipo">
+            <span class="nav-icon">🤝</span> Construcción en Equipo
+        </button>
+        <button class="nav-btn" data-panel="proyecto">
+            <span class="nav-icon">🚀</span> Crea tu Proyecto
+        </button>
+        <button class="nav-btn" data-panel="desafio">
+            <span class="nav-icon">⚡</span> Desafío Final
+        </button>
+    </nav>
 
-<!-- ===== OBJETIVOS ===== -->
-<section style="background: var(--bg2); padding: 2.5rem 2.5rem 1.5rem; border-bottom: 1px solid var(--border);">
-  <div style="max-width: 1400px; margin: 0 auto;">
-    <h2 class="section-title" style="font-size: 1.4rem; justify-content: center; margin-bottom: 1.5rem;">🎯 Competencias a Desarrollar</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
-      <div style="background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--univo-gold); border-radius: 8px; padding: 1.2rem; display: flex; gap: 12px; align-items: flex-start;">
-        <span style="font-size: 1.6rem; line-height: 1;">🏛️</span>
-        <div>
-          <h4 style="color: var(--text); font-size: 0.95rem; font-weight: 700; margin-bottom: 6px;">Comprender los Pilares de POO</h4>
-          <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">Dominar los conceptos de clases, objetos, atributos y métodos para estructurar problemas reales en software.</p>
-        </div>
-      </div>
-      <div style="background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--teal); border-radius: 8px; padding: 1.2rem; display: flex; gap: 12px; align-items: flex-start;">
-        <span style="font-size: 1.6rem; line-height: 1;">⚙️</span>
-        <div>
-          <h4 style="color: var(--text); font-size: 0.95rem; font-weight: 700; margin-bottom: 6px;">Implementar Clases Funcionales</h4>
-          <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">Escribir clases operativas en JavaScript ES6+ con constructores y métodos interactivos que modifiquen el estado.</p>
-        </div>
-      </div>
-      <div style="background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 8px; padding: 1.2rem; display: flex; gap: 12px; align-items: flex-start;">
-        <span style="font-size: 1.6rem; line-height: 1;">🤝</span>
-        <div>
-          <h4 style="color: var(--text); font-size: 0.95rem; font-weight: 700; margin-bottom: 6px;">Colaborar en Equipos de Desarrollo</h4>
-          <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">Distribuir roles técnicos para diseñar y programar colaborativamente soluciones orientadas a objetos.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- =============================== -->
+    <!-- PANEL 1: CONCEPTOS              -->
+    <!-- =============================== -->
+    <div class="panel active" id="teoria">
+        <div class="panel-inner">
+            <h2 class="section-title">📌 Fundamentos que debes dominar</h2>
+            <p class="section-sub">Antes de programar, revisa estos conceptos. En clase los aplicarás construyendo
+                soluciones reales con tu equipo.</p>
 
-<!-- ===== NAV ===== -->
-<nav class="nav-bar">
-  <button class="nav-btn active" data-panel="teoria">
-    <span class="nav-icon">📖</span> Conceptos Esenciales
-  </button>
-  <button class="nav-btn" data-panel="equipo">
-    <span class="nav-icon">🤝</span> Construcción en Equipo
-  </button>
-  <button class="nav-btn" data-panel="proyecto">
-    <span class="nav-icon">🚀</span> Crea tu Proyecto
-  </button>
-  <button class="nav-btn" data-panel="desafio">
-    <span class="nav-icon">⚡</span> Desafío Final
-  </button>
-</nav>
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">🏷️</span>
+                    <h3>Clase</h3>
+                    <p>Una <strong>clase</strong> es una plantilla o molde que define atributos y comportamientos
+                        comunes a un grupo de objetos.</p>
+                </div>
+                <div class="card">
+                    <span class="card-icon">🎯</span>
+                    <h3>Objeto</h3>
+                    <p>Un <strong>objeto</strong> es una instancia concreta de una clase, con sus propios valores de
+                        atributos.</p>
+                </div>
+                <div class="card">
+                    <span class="card-icon">⚙️</span>
+                    <h3>Atributos</h3>
+                    <p>Son los <strong>datos</strong> que describen el estado de un objeto (nombre, edad, saldo, etc.).
+                    </p>
+                </div>
+                <div class="card">
+                    <span class="card-icon">🔧</span>
+                    <h3>Métodos</h3>
+                    <p>Son las <strong>acciones</strong> que puede realizar un objeto (saludar, calcular, mostrar
+                        información).</p>
+                </div>
+            </div>
 
-<!-- =============================== -->
-<!-- PANEL 1: CONCEPTOS              -->
-<!-- =============================== -->
-<div class="panel active" id="teoria">
-  <div class="panel-inner">
-    <h2 class="section-title">📌 Fundamentos que debes dominar</h2>
-    <p class="section-sub">Antes de programar, revisa estos conceptos. En clase los aplicarás construyendo soluciones reales con tu equipo.</p>
-
-    <div class="cards-grid">
-      <div class="card">
-        <span class="card-icon">🏷️</span>
-        <h3>Clase</h3>
-        <p>Una <strong>clase</strong> es una plantilla o molde que define atributos y comportamientos comunes a un grupo de objetos.</p>
-      </div>
-      <div class="card">
-        <span class="card-icon">🎯</span>
-        <h3>Objeto</h3>
-        <p>Un <strong>objeto</strong> es una instancia concreta de una clase, con sus propios valores de atributos.</p>
-      </div>
-      <div class="card">
-        <span class="card-icon">⚙️</span>
-        <h3>Atributos</h3>
-        <p>Son los <strong>datos</strong> que describen el estado de un objeto (nombre, edad, saldo, etc.).</p>
-      </div>
-      <div class="card">
-        <span class="card-icon">🔧</span>
-        <h3>Métodos</h3>
-        <p>Son las <strong>acciones</strong> que puede realizar un objeto (saludar, calcular, mostrar información).</p>
-      </div>
-    </div>
-
-    <!-- VS Code Editor: Mascota -->
-    <div class="vscode-wrapper">
-      <div class="vscode-titlebar">
-        <div class="vscode-dots">
-          <div class="vscode-dot dot-red"></div>
-          <div class="vscode-dot dot-yellow"></div>
-          <div class="vscode-dot dot-green"></div>
-        </div>
-        <div class="vscode-filename">
-          <span class="vscode-ext-badge">JS</span>
-          mascota.js — POO Lab UNIVO
-        </div>
-      </div>
-      <div class="vscode-tabs">
-        <div class="vscode-tab active">📄 mascota.js</div>
-      </div>
-      <div class="vscode-body">
-        <div class="vscode-gutter">
-          <span class="line-num">1</span><span class="line-num">2</span><span class="line-num">3</span>
-          <span class="line-num">4</span><span class="line-num">5</span><span class="line-num">6</span>
-          <span class="line-num">7</span><span class="line-num">8</span><span class="line-num">9</span>
-          <span class="line-num">10</span><span class="line-num">11</span><span class="line-num">12</span>
-          <span class="line-num">13</span><span class="line-num">14</span><span class="line-num">15</span>
-          <span class="line-num">16</span>
-        </div>
-        <div class="vscode-code">
-<pre><span class="cmt">// 🐾 Ejemplo básico: Clase y sus componentes</span>
+            <!-- VS Code Editor: Mascota -->
+            <div class="vscode-wrapper">
+                <div class="vscode-titlebar">
+                    <div class="vscode-dots">
+                        <div class="vscode-dot dot-red"></div>
+                        <div class="vscode-dot dot-yellow"></div>
+                        <div class="vscode-dot dot-green"></div>
+                    </div>
+                    <div class="vscode-filename">
+                        <span class="vscode-ext-badge">JS</span>
+                        mascota.js — POO Lab UNIVO
+                    </div>
+                </div>
+                <div class="vscode-tabs">
+                    <div class="vscode-tab active">📄 mascota.js</div>
+                </div>
+                <div class="vscode-body">
+                    <div class="vscode-gutter">
+                        <span class="line-num">1</span><span class="line-num">2</span><span class="line-num">3</span>
+                        <span class="line-num">4</span><span class="line-num">5</span><span class="line-num">6</span>
+                        <span class="line-num">7</span><span class="line-num">8</span><span class="line-num">9</span>
+                        <span class="line-num">10</span><span class="line-num">11</span><span class="line-num">12</span>
+                        <span class="line-num">13</span><span class="line-num">14</span><span class="line-num">15</span>
+                        <span class="line-num">16</span>
+                    </div>
+                    <div class="vscode-code">
+                        <pre><span class="cmt">// 🐾 Ejemplo básico: Clase y sus componentes</span>
 <span class="kw">class</span> <span class="cls">Mascota</span> {
   <span class="fn">constructor</span>(<span class="prm">nombre</span>, <span class="prm">especie</span>) {
     <span class="thi">this</span>.nombre   = <span class="prm">nombre</span>;    <span class="cmt">// atributo</span>
@@ -1047,56 +1269,66 @@
 <span class="cmt">// Creando objetos (instancias)</span>
 <span class="kw">let</span> <span class="prm">perro</span> = <span class="kw">new</span> <span class="cls">Mascota</span>(<span class="str">"Max"</span>, <span class="str">"Perro"</span>);
 <span class="fn">console</span>.log(<span class="prm">perro</span>.<span class="fn">saludar</span>()); <span class="cmt">// ¡Hola! soy Max</span></pre>
-        </div>
-      </div>
-      <div class="vscode-statusbar">
-        <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
-        <div class="statusbar-right"><span>JavaScript</span><span>UTF-8</span><span>Ln 16, Col 1</span></div>
-      </div>
-    </div>
+                    </div>
+                </div>
+                <div class="vscode-statusbar">
+                    <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
+                    <div class="statusbar-right"><span>JavaScript</span><span>UTF-8</span><span>Ln 16, Col 1</span>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Activity Box -->
-    <div class="activity-box">
-      <h3>🎬 Prepárate para la sesión</h3>
-      <p>Revisa los ejemplos y responde mentalmente:</p>
-      <ul>
-        <li>¿Qué atributos tendría una clase <code>Estudiante</code>?</li>
-        <li>¿Qué métodos podrías agregar a una clase <code>CuentaBancaria</code>?</li>
-        <li>Trae ideas para construir un mini sistema con clases.</li>
-      </ul>
-    </div>
+            <!-- Activity Box -->
+            <div class="activity-box">
+                <h3>🎬 Prepárate para la sesión</h3>
+                <p>Revisa los ejemplos y responde mentalmente:</p>
+                <ul>
+                    <li>¿Qué atributos tendría una clase <code>Estudiante</code>?</li>
+                    <li>¿Qué métodos podrías agregar a una clase <code>CuentaBancaria</code>?</li>
+                    <li>Trae ideas para construir un mini sistema con clases.</li>
+                </ul>
+            </div>
 
-    <!-- Collapsible: Estudiante -->
-    <button class="collapse-toggle" id="toggleEstudiante">
-      🔍 Ver ejemplo completo — Clase Estudiante
-      <span class="collapse-arrow">▼</span>
-    </button>
-    <div class="collapse-content" id="colEstudiante">
-      <div class="vscode-wrapper">
-        <div class="vscode-titlebar">
-          <div class="vscode-dots">
-            <div class="vscode-dot dot-red"></div>
-            <div class="vscode-dot dot-yellow"></div>
-            <div class="vscode-dot dot-green"></div>
-          </div>
-          <div class="vscode-filename">
-            <span class="vscode-ext-badge">JS</span>
-            estudiante.js — POO Lab UNIVO
-          </div>
-        </div>
-        <div class="vscode-tabs"><div class="vscode-tab active">📄 estudiante.js</div></div>
-        <div class="vscode-body">
-          <div class="vscode-gutter">
-            <span class="line-num">1</span><span class="line-num">2</span><span class="line-num">3</span>
-            <span class="line-num">4</span><span class="line-num">5</span><span class="line-num">6</span>
-            <span class="line-num">7</span><span class="line-num">8</span><span class="line-num">9</span>
-            <span class="line-num">10</span><span class="line-num">11</span><span class="line-num">12</span>
-            <span class="line-num">13</span><span class="line-num">14</span><span class="line-num">15</span>
-            <span class="line-num">16</span><span class="line-num">17</span><span class="line-num">18</span>
-            <span class="line-num">19</span><span class="line-num">20</span><span class="line-num">21</span>
-          </div>
-          <div class="vscode-code">
-<pre><span class="kw">class</span> <span class="cls">Estudiante</span> {
+            <!-- Collapsible: Estudiante -->
+            <button class="collapse-toggle" id="toggleEstudiante">
+                🔍 Ver ejemplo completo — Clase Estudiante
+                <span class="collapse-arrow">▼</span>
+            </button>
+            <div class="collapse-content" id="colEstudiante">
+                <div class="vscode-wrapper">
+                    <div class="vscode-titlebar">
+                        <div class="vscode-dots">
+                            <div class="vscode-dot dot-red"></div>
+                            <div class="vscode-dot dot-yellow"></div>
+                            <div class="vscode-dot dot-green"></div>
+                        </div>
+                        <div class="vscode-filename">
+                            <span class="vscode-ext-badge">JS</span>
+                            estudiante.js — POO Lab UNIVO
+                        </div>
+                    </div>
+                    <div class="vscode-tabs">
+                        <div class="vscode-tab active">📄 estudiante.js</div>
+                    </div>
+                    <div class="vscode-body">
+                        <div class="vscode-gutter">
+                            <span class="line-num">1</span><span class="line-num">2</span><span
+                                class="line-num">3</span>
+                            <span class="line-num">4</span><span class="line-num">5</span><span
+                                class="line-num">6</span>
+                            <span class="line-num">7</span><span class="line-num">8</span><span
+                                class="line-num">9</span>
+                            <span class="line-num">10</span><span class="line-num">11</span><span
+                                class="line-num">12</span>
+                            <span class="line-num">13</span><span class="line-num">14</span><span
+                                class="line-num">15</span>
+                            <span class="line-num">16</span><span class="line-num">17</span><span
+                                class="line-num">18</span>
+                            <span class="line-num">19</span><span class="line-num">20</span><span
+                                class="line-num">21</span>
+                        </div>
+                        <div class="vscode-code">
+                            <pre><span class="kw">class</span> <span class="cls">Estudiante</span> {
   <span class="fn">constructor</span>(<span class="prm">nombre</span>, <span class="prm">edad</span>, <span class="prm">carrera</span>) {
     <span class="thi">this</span>.nombre        = <span class="prm">nombre</span>;
     <span class="thi">this</span>.edad          = <span class="prm">edad</span>;
@@ -1122,100 +1354,139 @@
     <span class="kw">return</span> <span class="str">`<span class="op">${</span><span class="thi">this</span>.nombre<span class="op">}</span> (<span class="op">${</span><span class="thi">this</span>.edad<span class="op">}</span> años) — <span class="op">${</span><span class="thi">this</span>.carrera<span class="op">}</span> — Promedio: <span class="op">${</span><span class="thi">this</span>.<span class="fn">obtenerPromedio</span>()<span class="op">}</span>`</span>;
   }
 }</pre>
-          </div>
-        </div>
-        <div class="vscode-statusbar">
-          <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
-          <div class="statusbar-right"><span>JavaScript</span><span>UTF-8</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+                        </div>
+                    </div>
+                    <div class="vscode-statusbar">
+                        <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
+                        <div class="statusbar-right"><span>JavaScript</span><span>UTF-8</span></div>
+                    </div>
+                </div>
+            </div>
 
-<!-- =============================== -->
-<!-- PANEL 2: EQUIPO                 -->
-<!-- =============================== -->
-<div class="panel" id="equipo">
-  <div class="panel-inner">
-    <h2 class="section-title">🤝 Construyendo juntos: Sistema de Gestión</h2>
-    <p class="section-sub">Cada equipo organizará sus roles para diseñar una clase funcional. La colaboración es clave.</p>
+            <div class="divider"></div>
+            <h2 class="section-title">📺 Refuerzo Audiovisual</h2>
+            <p class="section-sub">Aprende más sobre Programación Orientada a Objetos con estos recursos explicativos en
+                video.</p>
 
-    <div class="cards-grid" style="grid-template-columns: repeat(auto-fit,minmax(240px,1fr))">
-      <div class="role-card">
-        <div class="role-num">1</div>
-        <div class="role-info">
-          <h4>🎨 Analista de Atributos</h4>
-          <p>Define qué datos necesita la clase: tipos, valores iniciales, validaciones.</p>
+            <div class="cards-grid">
+                <div class="card" style="padding: 1.2rem;">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/r0KjrzbSRec?si=E0_ixS8ZjPK5DTbF"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <h3 style="font-size: 1.05rem;">¿Qué es la Orientación a Objetos?</h3>
+                    <p style="font-size: 0.85rem;">Explicación de manera sencilla y con ejemplos de la vida real
+                        los pilares fundamentales de la POO.</p>
+                </div>
+                <div class="card" style="padding: 1.2rem;">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/SI7O81GMG2A?si=RRGJRMXEd24JEh1o"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <h3 style="font-size: 1.05rem;">POO aplicada a JavaScript</h3>
+                    <p style="font-size: 0.85rem;">Un excelente video que muestra cómo implementar las clases,
+                        objetos, y métodos directo en código JS.</p>
+                </div>
+            </div>
+
         </div>
-      </div>
-      <div class="role-card">
-        <div class="role-num gold">2</div>
-        <div class="role-info">
-          <h4>💻 Constructor de Métodos</h4>
-          <p>Escribe las funciones y comportamientos (calcular, transformar, mostrar).</p>
-        </div>
-      </div>
-      <div class="role-card">
-        <div class="role-num green">3</div>
-        <div class="role-info">
-          <h4>🧪 Probador / Depurador</h4>
-          <p>Crea instancias, prueba métodos y verifica que funcionen correctamente.</p>
-        </div>
-      </div>
-      <div class="role-card">
-        <div class="role-num purple">4</div>
-        <div class="role-info">
-          <h4>🎤 Relator / Presentador</h4>
-          <p>Documenta el código y prepara la exposición del proyecto.</p>
-        </div>
-      </div>
     </div>
 
-    <div class="activity-box">
-      <h3>🎯 Misión del equipo: Clase "Producto"</h3>
-      <p>Construyan una clase <strong>Producto</strong> con los siguientes requisitos:</p>
-      <ul>
-        <li>Atributos: <code>nombre</code>, <code>precio</code>, <code>stock</code>, <code>descuento</code> (porcentaje)</li>
-        <li>Método <code>precioFinal()</code> que devuelva el precio con descuento aplicado</li>
-        <li>Método <code>vender(cantidad)</code> que reduzca el stock con mensaje</li>
-        <li>Método <code>mostrarInfo()</code> con toda la información del producto</li>
-      </ul>
-    </div>
+    <!-- =============================== -->
+    <!-- PANEL 2: EQUIPO                 -->
+    <!-- =============================== -->
+    <div class="panel" id="equipo">
+        <div class="panel-inner">
+            <h2 class="section-title">🤝 Construyendo juntos: Sistema de Gestión</h2>
+            <p class="section-sub">Cada equipo organizará sus roles para diseñar una clase funcional. La colaboración es
+                clave.</p>
 
-    <!-- Collapse: Solución Equipo -->
-    <button class="collapse-toggle" id="toggleSolucion">
-      ✨ Ver ejemplo de solución — Clase Producto
-      <span class="collapse-arrow">▼</span>
-    </button>
-    <div class="collapse-content" id="colSolucion">
-      <div class="vscode-wrapper">
-        <div class="vscode-titlebar">
-          <div class="vscode-dots">
-            <div class="vscode-dot dot-red"></div>
-            <div class="vscode-dot dot-yellow"></div>
-            <div class="vscode-dot dot-green"></div>
-          </div>
-          <div class="vscode-filename">
-            <span class="vscode-ext-badge">JS</span>
-            producto.js — Solución Colaborativa
-          </div>
-        </div>
-        <div class="vscode-tabs"><div class="vscode-tab active">📄 producto.js</div></div>
-        <div class="vscode-body">
-          <div class="vscode-gutter">
-            <span class="line-num">1</span><span class="line-num">2</span><span class="line-num">3</span>
-            <span class="line-num">4</span><span class="line-num">5</span><span class="line-num">6</span>
-            <span class="line-num">7</span><span class="line-num">8</span><span class="line-num">9</span>
-            <span class="line-num">10</span><span class="line-num">11</span><span class="line-num">12</span>
-            <span class="line-num">13</span><span class="line-num">14</span><span class="line-num">15</span>
-            <span class="line-num">16</span><span class="line-num">17</span><span class="line-num">18</span>
-            <span class="line-num">19</span><span class="line-num">20</span><span class="line-num">21</span>
-            <span class="line-num">22</span><span class="line-num">23</span><span class="line-num">24</span>
-            <span class="line-num">25</span>
-          </div>
-          <div class="vscode-code">
-<pre><span class="kw">class</span> <span class="cls">Producto</span> {
+            <div class="cards-grid" style="grid-template-columns: repeat(auto-fit,minmax(240px,1fr))">
+                <div class="role-card">
+                    <div class="role-num">1</div>
+                    <div class="role-info">
+                        <h4>🎨 Analista de Atributos</h4>
+                        <p>Define qué datos necesita la clase: tipos, valores iniciales, validaciones.</p>
+                    </div>
+                </div>
+                <div class="role-card">
+                    <div class="role-num gold">2</div>
+                    <div class="role-info">
+                        <h4>💻 Constructor de Métodos</h4>
+                        <p>Escribe las funciones y comportamientos (calcular, transformar, mostrar).</p>
+                    </div>
+                </div>
+                <div class="role-card">
+                    <div class="role-num green">3</div>
+                    <div class="role-info">
+                        <h4>🧪 Probador / Depurador</h4>
+                        <p>Crea instancias, prueba métodos y verifica que funcionen correctamente.</p>
+                    </div>
+                </div>
+                <div class="role-card">
+                    <div class="role-num purple">4</div>
+                    <div class="role-info">
+                        <h4>🎤 Relator / Presentador</h4>
+                        <p>Documenta el código y prepara la exposición del proyecto.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity-box">
+                <h3>🎯 Misión del equipo: Clase "Producto"</h3>
+                <p>Construyan una clase <strong>Producto</strong> con los siguientes requisitos:</p>
+                <ul>
+                    <li>Atributos: <code>nombre</code>, <code>precio</code>, <code>stock</code>, <code>descuento</code>
+                        (porcentaje)</li>
+                    <li>Método <code>precioFinal()</code> que devuelva el precio con descuento aplicado</li>
+                    <li>Método <code>vender(cantidad)</code> que reduzca el stock con mensaje</li>
+                    <li>Método <code>mostrarInfo()</code> con toda la información del producto</li>
+                </ul>
+            </div>
+
+            <!-- Collapse: Solución Equipo -->
+            <button class="collapse-toggle" id="toggleSolucion">
+                ✨ Ver ejemplo de solución — Clase Producto
+                <span class="collapse-arrow">▼</span>
+            </button>
+            <div class="collapse-content" id="colSolucion">
+                <div class="vscode-wrapper">
+                    <div class="vscode-titlebar">
+                        <div class="vscode-dots">
+                            <div class="vscode-dot dot-red"></div>
+                            <div class="vscode-dot dot-yellow"></div>
+                            <div class="vscode-dot dot-green"></div>
+                        </div>
+                        <div class="vscode-filename">
+                            <span class="vscode-ext-badge">JS</span>
+                            producto.js — Solución Colaborativa
+                        </div>
+                    </div>
+                    <div class="vscode-tabs">
+                        <div class="vscode-tab active">📄 producto.js</div>
+                    </div>
+                    <div class="vscode-body">
+                        <div class="vscode-gutter">
+                            <span class="line-num">1</span><span class="line-num">2</span><span
+                                class="line-num">3</span>
+                            <span class="line-num">4</span><span class="line-num">5</span><span
+                                class="line-num">6</span>
+                            <span class="line-num">7</span><span class="line-num">8</span><span
+                                class="line-num">9</span>
+                            <span class="line-num">10</span><span class="line-num">11</span><span
+                                class="line-num">12</span>
+                            <span class="line-num">13</span><span class="line-num">14</span><span
+                                class="line-num">15</span>
+                            <span class="line-num">16</span><span class="line-num">17</span><span
+                                class="line-num">18</span>
+                            <span class="line-num">19</span><span class="line-num">20</span><span
+                                class="line-num">21</span>
+                            <span class="line-num">22</span><span class="line-num">23</span><span
+                                class="line-num">24</span>
+                            <span class="line-num">25</span>
+                        </div>
+                        <div class="vscode-code">
+                            <pre><span class="kw">class</span> <span class="cls">Producto</span> {
   <span class="fn">constructor</span>(<span class="prm">nombre</span>, <span class="prm">precio</span>, <span class="prm">stock</span>, <span class="prm">descuento</span> = <span class="num">0</span>) {
     <span class="thi">this</span>.nombre    = <span class="prm">nombre</span>;
     <span class="thi">this</span>.precio    = <span class="prm">precio</span>;
@@ -1240,112 +1511,150 @@
     <span class="kw">return</span> <span class="str">`📦 <span class="op">${</span><span class="thi">this</span>.nombre<span class="op">}</span> | S/ <span class="op">${</span><span class="thi">this</span>.precio<span class="op">}</span> | -<span class="op">${</span><span class="thi">this</span>.descuento<span class="op">}</span>% | Final: S/ <span class="op">${</span><span class="thi">this</span>.<span class="fn">precioFinal</span>().<span class="fn">toFixed</span>(<span class="num">2</span>)<span class="op">}</span> | Stock: <span class="op">${</span><span class="thi">this</span>.stock<span class="op">}</span>`</span>;
   }
 }</pre>
-          </div>
+                        </div>
+                    </div>
+                    <div class="vscode-statusbar">
+                        <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
+                        <div class="statusbar-right"><span>JavaScript</span><span>UTF-8</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- LIVE DEMO -->
+            <div class="live-demo">
+                <h3>⚡ Prueba tu clase en tiempo real</h3>
+                <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:0.75rem;">Ingresa los datos del
+                    producto y prueba la clase interactivamente.</p>
+
+                <div
+                    style="background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 8px; padding: 12px; margin-bottom: 1rem;">
+                    <h4
+                        style="color: var(--teal); font-size: 0.9rem; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                        💡 ¿Qué es un Formulario (Form)?</h4>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Un
+                        <strong>formulario (form)</strong> es una sección en HTML que permite al usuario ingresar datos
+                        mediante controles interactivos (como los campos de texto y botones de abajo), los cuales luego
+                        se procesan con JavaScript para crear un objeto o enviarse a un servidor.
+                    </p>
+                </div>
+                <div class="demo-controls">
+                    <input class="demo-input" type="text" id="prodNombre" placeholder="Nombre" value="Teclado Mecánico">
+                    <input class="demo-input" type="number" id="prodPrecio" placeholder="Precio S/" value="350"
+                        style="width:110px">
+                    <input class="demo-input" type="number" id="prodStock" placeholder="Stock" value="10"
+                        style="width:90px">
+                    <input class="demo-input" type="number" id="prodDescuento" placeholder="% Desc" value="15"
+                        style="width:90px">
+                    <button class="btn btn-primary" id="crearProducto">➕ Crear Producto</button>
+                    <button class="btn btn-green" id="venderProducto" disabled>🛒 Vender 2 unidades</button>
+                </div>
+                <div class="terminal-header">
+                    <span style="color:var(--green)">●</span> Terminal de salida — JavaScript Console
+                </div>
+                <div class="terminal" id="terminalEquipo">
+                    <span class="t-info">// Crea un producto para comenzar...</span>
+                </div>
+            </div>
+
         </div>
-        <div class="vscode-statusbar">
-          <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
-          <div class="statusbar-right"><span>JavaScript</span><span>UTF-8</span></div>
-        </div>
-      </div>
     </div>
 
-    <div class="divider"></div>
+    <!-- =============================== -->
+    <!-- PANEL 3: PROYECTO               -->
+    <!-- =============================== -->
+    <div class="panel" id="proyecto">
+        <div class="panel-inner">
+            <h2 class="section-title">🚀 Proyecto: Sistema del Mundo Real</h2>
+            <p class="section-sub">Tu equipo elegirá uno de estos proyectos para construir una solución funcional usando
+                clases y objetos.</p>
 
-    <!-- LIVE DEMO -->
-    <div class="live-demo">
-      <h3>⚡ Prueba tu clase en tiempo real</h3>
-      <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:0.75rem;">Ingresa los datos del producto y prueba la clase interactivamente.</p>
-      
-      <div style="background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 8px; padding: 12px; margin-bottom: 1rem;">
-        <h4 style="color: var(--teal); font-size: 0.9rem; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">💡 ¿Qué es un Formulario (Form)?</h4>
-        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Un <strong>formulario (form)</strong> es una sección en HTML que permite al usuario ingresar datos mediante controles interactivos (como los campos de texto y botones de abajo), los cuales luego se procesan con JavaScript para crear un objeto o enviarse a un servidor.</p>
-      </div>
-      <div class="demo-controls">
-        <input class="demo-input" type="text" id="prodNombre" placeholder="Nombre" value="Teclado Mecánico">
-        <input class="demo-input" type="number" id="prodPrecio" placeholder="Precio S/" value="350" style="width:110px">
-        <input class="demo-input" type="number" id="prodStock" placeholder="Stock" value="10" style="width:90px">
-        <input class="demo-input" type="number" id="prodDescuento" placeholder="% Desc" value="15" style="width:90px">
-        <button class="btn btn-primary" id="crearProducto">➕ Crear Producto</button>
-        <button class="btn btn-green" id="venderProducto" disabled>🛒 Vender 2 unidades</button>
-      </div>
-      <div class="terminal-header">
-        <span style="color:var(--green)">●</span> Terminal de salida — JavaScript Console
-      </div>
-      <div class="terminal" id="terminalEquipo">
-        <span class="t-info">// Crea un producto para comenzar...</span>
-      </div>
-    </div>
+            <div class="cards-grid">
+                <div class="option-card" data-project="tareas">
+                    <h3>📱 Opción 1: Gestor de Tareas</h3>
+                    <p>Clase <code>Tarea</code> — título, descripción, prioridad, completada. Métodos:
+                        <code>completar()</code>, <code>detalles()</code>.
+                    </p>
+                </div>
+                <div class="option-card" data-project="juego">
+                    <h3>🎮 Opción 2: Personaje de Videojuego</h3>
+                    <p>Clase <code>Personaje</code> — vida, fuerza, nivel. Métodos: <code>atacar()</code>,
+                        <code>subirNivel()</code>, <code>curar()</code>.
+                    </p>
+                </div>
+                <div class="option-card" data-project="banco">
+                    <h3>🏦 Opción 3: Cuenta Bancaria</h3>
+                    <p>Clase <code>Cuenta</code> — saldo, titular, número. Métodos: <code>depositar()</code>,
+                        <code>retirar()</code>, <code>saldo()</code>.
+                    </p>
+                </div>
+                <div class="option-card" data-project="biblioteca">
+                    <h3>📚 Opción 4: Biblioteca Digital</h3>
+                    <p>Clase <code>Libro</code> — título, autor, disponible. Métodos: <code>prestar()</code>,
+                        <code>devolver()</code>, <code>info()</code>.
+                    </p>
+                </div>
+            </div>
 
-  </div>
-</div>
+            <div class="activity-box">
+                <h3>📋 Entregables del proyecto</h3>
+                <div class="rubrica-item">
+                    <div class="check-icon">✓</div><span>Código de la clase con sus atributos y métodos (pseudocódigo o
+                        JS)</span>
+                </div>
+                <div class="rubrica-item">
+                    <div class="check-icon">✓</div><span>Al menos 3 objetos creados con diferentes datos</span>
+                </div>
+                <div class="rubrica-item">
+                    <div class="check-icon">✓</div><span>Ejecución de métodos que demuestren funcionalidad real</span>
+                </div>
+                <div class="rubrica-item">
+                    <div class="check-icon">✓</div><span>Breve presentación explicando decisiones de diseño</span>
+                </div>
+            </div>
 
-<!-- =============================== -->
-<!-- PANEL 3: PROYECTO               -->
-<!-- =============================== -->
-<div class="panel" id="proyecto">
-  <div class="panel-inner">
-    <h2 class="section-title">🚀 Proyecto: Sistema del Mundo Real</h2>
-    <p class="section-sub">Tu equipo elegirá uno de estos proyectos para construir una solución funcional usando clases y objetos.</p>
-
-    <div class="cards-grid">
-      <div class="option-card" data-project="tareas">
-        <h3>📱 Opción 1: Gestor de Tareas</h3>
-        <p>Clase <code>Tarea</code> — título, descripción, prioridad, completada. Métodos: <code>completar()</code>, <code>detalles()</code>.</p>
-      </div>
-      <div class="option-card" data-project="juego">
-        <h3>🎮 Opción 2: Personaje de Videojuego</h3>
-        <p>Clase <code>Personaje</code> — vida, fuerza, nivel. Métodos: <code>atacar()</code>, <code>subirNivel()</code>, <code>curar()</code>.</p>
-      </div>
-      <div class="option-card" data-project="banco">
-        <h3>🏦 Opción 3: Cuenta Bancaria</h3>
-        <p>Clase <code>Cuenta</code> — saldo, titular, número. Métodos: <code>depositar()</code>, <code>retirar()</code>, <code>saldo()</code>.</p>
-      </div>
-      <div class="option-card" data-project="biblioteca">
-        <h3>📚 Opción 4: Biblioteca Digital</h3>
-        <p>Clase <code>Libro</code> — título, autor, disponible. Métodos: <code>prestar()</code>, <code>devolver()</code>, <code>info()</code>.</p>
-      </div>
-    </div>
-
-    <div class="activity-box">
-      <h3>📋 Entregables del proyecto</h3>
-      <div class="rubrica-item"><div class="check-icon">✓</div><span>Código de la clase con sus atributos y métodos (pseudocódigo o JS)</span></div>
-      <div class="rubrica-item"><div class="check-icon">✓</div><span>Al menos 3 objetos creados con diferentes datos</span></div>
-      <div class="rubrica-item"><div class="check-icon">✓</div><span>Ejecución de métodos que demuestren funcionalidad real</span></div>
-      <div class="rubrica-item"><div class="check-icon">✓</div><span>Breve presentación explicando decisiones de diseño</span></div>
-    </div>
-
-    <!-- Collapse: Personaje -->
-    <button class="collapse-toggle" id="togglePersonaje">
-      🎮 Ver ejemplo completo — Clase Personaje
-      <span class="collapse-arrow">▼</span>
-    </button>
-    <div class="collapse-content" id="colPersonaje">
-      <div class="vscode-wrapper">
-        <div class="vscode-titlebar">
-          <div class="vscode-dots">
-            <div class="vscode-dot dot-red"></div>
-            <div class="vscode-dot dot-yellow"></div>
-            <div class="vscode-dot dot-green"></div>
-          </div>
-          <div class="vscode-filename">
-            <span class="vscode-ext-badge">JS</span>
-            personaje.js — Ejemplo Proyecto Opción 2
-          </div>
-        </div>
-        <div class="vscode-tabs"><div class="vscode-tab active">📄 personaje.js</div></div>
-        <div class="vscode-body">
-          <div class="vscode-gutter">
-            <span class="line-num">1</span><span class="line-num">2</span><span class="line-num">3</span>
-            <span class="line-num">4</span><span class="line-num">5</span><span class="line-num">6</span>
-            <span class="line-num">7</span><span class="line-num">8</span><span class="line-num">9</span>
-            <span class="line-num">10</span><span class="line-num">11</span><span class="line-num">12</span>
-            <span class="line-num">13</span><span class="line-num">14</span><span class="line-num">15</span>
-            <span class="line-num">16</span><span class="line-num">17</span><span class="line-num">18</span>
-            <span class="line-num">19</span><span class="line-num">20</span><span class="line-num">21</span>
-            <span class="line-num">22</span><span class="line-num">23</span>
-          </div>
-          <div class="vscode-code">
-<pre><span class="kw">class</span> <span class="cls">Personaje</span> {
+            <!-- Collapse: Personaje -->
+            <button class="collapse-toggle" id="togglePersonaje">
+                🎮 Ver ejemplo completo — Clase Personaje
+                <span class="collapse-arrow">▼</span>
+            </button>
+            <div class="collapse-content" id="colPersonaje">
+                <div class="vscode-wrapper">
+                    <div class="vscode-titlebar">
+                        <div class="vscode-dots">
+                            <div class="vscode-dot dot-red"></div>
+                            <div class="vscode-dot dot-yellow"></div>
+                            <div class="vscode-dot dot-green"></div>
+                        </div>
+                        <div class="vscode-filename">
+                            <span class="vscode-ext-badge">JS</span>
+                            personaje.js — Ejemplo Proyecto Opción 2
+                        </div>
+                    </div>
+                    <div class="vscode-tabs">
+                        <div class="vscode-tab active">📄 personaje.js</div>
+                    </div>
+                    <div class="vscode-body">
+                        <div class="vscode-gutter">
+                            <span class="line-num">1</span><span class="line-num">2</span><span
+                                class="line-num">3</span>
+                            <span class="line-num">4</span><span class="line-num">5</span><span
+                                class="line-num">6</span>
+                            <span class="line-num">7</span><span class="line-num">8</span><span
+                                class="line-num">9</span>
+                            <span class="line-num">10</span><span class="line-num">11</span><span
+                                class="line-num">12</span>
+                            <span class="line-num">13</span><span class="line-num">14</span><span
+                                class="line-num">15</span>
+                            <span class="line-num">16</span><span class="line-num">17</span><span
+                                class="line-num">18</span>
+                            <span class="line-num">19</span><span class="line-num">20</span><span
+                                class="line-num">21</span>
+                            <span class="line-num">22</span><span class="line-num">23</span>
+                        </div>
+                        <div class="vscode-code">
+                            <pre><span class="kw">class</span> <span class="cls">Personaje</span> {
   <span class="fn">constructor</span>(<span class="prm">nombre</span>, <span class="prm">vida</span>, <span class="prm">fuerza</span>) {
     <span class="thi">this</span>.nombre = <span class="prm">nombre</span>;
     <span class="thi">this</span>.vida   = <span class="prm">vida</span>;
@@ -1374,32 +1683,34 @@
     <span class="kw">return</span> <span class="str">`⚔️ <span class="op">${</span><span class="thi">this</span>.nombre<span class="op">}</span> | Nv.<span class="op">${</span><span class="thi">this</span>.nivel<span class="op">}</span> | ❤️ <span class="op">${</span><span class="thi">this</span>.vida<span class="op">}</span> HP | 💪 <span class="op">${</span><span class="thi">this</span>.fuerza<span class="op">}</span> ATK`</span>;
   }
 }</pre>
-          </div>
-        </div>
-        <div class="vscode-statusbar">
-          <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
-          <div class="statusbar-right"><span>JavaScript</span><span>UTF-8</span></div>
-        </div>
-      </div>
-    </div>
+                        </div>
+                    </div>
+                    <div class="vscode-statusbar">
+                        <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
+                        <div class="statusbar-right"><span>JavaScript</span><span>UTF-8</span></div>
+                    </div>
+                </div>
+            </div>
 
-    <div class="divider"></div>
+            <div class="divider"></div>
 
-    <!-- Editor interactivo -->
-    <div class="live-demo">
-      <h3>🧑‍💻 Editor de código propio</h3>
-      <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:0.6rem;">Escribe tu propia clase y ejecútala directamente en el navegador.</p>
-      <div class="editor-header-bar">
-        <div style="display:flex;align-items:center;gap:8px;color:#CCC;font-family:'JetBrains Mono',monospace;font-size:0.78rem;">
-          <span class="vscode-ext-badge">JS</span> mi-clase.js
-        </div>
-        <div style="display:flex;gap:6px">
-          <div class="vscode-dot dot-red"></div>
-          <div class="vscode-dot dot-yellow"></div>
-          <div class="vscode-dot dot-green"></div>
-        </div>
-      </div>
-      <textarea class="code-editor-area" id="codigoPropio">class MiClase {
+            <!-- Editor interactivo -->
+            <div class="live-demo">
+                <h3>🧑‍💻 Editor de código propio</h3>
+                <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:0.6rem;">Escribe tu propia clase y
+                    ejecútala directamente en el navegador.</p>
+                <div class="editor-header-bar">
+                    <div
+                        style="display:flex;align-items:center;gap:8px;color:#CCC;font-family:'JetBrains Mono',monospace;font-size:0.78rem;">
+                        <span class="vscode-ext-badge">JS</span> mi-clase.js
+                    </div>
+                    <div style="display:flex;gap:6px">
+                        <div class="vscode-dot dot-red"></div>
+                        <div class="vscode-dot dot-yellow"></div>
+                        <div class="vscode-dot dot-green"></div>
+                    </div>
+                </div>
+                <textarea class="code-editor-area" id="codigoPropio">class MiClase {
   constructor(nombre, valor) {
     this.nombre = nombre;
     this.valor  = valor;
@@ -1411,61 +1722,67 @@
 
 let obj = new MiClase("Demo UNIVO", 100);
 console.log(obj.mostrar());</textarea>
-      <button class="btn btn-green" id="ejecutarCodigo" style="margin-top:0.5rem">▶ Ejecutar Código</button>
-      <button class="btn btn-ghost" id="limpiarEditor" style="margin-top:0.5rem">🗑 Limpiar</button>
-      <div class="terminal-header" style="margin-top:0.75rem">
-        <span style="color:var(--green)">●</span> Salida — Console
-      </div>
-      <div class="terminal" id="terminalProyecto">
-        <span class="t-info">// Escribe tu clase y presiona ▶ Ejecutar...</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- =============================== -->
-<!-- PANEL 4: DESAFIO                -->
-<!-- =============================== -->
-<div class="panel" id="desafio">
-  <div class="panel-inner">
-    <h2 class="section-title">⚡ Desafío Final: Sistema de Biblioteca</h2>
-    <p class="section-sub">En equipos de 3–4 personas, construirán un sistema completo usando herencia y métodos avanzados.</p>
-
-    <div class="desafio-grid">
-      <div>
-        <div class="activity-box" style="border-left-color:var(--univo-blue-mid)">
-          <h3 style="color:var(--teal)">📌 Requerimientos del Desafío</h3>
-          <ul>
-            <li>Crear clase base <strong>MaterialBiblioteca</strong> con: <code>id</code>, <code>titulo</code>, <code>año</code></li>
-            <li>Clase hija <strong>Libro</strong> → agrega: <code>autor</code>, <code>genero</code></li>
-            <li>Clase hija <strong>Revista</strong> → agrega: <code>edicion</code>, <code>mes</code></li>
-            <li>Métodos <code>prestar()</code> y <code>devolver()</code> en la clase base</li>
-            <li>Mínimo 5 objetos y un reporte general del sistema</li>
-            <li>Cada equipo asigna roles y presenta la solución</li>
-          </ul>
+                <button class="btn btn-green" id="ejecutarCodigo" style="margin-top:0.5rem">▶ Ejecutar Código</button>
+                <button class="btn btn-ghost" id="limpiarEditor" style="margin-top:0.5rem">🗑 Limpiar</button>
+                <div class="terminal-header" style="margin-top:0.75rem">
+                    <span style="color:var(--green)">●</span> Salida — Console
+                </div>
+                <div class="terminal" id="terminalProyecto">
+                    <span class="t-info">// Escribe tu clase y presiona ▶ Ejecutar...</span>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <!-- Generar idea -->
-        <button class="btn btn-gold" id="generarIdea">💡 Generar código base con herencia</button>
-        <div id="colIdeaWrap">
-          <div class="collapse-content open" id="colIdea" style="display:none">
-            <div class="vscode-wrapper" style="margin-top:0.75rem">
-              <div class="vscode-titlebar">
-                <div class="vscode-dots">
-                  <div class="vscode-dot dot-red"></div>
-                  <div class="vscode-dot dot-yellow"></div>
-                  <div class="vscode-dot dot-green"></div>
-                </div>
-                <div class="vscode-filename">
-                  <span class="vscode-ext-badge">JS</span>
-                  biblioteca.js — Desafío Final
-                </div>
-              </div>
-              <div class="vscode-tabs"><div class="vscode-tab active">📄 biblioteca.js</div></div>
-              <div class="vscode-body">
-                <div class="vscode-gutter" id="gutterIdea"></div>
-                <div class="vscode-code" id="codeIdea">
-<pre><span class="kw">class</span> <span class="cls">MaterialBiblioteca</span> {
+    <!-- =============================== -->
+    <!-- PANEL 4: DESAFIO                -->
+    <!-- =============================== -->
+    <div class="panel" id="desafio">
+        <div class="panel-inner">
+            <h2 class="section-title">⚡ Desafío Final: Sistema de Biblioteca</h2>
+            <p class="section-sub">En equipos de 3–4 personas, construirán un sistema completo usando herencia y métodos
+                avanzados.</p>
+
+            <div class="desafio-grid">
+                <div>
+                    <div class="activity-box" style="border-left-color:var(--univo-blue-mid)">
+                        <h3 style="color:var(--teal)">📌 Requerimientos del Desafío</h3>
+                        <ul>
+                            <li>Crear clase base <strong>MaterialBiblioteca</strong> con: <code>id</code>,
+                                <code>titulo</code>, <code>año</code>
+                            </li>
+                            <li>Clase hija <strong>Libro</strong> → agrega: <code>autor</code>, <code>genero</code></li>
+                            <li>Clase hija <strong>Revista</strong> → agrega: <code>edicion</code>, <code>mes</code>
+                            </li>
+                            <li>Métodos <code>prestar()</code> y <code>devolver()</code> en la clase base</li>
+                            <li>Mínimo 5 objetos y un reporte general del sistema</li>
+                            <li>Cada equipo asigna roles y presenta la solución</li>
+                        </ul>
+                    </div>
+
+                    <!-- Generar idea -->
+                    <button class="btn btn-gold" id="generarIdea">💡 Generar código base con herencia</button>
+                    <div id="colIdeaWrap">
+                        <div class="collapse-content open" id="colIdea" style="display:none">
+                            <div class="vscode-wrapper" style="margin-top:0.75rem">
+                                <div class="vscode-titlebar">
+                                    <div class="vscode-dots">
+                                        <div class="vscode-dot dot-red"></div>
+                                        <div class="vscode-dot dot-yellow"></div>
+                                        <div class="vscode-dot dot-green"></div>
+                                    </div>
+                                    <div class="vscode-filename">
+                                        <span class="vscode-ext-badge">JS</span>
+                                        biblioteca.js — Desafío Final
+                                    </div>
+                                </div>
+                                <div class="vscode-tabs">
+                                    <div class="vscode-tab active">📄 biblioteca.js</div>
+                                </div>
+                                <div class="vscode-body">
+                                    <div class="vscode-gutter" id="gutterIdea"></div>
+                                    <div class="vscode-code" id="codeIdea">
+                                        <pre><span class="kw">class</span> <span class="cls">MaterialBiblioteca</span> {
   <span class="fn">constructor</span>(<span class="prm">id</span>, <span class="prm">titulo</span>, <span class="prm">año</span>) {
     <span class="thi">this</span>.id         = <span class="prm">id</span>;
     <span class="thi">this</span>.titulo     = <span class="prm">titulo</span>;
@@ -1517,234 +1834,247 @@ console.log(obj.mostrar());</textarea>
 <span class="fn">console</span>.log(<span class="prm">lib1</span>.<span class="fn">infoCompleta</span>());
 <span class="fn">console</span>.log(<span class="prm">lib1</span>.<span class="fn">prestar</span>());
 <span class="fn">console</span>.log(<span class="prm">lib1</span>.<span class="fn">info</span>());</pre>
+                                    </div>
+                                </div>
+                                <div class="vscode-statusbar">
+                                    <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
+                                    <div class="statusbar-right"><span>JavaScript ES6+</span><span>UTF-8</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="vscode-statusbar">
-                <div class="statusbar-left"><span>⎇ main</span><span>✓ Sin errores</span></div>
-                <div class="statusbar-right"><span>JavaScript ES6+</span><span>UTF-8</span></div>
-              </div>
+
+                <!-- Right column -->
+                <div>
+                    <div class="card" style="margin-bottom:1.25rem">
+                        <span class="card-icon">📊</span>
+                        <h3>Rúbrica de Evaluación</h3>
+                        <div class="rubrica-item">
+                            <div class="check-icon">✓</div><span>Código funcional con clases y herencia</span>
+                        </div>
+                        <div class="rubrica-item">
+                            <div class="check-icon">✓</div><span>Trabajo colaborativo con roles definidos</span>
+                        </div>
+                        <div class="rubrica-item">
+                            <div class="check-icon">✓</div><span>Creatividad en la implementación</span>
+                        </div>
+                        <div class="rubrica-item">
+                            <div class="check-icon">✓</div><span>Presentación clara de resultados</span>
+                        </div>
+                        <div class="progress-bar-wrap" style="margin-top:1rem">
+                            <div class="progress-bar" style="width:0%" id="progBar"></div>
+                        </div>
+                        <p style="font-size:0.75rem;color:var(--text-muted);margin-top:6px">Progreso del equipo: <span
+                                id="progPct">0%</span></p>
+                    </div>
+
+                    <div class="card">
+                        <span class="card-icon">🏆</span>
+                        <h3 style="color:var(--univo-gold)">Premio al Mejor Proyecto</h3>
+                        <p>El equipo con la solución más completa y documentada compartirá su código con toda la clase y
+                            recibirá reconocimiento especial.</p>
+                        <button class="btn btn-gold" style="margin-top:0.75rem;font-size:0.8rem" id="marcarListo">✅
+                            Marcar como listo</button>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
 
-      <!-- Right column -->
-      <div>
-        <div class="card" style="margin-bottom:1.25rem">
-          <span class="card-icon">📊</span>
-          <h3>Rúbrica de Evaluación</h3>
-          <div class="rubrica-item"><div class="check-icon">✓</div><span>Código funcional con clases y herencia</span></div>
-          <div class="rubrica-item"><div class="check-icon">✓</div><span>Trabajo colaborativo con roles definidos</span></div>
-          <div class="rubrica-item"><div class="check-icon">✓</div><span>Creatividad en la implementación</span></div>
-          <div class="rubrica-item"><div class="check-icon">✓</div><span>Presentación clara de resultados</span></div>
-          <div class="progress-bar-wrap" style="margin-top:1rem">
-            <div class="progress-bar" style="width:0%" id="progBar"></div>
-          </div>
-          <p style="font-size:0.75rem;color:var(--text-muted);margin-top:6px">Progreso del equipo: <span id="progPct">0%</span></p>
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <img src="https://www.univo.edu.sv/wp-content/uploads/2022/01/LOGOESCUDO.png" alt="UNIVO Logo"
+                    class="footer-logo-mini" style="object-fit: contain;">
+                <div>
+                    <div class="footer-title">Universidad de Oriente — UNIVO</div>
+                    <div class="footer-subtitle">Laboratorio POO · Programación Orientada a Objetos</div>
+                </div>
+            </div>
+
+            <div class="footer-devs">
+                <div class="footer-devs-label">💻 Desarrollado por los Maestrantes</div>
+                <div class="dev-list">
+                    <span class="dev-badge">Adolfo Herrera</span>
+                    <span class="dev-badge">Gabriela Ramirez</span>
+                    <span class="dev-badge">Kevin Diaz</span>
+                </div>
+            </div>
+
+            <div class="footer-copy">
+                © 2025 Universidad de Oriente UNIVO · San Miguel, El Salvador · Todos los derechos reservados
+                <br>Programación Orientada a Objetos — Aprende haciendo, colabora creando, construye soluciones reales.
+            </div>
         </div>
+    </footer>
 
-        <div class="card">
-          <span class="card-icon">🏆</span>
-          <h3 style="color:var(--univo-gold)">Premio al Mejor Proyecto</h3>
-          <p>El equipo con la solución más completa y documentada compartirá su código con toda la clase y recibirá reconocimiento especial.</p>
-          <button class="btn btn-gold" style="margin-top:0.75rem;font-size:0.8rem" id="marcarListo">✅ Marcar como listo</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    <script>
+        /* ===== NAVEGACIÓN ===== */
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const panels = document.querySelectorAll('.panel');
 
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <img src="https://www.univo.edu.sv/wp-content/uploads/2022/01/LOGOESCUDO.png" alt="UNIVO Logo" class="footer-logo-mini" style="object-fit: contain;">
-      <div>
-        <div class="footer-title">Universidad de Oriente — UNIVO</div>
-        <div class="footer-subtitle">Laboratorio POO · Programación Orientada a Objetos</div>
-      </div>
-    </div>
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                navBtns.forEach(b => b.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.panel).classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
 
-    <div class="footer-devs">
-      <div class="footer-devs-label">💻 Desarrollado por los Maestrantes</div>
-      <div class="dev-list">
-        <span class="dev-badge">Adolfo Herrera</span>
-        <span class="dev-badge">Gabriela Ramirez</span>
-        <span class="dev-badge">Kevin Diaz</span>
-      </div>
-    </div>
+        /* ===== COLLAPSE TOGGLES ===== */
+        function setupCollapse(btnId, contentId) {
+            const btn = document.getElementById(btnId);
+            const content = document.getElementById(contentId);
+            if (!btn || !content) return;
+            btn.addEventListener('click', () => {
+                const isOpen = content.classList.contains('open');
+                content.classList.toggle('open', !isOpen);
+                content.style.display = isOpen ? 'none' : 'block';
+                btn.classList.toggle('open', !isOpen);
+            });
+            content.style.display = 'none';
+        }
 
-    <div class="footer-copy">
-      © 2025 Universidad de Oriente UNIVO · San Miguel, El Salvador · Todos los derechos reservados
-      <br>Programación Orientada a Objetos — Aprende haciendo, colabora creando, construye soluciones reales.
-    </div>
-  </div>
-</footer>
+        setupCollapse('toggleEstudiante', 'colEstudiante');
+        setupCollapse('toggleSolucion', 'colSolucion');
+        setupCollapse('togglePersonaje', 'colPersonaje');
 
-<script>
-/* ===== NAVEGACIÓN ===== */
-const navBtns = document.querySelectorAll('.nav-btn');
-const panels  = document.querySelectorAll('.panel');
+        /* ===== OPTION CARDS ===== */
+        document.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+            });
+        });
 
-navBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    navBtns.forEach(b => b.classList.remove('active'));
-    panels.forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.panel).classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-});
+        /* ===== DEMO PRODUCTO (Panel 2) ===== */
+        class ProductoDemo {
+            constructor(nombre, precio, stock, descuento = 0) {
+                this.nombre = nombre;
+                this.precio = parseFloat(precio) || 0;
+                this.stock = parseInt(stock) || 0;
+                this.descuento = parseFloat(descuento) || 0;
+            }
+            precioFinal() {
+                return this.precio - (this.precio * this.descuento / 100);
+            }
+            vender(cantidad) {
+                if (cantidad <= this.stock) {
+                    this.stock -= cantidad;
+                    return `✅ Venta exitosa. Stock restante: ${this.stock}`;
+                }
+                return `❌ Stock insuficiente. Solo quedan ${this.stock} unidades.`;
+            }
+            mostrarInfo() {
+                return `📦 ${this.nombre} | Precio: S/ ${this.precio} | Desc: ${this.descuento}% | Final: S/ ${this.precioFinal().toFixed(2)} | Stock: ${this.stock}`;
+            }
+        }
 
-/* ===== COLLAPSE TOGGLES ===== */
-function setupCollapse(btnId, contentId) {
-  const btn     = document.getElementById(btnId);
-  const content = document.getElementById(contentId);
-  if (!btn || !content) return;
-  btn.addEventListener('click', () => {
-    const isOpen = content.classList.contains('open');
-    content.classList.toggle('open', !isOpen);
-    content.style.display = isOpen ? 'none' : 'block';
-    btn.classList.toggle('open', !isOpen);
-  });
-  content.style.display = 'none';
-}
+        let productoActual = null;
+        const term2 = document.getElementById('terminalEquipo');
 
-setupCollapse('toggleEstudiante', 'colEstudiante');
-setupCollapse('toggleSolucion',   'colSolucion');
-setupCollapse('togglePersonaje',  'colPersonaje');
+        function termLog2(msg, cls = '') {
+            term2.innerHTML += `<span class="${cls}">${msg}</span>\n`;
+            term2.scrollTop = term2.scrollHeight;
+        }
 
-/* ===== OPTION CARDS ===== */
-document.querySelectorAll('.option-card').forEach(card => {
-  card.addEventListener('click', () => {
-    document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
-  });
-});
+        document.getElementById('crearProducto').addEventListener('click', () => {
+            const n = document.getElementById('prodNombre').value || 'Producto';
+            const p = document.getElementById('prodPrecio').value;
+            const s = document.getElementById('prodStock').value;
+            const d = document.getElementById('prodDescuento').value;
+            productoActual = new ProductoDemo(n, p, s, d);
+            term2.innerHTML = '';
+            termLog2(`> new Producto("${n}", ${p}, ${s}, ${d})`, 't-prompt');
+            termLog2(productoActual.mostrarInfo(), 't-success');
+            termLog2(`> .precioFinal() → S/ ${productoActual.precioFinal().toFixed(2)}`, 't-info');
+            document.getElementById('venderProducto').disabled = false;
+        });
 
-/* ===== DEMO PRODUCTO (Panel 2) ===== */
-class ProductoDemo {
-  constructor(nombre, precio, stock, descuento = 0) {
-    this.nombre    = nombre;
-    this.precio    = parseFloat(precio) || 0;
-    this.stock     = parseInt(stock) || 0;
-    this.descuento = parseFloat(descuento) || 0;
-  }
-  precioFinal() {
-    return this.precio - (this.precio * this.descuento / 100);
-  }
-  vender(cantidad) {
-    if (cantidad <= this.stock) {
-      this.stock -= cantidad;
-      return `✅ Venta exitosa. Stock restante: ${this.stock}`;
-    }
-    return `❌ Stock insuficiente. Solo quedan ${this.stock} unidades.`;
-  }
-  mostrarInfo() {
-    return `📦 ${this.nombre} | Precio: S/ ${this.precio} | Desc: ${this.descuento}% | Final: S/ ${this.precioFinal().toFixed(2)} | Stock: ${this.stock}`;
-  }
-}
+        document.getElementById('venderProducto').addEventListener('click', () => {
+            if (!productoActual) return;
+            const resultado = productoActual.vender(2);
+            termLog2(`> .vender(2)`, 't-prompt');
+            termLog2(resultado, resultado.startsWith('✅') ? 't-success' : 't-error');
+            termLog2(productoActual.mostrarInfo(), 't-info');
+        });
 
-let productoActual = null;
-const term2 = document.getElementById('terminalEquipo');
+        /* ===== EDITOR CÓDIGO (Panel 3) ===== */
+        const termP = document.getElementById('terminalProyecto');
 
-function termLog2(msg, cls = '') {
-  term2.innerHTML += `<span class="${cls}">${msg}</span>\n`;
-  term2.scrollTop = term2.scrollHeight;
-}
+        function termLogP(msg, cls = '') {
+            termP.innerHTML += `<span class="${cls}">${msg}</span>\n`;
+            termP.scrollTop = termP.scrollHeight;
+        }
 
-document.getElementById('crearProducto').addEventListener('click', () => {
-  const n = document.getElementById('prodNombre').value || 'Producto';
-  const p = document.getElementById('prodPrecio').value;
-  const s = document.getElementById('prodStock').value;
-  const d = document.getElementById('prodDescuento').value;
-  productoActual = new ProductoDemo(n, p, s, d);
-  term2.innerHTML = '';
-  termLog2(`> new Producto("${n}", ${p}, ${s}, ${d})`, 't-prompt');
-  termLog2(productoActual.mostrarInfo(), 't-success');
-  termLog2(`> .precioFinal() → S/ ${productoActual.precioFinal().toFixed(2)}`, 't-info');
-  document.getElementById('venderProducto').disabled = false;
-});
+        document.getElementById('ejecutarCodigo').addEventListener('click', () => {
+            const code = document.getElementById('codigoPropio').value;
+            termP.innerHTML = '';
+            termLogP('▶ Ejecutando...', 't-info');
+            const logs = [];
+            const origLog = console.log;
+            console.log = (...args) => { logs.push(args.join(' ')); origLog(...args); };
+            try {
+                eval(code);
+                console.log = origLog;
+                if (logs.length === 0) {
+                    termLogP('✅ Código ejecutado sin errores (sin salida).', 't-success');
+                } else {
+                    logs.forEach(l => termLogP(l, 't-success'));
+                }
+            } catch (e) {
+                console.log = origLog;
+                termLogP(`❌ Error: ${e.message}`, 't-error');
+            }
+        });
 
-document.getElementById('venderProducto').addEventListener('click', () => {
-  if (!productoActual) return;
-  const resultado = productoActual.vender(2);
-  termLog2(`> .vender(2)`, 't-prompt');
-  termLog2(resultado, resultado.startsWith('✅') ? 't-success' : 't-error');
-  termLog2(productoActual.mostrarInfo(), 't-info');
-});
+        document.getElementById('limpiarEditor').addEventListener('click', () => {
+            document.getElementById('codigoPropio').value = '';
+            termP.innerHTML = '<span class="t-info">// Editor limpio. Escribe tu clase...</span>';
+        });
 
-/* ===== EDITOR CÓDIGO (Panel 3) ===== */
-const termP = document.getElementById('terminalProyecto');
+        /* ===== GENERAR IDEA DESAFÍO (Panel 4) ===== */
+        const btnIdea = document.getElementById('generarIdea');
+        const colIdea = document.getElementById('colIdea');
+        let ideaVisible = false;
 
-function termLogP(msg, cls = '') {
-  termP.innerHTML += `<span class="${cls}">${msg}</span>\n`;
-  termP.scrollTop = termP.scrollHeight;
-}
+        btnIdea.addEventListener('click', () => {
+            ideaVisible = !ideaVisible;
+            colIdea.style.display = ideaVisible ? 'block' : 'none';
+            btnIdea.textContent = ideaVisible ? '🙈 Ocultar código base' : '💡 Generar código base con herencia';
+        });
 
-document.getElementById('ejecutarCodigo').addEventListener('click', () => {
-  const code = document.getElementById('codigoPropio').value;
-  termP.innerHTML = '';
-  termLogP('▶ Ejecutando...', 't-info');
-  const logs = [];
-  const origLog = console.log;
-  console.log = (...args) => { logs.push(args.join(' ')); origLog(...args); };
-  try {
-    eval(code);
-    console.log = origLog;
-    if (logs.length === 0) {
-      termLogP('✅ Código ejecutado sin errores (sin salida).', 't-success');
-    } else {
-      logs.forEach(l => termLogP(l, 't-success'));
-    }
-  } catch(e) {
-    console.log = origLog;
-    termLogP(`❌ Error: ${e.message}`, 't-error');
-  }
-});
+        /* ===== PROGRESS (Panel 4) ===== */
+        let progreso = 0;
+        document.getElementById('marcarListo').addEventListener('click', () => {
+            if (progreso < 100) {
+                progreso = Math.min(100, progreso + 25);
+                document.getElementById('progBar').style.width = progreso + '%';
+                document.getElementById('progPct').textContent = progreso + '%';
+                if (progreso === 100) {
+                    document.getElementById('marcarListo').textContent = '🏆 ¡Proyecto Completado!';
+                    document.getElementById('marcarListo').style.background = 'linear-gradient(135deg,#238636,#2EA043)';
+                    document.getElementById('marcarListo').style.color = 'white';
+                }
+            }
+        });
 
-document.getElementById('limpiarEditor').addEventListener('click', () => {
-  document.getElementById('codigoPropio').value = '';
-  termP.innerHTML = '<span class="t-info">// Editor limpio. Escribe tu clase...</span>';
-});
-
-/* ===== GENERAR IDEA DESAFÍO (Panel 4) ===== */
-const btnIdea  = document.getElementById('generarIdea');
-const colIdea  = document.getElementById('colIdea');
-let ideaVisible = false;
-
-btnIdea.addEventListener('click', () => {
-  ideaVisible = !ideaVisible;
-  colIdea.style.display = ideaVisible ? 'block' : 'none';
-  btnIdea.textContent = ideaVisible ? '🙈 Ocultar código base' : '💡 Generar código base con herencia';
-});
-
-/* ===== PROGRESS (Panel 4) ===== */
-let progreso = 0;
-document.getElementById('marcarListo').addEventListener('click', () => {
-  if (progreso < 100) {
-    progreso = Math.min(100, progreso + 25);
-    document.getElementById('progBar').style.width = progreso + '%';
-    document.getElementById('progPct').textContent = progreso + '%';
-    if (progreso === 100) {
-      document.getElementById('marcarListo').textContent = '🏆 ¡Proyecto Completado!';
-      document.getElementById('marcarListo').style.background = 'linear-gradient(135deg,#238636,#2EA043)';
-      document.getElementById('marcarListo').style.color = 'white';
-    }
-  }
-});
-
-/* ===== TAB SIZE para textarea ===== */
-document.getElementById('codigoPropio').addEventListener('keydown', e => {
-  if (e.key === 'Tab') {
-    e.preventDefault();
-    const el = e.target;
-    const start = el.selectionStart;
-    const end   = el.selectionEnd;
-    el.value = el.value.substring(0, start) + '  ' + el.value.substring(end);
-    el.selectionStart = el.selectionEnd = start + 2;
-  }
-});
-</script>
+        /* ===== TAB SIZE para textarea ===== */
+        document.getElementById('codigoPropio').addEventListener('keydown', e => {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const el = e.target;
+                const start = el.selectionStart;
+                const end = el.selectionEnd;
+                el.value = el.value.substring(0, start) + '  ' + el.value.substring(end);
+                el.selectionStart = el.selectionEnd = start + 2;
+            }
+        });
+    </script>
 </body>
+
 </html>
